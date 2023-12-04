@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:HealthyMeal.ViewModels" 
+             xmlns:vm ="clr-namespace:HealthyMeal.ViewModels"
+             x:Class="HealthyMeal.Views.DiaryPage"             
+             Title="Дневник"
+             IconImageSource="iconDiary.png">
+
+    <ContentPage.Resources>
+
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <vm:DiaryPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#DEF4C6">
+
+            <StackLayout x:Name="Date" Padding="10" BackgroundColor="#34D57F" Orientation="Horizontal">
+                <StackLayout Spacing="10" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                    <Image Source="iconCalendar.png"
+                           WidthRequest="32" 
+                           HeightRequest="32"/>
+                    <DatePicker TextColor="White" 
+                                FontSize="20" 
+                                VerticalOptions="Center"
+                                WidthRequest="160"
+                                HeightRequest="50"
+                                Format="D"/>
+                </StackLayout>
+            </StackLayout>
+
+            <ScrollView>
+
+                <StackLayout>
+
+                    <StackLayout x:Name="Summary" Padding="10">
+                        <Label Text="Сводка" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Цель"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="StartAndExpand"/>
+                            <Label Text="2500"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="EndAndExpand"/>
+                            <Label Text="Ккал"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="End"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Употреблено калорий"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="StartAndExpand"/>
+                            <Label Text="0"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="EndAndExpand"/>
+                            <Label Text="Ккал"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="End"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Осталось употребить"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="StartAndExpand"/>
+                            <Label Text="2500"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="EndAndExpand"/>
+                            <Label Text="Ккал"
+                           FontSize="16"
+                           TextColor="Black"
+                           HorizontalOptions="End"/>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout x:Name="Eatings" Padding="10" Spacing="20">
+
+                        <Frame HeightRequest="50"
+                               BackgroundColor="#34D57F" 
+                               CornerRadius="20"
+                               Padding="5">
+                            <StackLayout BackgroundColor="#34D57F" Orientation="Horizontal">
+                                <Image Source="iconBreakfast.png"/>
+                                <StackLayout>
+                                    <Label Text="Завтрак" 
+                                           TextColor="White"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="20"
+                                           FontAttributes="Bold"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="100" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Ккал"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="|"
+                                               TextColor="White"/>
+                                        <Label Text="4" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Шт"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Button HorizontalOptions="EndAndExpand" 
+                                        WidthRequest="50" 
+                                        CornerRadius="50"
+                                        ImageSource="iconPlusBtn.png"
+                                        BackgroundColor="#1C7C54"
+                                        Command="{Binding OpenMealsPageCommand}"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame HeightRequest="50"
+                               BackgroundColor="#34D57F" 
+                               CornerRadius="20"
+                               Padding="5">
+                            <StackLayout BackgroundColor="#34D57F" Orientation="Horizontal">
+                                <Image Source="iconLunch.png"/>
+                                <StackLayout>
+                                    <Label Text="Обед" 
+                                           TextColor="White"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="20"
+                                           FontAttributes="Bold"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="260" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Ккал"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="|"
+                                               TextColor="White"/>
+                                        <Label Text="3" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Шт"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Button HorizontalOptions="EndAndExpand" 
+                                        WidthRequest="50" 
+                                        CornerRadius="50"
+                                        ImageSource="iconPlusBtn.png"
+                                        BackgroundColor="#1C7C54"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame HeightRequest="50"
+                               BackgroundColor="#34D57F" 
+                               CornerRadius="20"
+                               Padding="5">
+                            <StackLayout BackgroundColor="#34D57F" Orientation="Horizontal">
+                                <Image Source="iconDinner.png"/>
+                                <StackLayout>
+                                    <Label Text="Ужин" 
+                                           TextColor="White"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="20"
+                                           FontAttributes="Bold"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="100" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Ккал"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="|"
+                                               TextColor="White"/>
+                                        <Label Text="4" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Шт"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Button HorizontalOptions="EndAndExpand" 
+                                        WidthRequest="50" 
+                                        CornerRadius="50"
+                                        ImageSource="iconPlusBtn.png"
+                                        BackgroundColor="#1C7C54"/>
+                            </StackLayout>
+                        </Frame>
+
+                        <Frame HeightRequest="50"
+                               BackgroundColor="#34D57F" 
+                               CornerRadius="20"
+                               Padding="5">
+                            <StackLayout BackgroundColor="#34D57F" Orientation="Horizontal">
+                                <Image Source="iconSnack.png"/>
+                                <StackLayout>
+                                    <Label Text="Перекус" 
+                                           TextColor="White"
+                                           LineBreakMode="NoWrap"
+                                           FontSize="20"
+                                           FontAttributes="Bold"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="100" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Ккал"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="|"
+                                                TextColor="White"/>
+                                        <Label Text="4" 
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                        <Label Text="Шт"
+                                               TextColor="White"
+                                               LineBreakMode="NoWrap"
+                                               FontSize="16"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Button HorizontalOptions="EndAndExpand" 
+                                        WidthRequest="50" 
+                                        CornerRadius="50"
+                                        ImageSource="iconPlusBtn.png"
+                                        BackgroundColor="#1C7C54"/>
+                            </StackLayout>
+                        </Frame>
+
+                    </StackLayout>
+
+                    <StackLayout x:Name="Statistics" Padding="10" Spacing="20">
+
+                        <StackLayout>
+                            <Label Text="Статистика" HorizontalOptions="CenterAndExpand" FontSize="20" FontAttributes="Bold" TextColor="Black"/>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Frame BackgroundColor="#F1696B"
+                                       HeightRequest="-20"
+                                       WidthRequest="-20"
+                                       CornerRadius="20"/>
+                                <Label Text="Белок:"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                                <Label Text="25"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                                <Label Text="%"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Frame BackgroundColor="#FFD166"
+                                       HeightRequest="-20"
+                                       WidthRequest="-20"
+                                       CornerRadius="20"/>
+                                <Label Text="Жир:"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                                <Label Text="15"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                                <Label Text="%"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Frame BackgroundColor="#95D0CE"
+                                       HeightRequest="-20"
+                                       WidthRequest="-20"
+                                       CornerRadius="20"/>
+                                <Label Text="Углеводы:"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                                <Label Text="60"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                                <Label Text="%"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                            </StackLayout>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Всего белков"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                                <Label Text="250"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                                <Label Text="г"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Всего жиров"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                                <Label Text="150"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                                <Label Text="г"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Всего углеводов"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                                <Label Text="600"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                                <Label Text="г"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                            </StackLayout>
+                        </StackLayout>
+
+                    </StackLayout>
+
+                    <StackLayout x:Name="ButtonToDiary"
+                                 Padding="10"
+                                 Spacing="20">
+                        <Button  
+                                Margin="50, 0, 50, 0"
+                                HorizontalOptions="FillAndExpand" 
+                                CornerRadius="10" 
+                                BackgroundColor="#34D57F"
+                                Text="Открыть дневник"
+                                TextColor="White"
+                                FontSize="16"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ScrollView>
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

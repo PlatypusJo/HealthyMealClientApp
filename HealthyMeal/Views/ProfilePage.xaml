@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Views.ProfilePage"            
+             Title="Профиль"
+             IconImageSource="iconProfile.png">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#DEF4C6">
+
+            <StackLayout x:Name="Header" Padding="10" BackgroundColor="#34D57F" Orientation="Horizontal">
+                <BoxView WidthRequest="50" 
+                         HorizontalOptions="StartAndExpand"/>
+                <Label Text="Мой профиль"
+                       TextColor="White"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"/>
+                <Button ImageSource="iconSettings.png"
+                        BackgroundColor="#1C7C54" 
+                        WidthRequest="50"
+                        HeightRequest="50"
+                        HorizontalOptions="EndAndExpand" 
+                        CornerRadius="50"/>
+            </StackLayout>
+
+            <ScrollView>
+
+                <StackLayout>
+
+                    <Frame x:Name="Photo" 
+                           Padding="0"
+                           WidthRequest="200"
+                           HeightRequest="200"
+                           CornerRadius="200"
+                           HorizontalOptions="Center">
+                        <Image Source="ava.png"
+                               Aspect="Fill"/>
+                    </Frame>
+
+                    <StackLayout x:Name="Info" Padding="10">
+                        <Label Text="Животик приуныл" 
+                               HorizontalOptions="CenterAndExpand" 
+                               FontSize="20" 
+                               FontAttributes="Bold" 
+                               TextColor="Black"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Имя:"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="Михаил"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Пол:"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="М"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Цель ккал в день:"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="2000"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                            <Label Text="Ккал"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Норма ккал:"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="StartAndExpand"/>
+                            <Label Text="2500"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="EndAndExpand"/>
+                            <Label Text="Ккал"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   HorizontalOptions="End"/>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout x:Name="Buttons"
+                                 Padding="10" 
+                                 Spacing="20">
+                        <Button HorizontalOptions="FillAndExpand"
+                                CornerRadius="10"
+                                BackgroundColor="#34D57F"
+                                Text="Мои продукты"
+                                TextColor="White"
+                                FontSize="16"/>
+                        <Button HorizontalOptions="FillAndExpand"
+                                CornerRadius="10"
+                                BackgroundColor="#34D57F"
+                                Text="Мои рецепты"
+                                TextColor="White"
+                                FontSize="16"/>
+                        <Button Padding="10" 
+                                Margin="50, 0, 50, 0" 
+                                HorizontalOptions="FillAndExpand" 
+                                CornerRadius="10" 
+                                BackgroundColor="#34D57F"
+                                Text="Редактировать профиль"
+                                TextColor="White"
+                                FontSize="16"/>
+                        <Button Padding="10" 
+                                Margin="50, 0, 50, 0" 
+                                HorizontalOptions="FillAndExpand" 
+                                CornerRadius="10" 
+                                BackgroundColor="#34D57F"
+                                Text="Выйти"
+                                TextColor="White"
+                                FontSize="16"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ScrollView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

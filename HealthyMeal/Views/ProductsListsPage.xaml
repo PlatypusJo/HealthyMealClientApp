@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Views.ProductsListsPage"  
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             Title="Списки"
+             IconImageSource="iconLists.png">
+
+    <ContentPage.BindingContext>
+        <vm:ProductsListsPageViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#DEF4C6">
+
+            <StackLayout x:Name="Date" Padding="10" BackgroundColor="#34D57F" Orientation="Horizontal">
+                <StackLayout Spacing="10" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                    <Image Source="iconCalendar.png"
+                           WidthRequest="32" 
+                           HeightRequest="32"/>
+                    <DatePicker TextColor="White" 
+                                FontSize="20" 
+                                VerticalOptions="Center"
+                                WidthRequest="165"
+                                HeightRequest="50"
+                                Format="D"/>
+                </StackLayout>
+            </StackLayout>
+
+            <CollectionView x:Name="ProductsToBuy"
+                            ItemsSource="{Binding ProductsToBuy}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10"
+                              x:DataType="model:ProductToBuyModel">
+                            <Frame HeightRequest="50"
+                                   WidthRequest="50"
+                                   BackgroundColor="#34D57F"
+                                   CornerRadius="20"
+                                   Padding="5"
+                                   Grid.ColumnSpan="3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.5*"/>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Color="#1C7C54" 
+                                              Grid.Column="0"/>
+                                    <StackLayout Grid.Column="1"
+                                                 Orientation="Horizontal">
+                                        <Label Text="{Binding Name}"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               TextColor="White"
+                                               HorizontalOptions="StartAndExpand"
+                                               VerticalOptions="Center"/>
+                                        <StackLayout Orientation="Horizontal"
+                                                     HorizontalOptions="EndAndExpand">
+                                            <Label Text="{Binding Amount}"
+                                                    FontSize="16"
+                                                    TextColor="White"
+                                                    VerticalOptions="Center"/>
+                                            <Label Text="{Binding UnitsName}"
+                                                    FontSize="16"
+                                                    TextColor="White"
+                                                    VerticalOptions="Center"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <Button Grid.Column="2"
+                                            HorizontalOptions="EndAndExpand"
+                                            WidthRequest="50"
+                                            CornerRadius="50"
+                                            BackgroundColor="#1C7C54"
+                                            ImageSource="iconCrossBtn.png"/>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal"
+                                     Padding="10"
+                                     HeightRequest="50">
+                            <Button WidthRequest="50"
+                                    VerticalOptions="Start"
+                                    BackgroundColor="#1C7C54"
+                                    ImageSource="iconBackBtn.png"
+                                    Command="{Binding BackPageCommand}"/>
+                            <Label Text="{Binding PageIndex}"
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="Center"
+                                   FontSize="22"
+                                   TextColor="Black"/>
+                            <Button WidthRequest="50"
+                                    HorizontalOptions="End"
+                                    BackgroundColor="#1C7C54"
+                                    ImageSource="iconForwardBtn.png"
+                                    Command="{Binding NextPageCommand}"/>
+                        </StackLayout>
+                        <StackLayout x:Name="Buttons"
+                             Padding="10" 
+                             Spacing="20">
+                            <Button Padding="10" 
+                                    Margin="50, 0, 50, 0" 
+                                    HorizontalOptions="FillAndExpand" 
+                                    CornerRadius="10" 
+                                    BackgroundColor="#34D57F"
+                                    Text="Добавить продукт"
+                                    TextColor="White"
+                                    FontSize="16"/>
+                            <Button Padding="10" 
+                                    Margin="50, 0, 50, 0" 
+                                    HorizontalOptions="FillAndExpand" 
+                                    CornerRadius="10" 
+                                    BackgroundColor="#34D57F"
+                                    Text="Изменить"
+                                    TextColor="White"
+                                    FontSize="16"/>
+                            <Button Padding="10" 
+                                    Margin="50, 0, 50, 0" 
+                                    HorizontalOptions="FillAndExpand" 
+                                    CornerRadius="10" 
+                                    BackgroundColor="#34D57F"
+                                    Text="Очистить список"
+                                    TextColor="White"
+                                    FontSize="16"/>
+                        </StackLayout>
+                    </StackLayout>
+                </CollectionView.Footer>
+            </CollectionView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

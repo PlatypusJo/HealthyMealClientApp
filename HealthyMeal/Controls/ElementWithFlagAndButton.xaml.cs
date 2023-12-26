@@ -14,10 +14,10 @@ namespace HealthyMeal.Controls
     public partial class ElementWithFlagAndButton : ContentView
     {
         public static readonly BindableProperty NameProperty = BindableProperty.Create(
-           nameof(Name),
-           typeof(string),
-           typeof(ElementWithFlagAndButton),
-           string.Empty);
+            nameof(Name),
+            typeof(string),
+            typeof(ElementWithFlagAndButton),
+            string.Empty);
         public static readonly BindableProperty AmountProperty = BindableProperty.Create(
             nameof(Amount),
             typeof(string),

@@ -34,7 +34,7 @@
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:ElementWithFlagAndButton Name="{Binding Name}" Amount="{Binding Amount}" UnitsName="{Binding UnitsName}" />
+                        <controls:ElementWithFlagAndButton Name="{Binding Name}" Amount="{Binding Amount}" UnitsName="{Binding UnitsName}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>

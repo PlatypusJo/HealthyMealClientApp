@@ -22,11 +22,11 @@
                 <StackLayout Grid.Column="1"
                          Orientation="Horizontal">
                     <Label Text="{Binding Name}"
-                       FontSize="20"
-                       FontAttributes="Bold"
-                       TextColor="White"
-                       HorizontalOptions="StartAndExpand"
-                       VerticalOptions="Center"/>
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="StartAndExpand"
+                           VerticalOptions="Center"/>
                     <StackLayout Orientation="Horizontal"
                              HorizontalOptions="EndAndExpand">
                         <Label Text="{Binding Amount}"

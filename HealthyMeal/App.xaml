@@ -70,6 +70,12 @@
             
             <!--#endregion-->
             
+            <!--#region Frame Styles-->
+            
+            
+            
+            <!--#endregion-->
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

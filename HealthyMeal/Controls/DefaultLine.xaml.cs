@@ -10,17 +10,17 @@ using Xamarin.Forms.Xaml;
 namespace HealthyMeal.Controls
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class DafaultLine : ContentView
+	public partial class DefaultLine : ContentView
 	{
         public static readonly BindableProperty NameProperty = BindableProperty.Create(
            nameof(Name),
            typeof(string),
-           typeof(DafaultLine),
+           typeof(DefaultLine),
            string.Empty);
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(
             nameof(Value),
             typeof(string),
-            typeof(DafaultLine),
+            typeof(DefaultLine),
             string.Empty);
 
         public string Name
@@ -33,7 +33,7 @@ namespace HealthyMeal.Controls
             get => (string)GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
         }
-        public DafaultLine()
+        public DefaultLine()
         {
             InitializeComponent();
         }

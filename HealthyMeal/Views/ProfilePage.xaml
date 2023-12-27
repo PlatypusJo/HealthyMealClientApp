@@ -41,8 +41,8 @@
                         <Label Style="{DynamicResource HeaderLabel}"
                                Text="Животик приуныл" 
                                HorizontalOptions="CenterAndExpand"/>
-                        <controls:DafaultLine Name="Имя:" Value="Михаил"/>
-                        <controls:DafaultLine Name="Пол:" Value="М"/>
+                        <controls:DefaultLine Name="Имя:" Value="Михаил"/>
+                        <controls:DefaultLine Name="Пол:" Value="М"/>
                         <controls:StatisticsLine Name="Цель ккал в день:" Value="2000" UnitsName="Ккал"/>
                         <controls:StatisticsLine Name="Норма ккал в день:" Value="2500" UnitsName="Ккал"/>
 

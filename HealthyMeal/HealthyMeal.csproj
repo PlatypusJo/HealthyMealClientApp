@@ -23,7 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\DafaultLine.xaml">
+    <Compile Update="Controls\DefaultLine.xaml.cs">
+      <DependentUpon>DefaultLine.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\DefaultLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\ElementWithFlagAndButton.xaml">

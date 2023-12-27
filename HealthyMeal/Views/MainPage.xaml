@@ -5,9 +5,9 @@
              xmlns:local="clr-namespace:HealthyMeal.Views"
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              android:TabbedPage.ToolbarPlacement="Bottom"
-             BarBackgroundColor="#B1CF5F"
-             UnselectedTabColor="#FFFFFF"
-             SelectedTabColor="#1C7C54"
+             BarBackgroundColor="{DynamicResource MenuFooterColor}"
+             UnselectedTabColor="{DynamicResource CommonTextColor}"
+             SelectedTabColor="{DynamicResource SecondaryColor}"
              NavigationPage.HasNavigationBar="False">
 
     <TabbedPage.Children>

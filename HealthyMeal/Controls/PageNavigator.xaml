@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Controls.PageNavigator"
+             x:Name="this">
+    <StackLayout BindingContext="{Reference this}"
+                 Orientation="Horizontal"
+                 Padding="10"
+                 HeightRequest="50">
+        <Button WidthRequest="50"
+                VerticalOptions="Start"
+                BackgroundColor="{DynamicResource SecondaryColor}"
+                ImageSource="iconBackBtn.png"
+                Command="{Binding BackPageCommand}"/>
+        <Label Text="{Binding PageNumber}"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="Center"
+               FontSize="22"
+               TextColor="{DynamicResource DarkTextColor}"/>
+        <Button WidthRequest="50"
+                HorizontalOptions="End"
+                BackgroundColor="{DynamicResource SecondaryColor}"
+                ImageSource="iconForwardBtn.png"
+                Command="{Binding NextPageCommand}"/>
+    </StackLayout>
+</ContentView>

@@ -23,6 +23,17 @@ namespace HealthyMeal.ViewModels
             }
         }
 
+        private bool _isVisible = true;
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                _isVisible = value;
+                NotifyPropertyChanged(nameof(IsVisible));
+            }
+        }
+
         private List<ProductToBuyModel> _productsToBuy;
 
         public ObservableCollection<ProductToBuyModel> ProductsToBuy { get; set; }
@@ -35,6 +46,7 @@ namespace HealthyMeal.ViewModels
             NextPageCommand = new Command(NextPage);
             BackPageCommand = new Command(BackPage);
             LoadProducts();
+            _isVisible = _productsToBuy.Count > 0;
         }
 
         public void NextPage()

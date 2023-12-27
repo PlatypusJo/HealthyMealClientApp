@@ -13,20 +13,11 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#DEF4C6">
+        <StackLayout BackgroundColor="{DynamicResource BaseColor}">
 
-            <StackLayout x:Name="Date" Padding="10" BackgroundColor="#34D57F" Orientation="Horizontal">
-                <StackLayout Spacing="10" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Image Source="iconCalendar.png"
-                           WidthRequest="32" 
-                           HeightRequest="32"/>
-                    <DatePicker TextColor="White" 
-                                FontSize="20" 
-                                VerticalOptions="Center"
-                                WidthRequest="165"
-                                HeightRequest="50"
-                                Format="D"/>
-                </StackLayout>
+            <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <DatePicker Style="{DynamicResource DefaultDatePicker}"
+                            HorizontalOptions="FillAndExpand"/>
             </StackLayout>
 
             <CollectionView x:Name="ProductsToBuy"
@@ -34,57 +25,24 @@
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:ElementWithFlagAndButton Name="{Binding Name}" Amount="{Binding Amount}" UnitsName="{Binding UnitsName}"/>
+                        <controls:ElementWithFlagAndButton x:DataType="model:ProductToBuyModel" Name="{Binding Name}" Amount="{Binding Amount}" UnitsName="{Binding UnitsName}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>
                     <StackLayout>
-                        <StackLayout Orientation="Horizontal"
-                                     Padding="10"
-                                     HeightRequest="50">
-                            <Button WidthRequest="50"
-                                    VerticalOptions="Start"
-                                    BackgroundColor="#1C7C54"
-                                    ImageSource="iconBackBtn.png"
-                                    Command="{Binding BackPageCommand}"/>
-                            <Label Text="{Binding PageIndex}"
-                                   HorizontalOptions="CenterAndExpand"
-                                   VerticalOptions="Center"
-                                   FontSize="22"
-                                   TextColor="Black"/>
-                            <Button WidthRequest="50"
-                                    HorizontalOptions="End"
-                                    BackgroundColor="#1C7C54"
-                                    ImageSource="iconForwardBtn.png"
-                                    Command="{Binding NextPageCommand}"/>
-                        </StackLayout>
+                        <controls:PageNavigator IsVisible="{Binding IsVisible}" PageNumber="{Binding PageIndex}" BackPageCommand="{Binding BackPageCommand}" NextPageCommand="{Binding NextPageCommand}"/>
                         <StackLayout x:Name="Buttons"
                              Padding="10" 
                              Spacing="20">
-                            <Button Padding="10" 
-                                    Margin="50, 0, 50, 0" 
+                            <Button Style="{DynamicResource SmallButton}"
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="Добавить продукт"/>
+                            <Button Style="{DynamicResource SmallButton}"
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="Изменить"/>
+                            <Button Style="{DynamicResource SmallButton}"
                                     HorizontalOptions="FillAndExpand" 
-                                    CornerRadius="10" 
-                                    BackgroundColor="#34D57F"
-                                    Text="Добавить продукт"
-                                    TextColor="White"
-                                    FontSize="16"/>
-                            <Button Padding="10" 
-                                    Margin="50, 0, 50, 0" 
-                                    HorizontalOptions="FillAndExpand" 
-                                    CornerRadius="10" 
-                                    BackgroundColor="#34D57F"
-                                    Text="Изменить"
-                                    TextColor="White"
-                                    FontSize="16"/>
-                            <Button Padding="10" 
-                                    Margin="50, 0, 50, 0" 
-                                    HorizontalOptions="FillAndExpand" 
-                                    CornerRadius="10" 
-                                    BackgroundColor="#34D57F"
-                                    Text="Очистить список"
-                                    TextColor="White"
-                                    FontSize="16"/>
+                                    Text="Очистить список"/>
                         </StackLayout>
                     </StackLayout>
                 </CollectionView.Footer>

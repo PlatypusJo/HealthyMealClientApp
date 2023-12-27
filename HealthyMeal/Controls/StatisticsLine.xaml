@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Controls.StatisticsLine"
+             x:Name="this">
+    <StackLayout BindingContext="{Reference this}"
+                 Orientation="Horizontal">
+        <Label Text="{Binding Name}"
+           Style="{DynamicResource DafaultLabel}"
+           HorizontalOptions="StartAndExpand"/>
+        <Label Text="{Binding Value}"
+           Style="{DynamicResource DafaultLabel}"
+           HorizontalOptions="EndAndExpand"/>
+        <Label Text="{Binding UnitsName}"
+           Style="{DynamicResource DafaultLabel}"
+           HorizontalOptions="End"/>
+    </StackLayout>
+</ContentView>

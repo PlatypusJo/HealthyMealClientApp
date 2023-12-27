@@ -36,26 +36,26 @@ namespace HealthyMeal.Controls
 
         public string Name
         {
-            get => (string)GetValue(ElementWithFlagAndButton.NameProperty);
-            set => SetValue(ElementWithFlagAndButton.NameProperty, value);
+            get => (string)GetValue(NameProperty);
+            set => SetValue(NameProperty, value);
         }
         public string Amount
         {
-            get => (string)GetValue(ElementWithFlagAndButton.AmountProperty);
-            set => SetValue(ElementWithFlagAndButton.AmountProperty, value);
+            get => (string)GetValue(AmountProperty);
+            set => SetValue(AmountProperty, value);
         }
         public string UnitsName
         {
-            get => (string)GetValue(ElementWithFlagAndButton.UnitsNameProperty);
-            set => SetValue(ElementWithFlagAndButton.UnitsNameProperty, value);
+            get => (string)GetValue(UnitsNameProperty);
+            set => SetValue(UnitsNameProperty, value);
         }
         public Command Command
         {
             get
             {
-                return (Command)GetValue(ElementWithFlagAndButton.CommandProperty);
+                return (Command)GetValue(CommandProperty);
             }
-            set => SetValue(ElementWithFlagAndButton.CommandProperty, value);
+            set => SetValue(CommandProperty, value);
         }
 
         public ElementWithFlagAndButton()

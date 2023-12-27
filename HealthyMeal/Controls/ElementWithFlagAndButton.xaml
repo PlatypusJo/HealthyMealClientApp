@@ -3,47 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthyMeal.Controls.ElementWithFlagAndButton"
              x:Name="this">
-    <Grid Padding="10"
-          BindingContext="{x:Reference this}">
+    <Grid BindingContext="{x:Reference this}"
+          Padding="10">
         <Frame HeightRequest="50"
-           WidthRequest="50"
-           BackgroundColor="#34D57F"
-           CornerRadius="20"
-           Padding="5"
-           Grid.ColumnSpan="3">
+               WidthRequest="50"
+               BackgroundColor="{DynamicResource PrimaryColor}"
+               CornerRadius="20"
+               Padding="5"
+               Grid.ColumnSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <CheckBox Color="#1C7C54" 
-                      Grid.Column="0"/>
+                <CheckBox Color="{DynamicResource SecondaryColor}" 
+                          Grid.Column="0"/>
                 <StackLayout Grid.Column="1"
                          Orientation="Horizontal">
                     <Label Text="{Binding Name}"
                            FontSize="20"
                            FontAttributes="Bold"
-                           TextColor="White"
+                           TextColor="{DynamicResource CommonTextColor}"
                            HorizontalOptions="StartAndExpand"
                            VerticalOptions="Center"/>
                     <StackLayout Orientation="Horizontal"
                              HorizontalOptions="EndAndExpand">
                         <Label Text="{Binding Amount}"
                             FontSize="16"
-                            TextColor="White"
+                            TextColor="{DynamicResource CommonTextColor}"
                             VerticalOptions="Center"/>
                         <Label Text="{Binding UnitsName}"
                             FontSize="16"
-                            TextColor="White"
+                            TextColor="{DynamicResource CommonTextColor}"
                             VerticalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>
-                <Button Grid.Column="2"
+                <Button Style="{DynamicResource RoundButton}" 
+                    Grid.Column="2"
                     HorizontalOptions="EndAndExpand"
-                    WidthRequest="50"
-                    CornerRadius="50"
-                    BackgroundColor="#1C7C54"
                     ImageSource="iconCrossBtn.png"/>
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Command}"/>

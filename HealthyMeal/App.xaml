@@ -3,6 +3,73 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthyMeal.App">
     <Application.Resources>
+        <ResourceDictionary>
+        
+            <!--#region Colors-->
+            
+            <Color x:Key="BaseColor">#DEF4C6</Color>
+            <Color x:Key="PrimaryColor">#34D57F</Color>
+            <Color x:Key="SecondaryColor">#1C7C54</Color>
+            <Color x:Key="PressedDarkColor">#1B512D</Color>
+            <Color x:Key="PressedLightColor">#AAFCB8</Color>
+            <Color x:Key="MenuFooterColor">#B1CF5F</Color>
+            <Color x:Key="CommonTextColor">#FFFFFF</Color>
+            <Color x:Key="DarkTextColor">#000000</Color>
+            
+            <!--#endregion-->
+            
+            <!--#region Button Styles-->
+            
+            <Style TargetType="Button" x:Key="RoundButton">
+                <Setter Property="CornerRadius" Value="50"/>
+                <Setter Property="WidthRequest" Value="50"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource SecondaryColor}"/>
+            </Style>
 
+            <Style TargetType="Button" x:Key="DefaultButton">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="TextColor" Value="{StaticResource CommonTextColor}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="SmallButton" BasedOn="{StaticResource DefaultButton}">
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Margin" Value="50, 0, 50, 0"/>
+            </Style>
+            
+            <!--#endregion-->
+            
+            <!--#region Label Styles-->
+            
+            <Style TargetType="Label" x:Key="CommonLabel">
+                <Setter Property="TextColor" Value="{DynamicResource DarkTextColor}"/>
+            </Style>
+            
+            <Style TargetType="Label" x:Key="DafaultLabel" BasedOn="{StaticResource CommonLabel}">
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+            
+            <Style TargetType="Label" x:Key="HeaderLabel" BasedOn="{StaticResource CommonLabel}">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+            
+            <!--#endregion-->
+            
+            <!--#region DatePicker Styles-->
+
+            <Style TargetType="DatePicker" x:Key="DefaultDatePicker">
+
+                <Setter Property="TextColor" Value="{DynamicResource CommonTextColor}"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Format" Value="dd MMMM yyyy, dddd"/>
+
+            </Style>
+            
+            <!--#endregion-->
+            
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

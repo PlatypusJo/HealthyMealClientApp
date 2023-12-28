@@ -5,10 +5,7 @@
              x:Name="this">
     <Grid BindingContext="{x:Reference this}"
           Padding="10">
-        <Frame HeightRequest="50"
-               WidthRequest="50"
-               BackgroundColor="{DynamicResource PrimaryColor}"
-               CornerRadius="20"
+        <Frame Style="{DynamicResource CustomButton}"
                Padding="5"
                Grid.ColumnSpan="3">
             <Grid>

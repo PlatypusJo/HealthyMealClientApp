@@ -6,13 +6,13 @@
     <StackLayout BindingContext="{Reference this}"
                  Orientation="Horizontal">
         <Label Text="{Binding Name}"
-           Style="{DynamicResource DafaultLabel}"
+           Style="{DynamicResource DefaultLabel}"
            HorizontalOptions="StartAndExpand"/>
         <Label Text="{Binding Value}"
-           Style="{DynamicResource DafaultLabel}"
+           Style="{DynamicResource DefaultLabel}"
            HorizontalOptions="EndAndExpand"/>
         <Label Text="{Binding UnitsName}"
-           Style="{DynamicResource DafaultLabel}"
+           Style="{DynamicResource DefaultLabel}"
            HorizontalOptions="End"/>
     </StackLayout>
 </ContentView>

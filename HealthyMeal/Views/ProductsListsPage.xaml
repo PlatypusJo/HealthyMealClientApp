@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthyMeal.Views.ProductsListsPage"  
+             x:Name="ShoppingListPage"
              xmlns:model="clr-namespace:HealthyMeal.Models"
              xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
              Title="Списки"
@@ -25,7 +26,7 @@
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:ElementWithFlagAndButton x:DataType="model:ProductToBuyModel" Name="{Binding Name}" Amount="{Binding Amount}" UnitsName="{Binding UnitsName}"/>
+                        <controls:ElementWithFlagAndButton x:DataType="model:ProductToBuyModel" IsChecked="{Binding IsBought, Mode=TwoWay}" Name="{Binding Name}" Amount="{Binding Amount}" UnitsName="{Binding UnitsName}" CheckBoxCommand="{Binding Source={x:Reference ShoppingListPage}, Path=BindingContext.CheckBoxChangedCommand}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>

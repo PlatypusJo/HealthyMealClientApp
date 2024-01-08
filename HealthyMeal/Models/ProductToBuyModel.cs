@@ -14,7 +14,7 @@ namespace HealthyMeal.Models
         public string Brand { get; set; }
         public double Amount { get; set; }
         public DateTime Date { get; set; }
-        public bool IsBuy { get; set; }
+        public bool IsBought { get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HealthyMeal.Controls.ElementWithFlagAndButton"
              x:Name="this">
     <Grid BindingContext="{x:Reference this}"
@@ -14,25 +15,33 @@
                     <ColumnDefinition Width="5*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <CheckBox Color="{DynamicResource SecondaryColor}" 
-                          Grid.Column="0"/>
+                <CheckBox x:Name="CheckBox"
+                          Color="{DynamicResource SecondaryColor}" 
+                          Grid.Column="0"
+                          IsChecked="{Binding IsChecked}">
+                    <CheckBox.Behaviors>
+                        <xct:EventToCommandBehavior
+                            EventName="CheckedChanged"
+                            Command="{Binding CheckBoxCommand}"/>
+                    </CheckBox.Behaviors>
+                </CheckBox>
                 <StackLayout Grid.Column="1"
                          Orientation="Horizontal">
                     <Label Text="{Binding Name}"
                            FontSize="20"
                            FontAttributes="Bold"
-                           TextColor="{DynamicResource CommonTextColor}"
+                           TextColor="{DynamicResource LightTextColor}"
                            HorizontalOptions="StartAndExpand"
                            VerticalOptions="Center"/>
                     <StackLayout Orientation="Horizontal"
                              HorizontalOptions="EndAndExpand">
                         <Label Text="{Binding Amount}"
                             FontSize="16"
-                            TextColor="{DynamicResource CommonTextColor}"
+                            TextColor="{DynamicResource LightTextColor}"
                             VerticalOptions="Center"/>
                         <Label Text="{Binding UnitsName}"
                             FontSize="16"
-                            TextColor="{DynamicResource CommonTextColor}"
+                            TextColor="{DynamicResource LightTextColor}"
                             VerticalOptions="Center"/>
                     </StackLayout>
                 </StackLayout>

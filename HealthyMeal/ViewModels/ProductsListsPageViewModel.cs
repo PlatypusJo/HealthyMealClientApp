@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -40,13 +42,30 @@ namespace HealthyMeal.ViewModels
 
         public ICommand NextPageCommand { get; private set; }
         public ICommand BackPageCommand { get; private set; }
+        public ICommand CheckBoxChangedCommand { get; private set; }
 
         public ProductsListsPageViewModel()
         {
             NextPageCommand = new Command(NextPage);
             BackPageCommand = new Command(BackPage);
+            CheckBoxChangedCommand = new Command(FindChangedItemAndUpdate);
             LoadProducts();
             _isVisible = _productsToBuy.Count > 0;
+        }
+
+        private void FindChangedItemAndUpdate()
+        {
+            ProductToBuyModel changedItem;
+            foreach (ProductToBuyModel productToBuy in ProductsToBuy)
+            {
+                changedItem = _productsToBuy.Find(p => p.Id == productToBuy.Id && p.IsBought != productToBuy.IsBought);
+                if (changedItem != null)
+                {
+                    changedItem.IsBought = productToBuy.IsBought;
+                    Debug.WriteLine($"{changedItem.Name} is {changedItem.IsBought}");
+                    return;
+                }
+            }
         }
 
         public void NextPage()
@@ -69,7 +88,16 @@ namespace HealthyMeal.ViewModels
             int startIndex = index * _pageSize;
             for (int i = startIndex; i < _productsToBuy.Count && i < startIndex + _pageSize; i++)
             {
-                ProductsToBuy.Add(_productsToBuy[i]);
+                ProductsToBuy.Add(new ProductToBuyModel()
+                {
+                    Id = _productsToBuy[i].Id,
+                    ProductId = _productsToBuy[i].ProductId,
+                    UnitsId = _productsToBuy[i].UnitsId,
+                    UnitsName = _productsToBuy[i].UnitsName,
+                    Name = _productsToBuy[i].Name,
+                    Amount = _productsToBuy[i].Amount,
+                    IsBought = _productsToBuy[i].IsBought,
+                });
             }
             PageIndex = pageNumber;
         }
@@ -89,13 +117,23 @@ namespace HealthyMeal.ViewModels
                     UnitsName = "у.е.",
                     Name = "Test" + i.ToString(),
                     Amount = 100,
+                    IsBought = false,
                 });
             }
 
             ProductsToBuy = new ObservableCollection<ProductToBuyModel>();
             for (int i = 0; i < _productsToBuy.Count && i < 5; i++)
             {
-                ProductsToBuy.Add(_productsToBuy[i]);
+                ProductsToBuy.Add(new ProductToBuyModel()
+                {
+                    Id = _productsToBuy[i].Id,
+                    ProductId = _productsToBuy[i].ProductId,
+                    UnitsId = _productsToBuy[i].UnitsId,
+                    UnitsName = _productsToBuy[i].UnitsName,
+                    Name = _productsToBuy[i].Name,
+                    Amount = _productsToBuy[i].Amount,
+                    IsBought = _productsToBuy[i].IsBought,
+                });
             }
         }
     }

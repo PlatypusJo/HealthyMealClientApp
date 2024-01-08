@@ -28,8 +28,18 @@ namespace HealthyMeal.Controls
             typeof(string),
             typeof(ElementWithFlagAndButton),
             string.Empty);
+        public static readonly BindableProperty IsCheckedProperty = BindableProperty.Create(
+            nameof(IsChecked),
+            typeof(bool),
+            typeof(ElementWithFlagAndButton),
+            false);
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(
             nameof(Command),
+            typeof(Command),
+            typeof(ElementWithFlagAndButton),
+            null);
+        public static readonly BindableProperty CheckBoxCommandProperty = BindableProperty.Create(
+            nameof(CheckBoxCommand),
             typeof(Command),
             typeof(ElementWithFlagAndButton),
             null);
@@ -49,6 +59,11 @@ namespace HealthyMeal.Controls
             get => (string)GetValue(UnitsNameProperty);
             set => SetValue(UnitsNameProperty, value);
         }
+        public bool IsChecked
+        {
+            get => (bool)GetValue(IsCheckedProperty);
+            set => SetValue(IsCheckedProperty, value);
+        }
         public Command Command
         {
             get
@@ -56,6 +71,14 @@ namespace HealthyMeal.Controls
                 return (Command)GetValue(CommandProperty);
             }
             set => SetValue(CommandProperty, value);
+        }
+        public Command CheckBoxCommand
+        {
+            get
+            {
+                return (Command)GetValue(CheckBoxCommandProperty);
+            }
+            set => SetValue(CheckBoxCommandProperty, value);
         }
 
         public ElementWithFlagAndButton()

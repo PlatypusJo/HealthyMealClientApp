@@ -5,10 +5,10 @@
              x:Name="this">
     <StackLayout BindingContext="{Reference this}"
                  Orientation="Horizontal">
-        <Label Style="{DynamicResource DafaultLabel}"
+        <Label Style="{DynamicResource DefaultLabel}"
                Text="{Binding Name}"
                HorizontalOptions="StartAndExpand"/>
-        <Label Style="{DynamicResource DafaultLabel}"
+        <Label Style="{DynamicResource DefaultLabel}"
                Text="{Binding Value}"
                HorizontalOptions="EndAndExpand"/>
     </StackLayout>

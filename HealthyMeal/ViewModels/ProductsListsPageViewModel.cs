@@ -12,6 +12,8 @@ namespace HealthyMeal.ViewModels
 {
     public class ProductsListsPageViewModel : BaseViewModel
     {
+        #region Поля и свойства
+
         private readonly int _pageSize = 5;
 
         private int _pageIndex = 1;
@@ -44,6 +46,10 @@ namespace HealthyMeal.ViewModels
         public ICommand BackPageCommand { get; private set; }
         public ICommand CheckBoxChangedCommand { get; private set; }
 
+        #endregion
+
+        #region Конструкторы
+
         public ProductsListsPageViewModel()
         {
             NextPageCommand = new Command(NextPage);
@@ -53,18 +59,16 @@ namespace HealthyMeal.ViewModels
             _isVisible = _productsToBuy.Count > 0;
         }
 
-        private void FindChangedItemAndUpdate()
+        #endregion
+
+        #region Методы
+
+        private void FindChangedItemAndUpdate(object arg)
         {
-            ProductToBuyModel changedItem;
-            foreach (ProductToBuyModel productToBuy in ProductsToBuy)
+            if (arg is string id)
             {
-                changedItem = _productsToBuy.Find(p => p.Id == productToBuy.Id && p.IsBought != productToBuy.IsBought);
-                if (changedItem != null)
-                {
-                    changedItem.IsBought = productToBuy.IsBought;
-                    Debug.WriteLine($"{changedItem.Name} is {changedItem.IsBought}");
-                    return;
-                }
+                ProductToBuyModel changedItem = _productsToBuy.Find(p => p.Id == id);
+                Debug.WriteLine($"{changedItem.Name} is {changedItem.IsBought}");
             }
         }
 
@@ -88,16 +92,7 @@ namespace HealthyMeal.ViewModels
             int startIndex = index * _pageSize;
             for (int i = startIndex; i < _productsToBuy.Count && i < startIndex + _pageSize; i++)
             {
-                ProductsToBuy.Add(new ProductToBuyModel()
-                {
-                    Id = _productsToBuy[i].Id,
-                    ProductId = _productsToBuy[i].ProductId,
-                    UnitsId = _productsToBuy[i].UnitsId,
-                    UnitsName = _productsToBuy[i].UnitsName,
-                    Name = _productsToBuy[i].Name,
-                    Amount = _productsToBuy[i].Amount,
-                    IsBought = _productsToBuy[i].IsBought,
-                });
+                ProductsToBuy.Add(_productsToBuy[i]);
             }
             PageIndex = pageNumber;
         }
@@ -111,7 +106,7 @@ namespace HealthyMeal.ViewModels
             {
                 _productsToBuy.Add(new ProductToBuyModel()
                 {
-                    Id = i,
+                    Id = i.ToString(),
                     ProductId = i,
                     UnitsId = i,
                     UnitsName = "у.е.",
@@ -122,19 +117,12 @@ namespace HealthyMeal.ViewModels
             }
 
             ProductsToBuy = new ObservableCollection<ProductToBuyModel>();
-            for (int i = 0; i < _productsToBuy.Count && i < 5; i++)
+            for (int i = 0; i < _productsToBuy.Count && i < _pageSize; i++)
             {
-                ProductsToBuy.Add(new ProductToBuyModel()
-                {
-                    Id = _productsToBuy[i].Id,
-                    ProductId = _productsToBuy[i].ProductId,
-                    UnitsId = _productsToBuy[i].UnitsId,
-                    UnitsName = _productsToBuy[i].UnitsName,
-                    Name = _productsToBuy[i].Name,
-                    Amount = _productsToBuy[i].Amount,
-                    IsBought = _productsToBuy[i].IsBought,
-                });
+                ProductsToBuy.Add(_productsToBuy[i]);
             }
         }
+
+        #endregion
     }
 }

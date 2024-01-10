@@ -26,7 +26,12 @@
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:ElementWithFlagAndButton x:DataType="model:ProductToBuyModel" IsChecked="{Binding IsBought, Mode=TwoWay}" Name="{Binding Name}" Amount="{Binding Amount}" UnitsName="{Binding UnitsName}" CheckBoxCommand="{Binding Source={x:Reference ShoppingListPage}, Path=BindingContext.CheckBoxChangedCommand}"/>
+                        <controls:ElementWithFlagAndButton x:DataType="model:ProductToBuyModel" 
+                                                           IsChecked="{Binding IsBought, Mode=TwoWay}" 
+                                                           Name="{Binding Name}" Amount="{Binding Amount}" 
+                                                           UnitsName="{Binding UnitsName}" 
+                                                           CheckBoxCommand="{Binding Source={x:Reference ShoppingListPage}, Path=BindingContext.CheckBoxChangedCommand}"
+                                                           CheckBoxCommandParameter="{Binding Id}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>

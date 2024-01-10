@@ -6,7 +6,7 @@ namespace HealthyMeal.Models
 {
     public class ProductToBuyModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int ProductId { get; set; }
         public int UnitsId { get; set; }
         public string UnitsName { get; set; }

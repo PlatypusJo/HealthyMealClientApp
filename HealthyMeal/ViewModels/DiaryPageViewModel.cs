@@ -12,6 +12,8 @@ namespace HealthyMeal.ViewModels
 {
     public class DiaryPageViewModel : BaseViewModel
     {
+        #region Поля и свойства
+
         private DonutChart _chart;
         public DonutChart Chart
         {
@@ -23,8 +25,8 @@ namespace HealthyMeal.ViewModels
             }
         }
 
-        private int _proteinsAmount = 250;
-        public int ProteinsAmount
+        private double _proteinsAmount = 250;
+        public double ProteinsAmount
         {
             get => _proteinsAmount;
             set
@@ -33,8 +35,8 @@ namespace HealthyMeal.ViewModels
             }
         }
         
-        private int _fatsAmount = 150;
-        public int FatsAmount
+        private double _fatsAmount = 150;
+        public double FatsAmount
         {
             get => _fatsAmount;
             set
@@ -43,8 +45,8 @@ namespace HealthyMeal.ViewModels
             }
         }
         
-        private int _carbohydratesAmount = 600;
-        public int CarbohydratesAmount
+        private double _carbohydratesAmount = 600;
+        public double CarbohydratesAmount
         {
             get => _carbohydratesAmount;
             set
@@ -55,29 +57,37 @@ namespace HealthyMeal.ViewModels
 
         public ICommand OpenMealsPageCommand { get; private set; }
 
+        #endregion
+
+        #region Конструкторы
+
         public DiaryPageViewModel() 
         {
             OpenMealsPageCommand = new Command(OnPlusButtonClick);
             LoadDiagramData();
         }
 
+        #endregion
+
+        #region Методы
+
         private void LoadDiagramData()
         {
             double nutrientsTotalAmount = ProteinsAmount + FatsAmount + CarbohydratesAmount;
-            double proteinsPercent = CalculatorNutritionalValue.CalcPercentOfNutrient(ProteinsAmount, nutrientsTotalAmount);
-            double fatsPercent = CalculatorNutritionalValue.CalcPercentOfNutrient(FatsAmount, nutrientsTotalAmount);
-            double carbohydratesPercent = CalculatorNutritionalValue.CalcPercentOfNutrient(CarbohydratesAmount, nutrientsTotalAmount);
+            float proteinsPercent = (float)Math.Round(_proteinsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
+            float fatsPercent = (float)Math.Round(_fatsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
+            float carbohydratesPercent = (float)Math.Round(_carbohydratesAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
             List<ChartEntry> chartEntries = new List<ChartEntry> 
             { 
-                new ChartEntry((float)proteinsPercent)
+                new ChartEntry(proteinsPercent)
                 {
-                    Label = "Белок",
+                    Label = "Белки",
                     ValueLabel = proteinsPercent.ToString() + "%",
                     Color = SKColor.Parse("#F1696B"),
                     ValueLabelColor = SKColor.Parse("#F1696B"),
                     TextColor = SKColor.Parse("#000000")
                 },
-                new ChartEntry((float)fatsPercent)
+                new ChartEntry(fatsPercent)
                 {
                     Label = "Жиры",
                     ValueLabel = fatsPercent.ToString() + "%",
@@ -85,7 +95,7 @@ namespace HealthyMeal.ViewModels
                     ValueLabelColor = SKColor.Parse("#FFBC1F"),
                     TextColor = SKColor.Parse("#000000")
                 },
-                new ChartEntry((float)carbohydratesPercent)
+                new ChartEntry(carbohydratesPercent)
                 {
                     Label = "Углеводы",
                     ValueLabel = carbohydratesPercent.ToString() + "%",
@@ -108,5 +118,7 @@ namespace HealthyMeal.ViewModels
         {
             await Shell.Current.GoToAsync($"//{nameof(FoodPage)}");
         }
+
+        #endregion
     }
 }

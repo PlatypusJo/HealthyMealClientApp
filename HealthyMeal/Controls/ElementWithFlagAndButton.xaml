@@ -22,7 +22,8 @@
                     <CheckBox.Behaviors>
                         <xct:EventToCommandBehavior
                             EventName="CheckedChanged"
-                            Command="{Binding CheckBoxCommand}"/>
+                            Command="{Binding CheckBoxCommand}"
+                            CommandParameter="{Binding CheckBoxCommandParameter}"/>
                     </CheckBox.Behaviors>
                 </CheckBox>
                 <StackLayout Grid.Column="1"

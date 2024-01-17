@@ -27,15 +27,24 @@
                     </CheckBox.Behaviors>
                 </CheckBox>
                 <StackLayout Grid.Column="1"
-                         Orientation="Horizontal">
+                         Orientation="Vertical">
                     <Label Text="{Binding Name}"
                            FontSize="20"
                            FontAttributes="Bold"
                            TextColor="{DynamicResource LightTextColor}"
                            HorizontalOptions="StartAndExpand"
-                           VerticalOptions="Center"/>
+                           VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger Binding="{Binding TriggerValue}" 
+                                         TargetType="Label" 
+                                         Value="true">
+                                <Setter Property="TextColor"
+                                        Value="Green"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
                     <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="EndAndExpand">
+                             HorizontalOptions="StartAndExpand">
                         <Label Text="{Binding Amount}"
                             FontSize="16"
                             TextColor="{DynamicResource LightTextColor}"

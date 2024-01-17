@@ -34,6 +34,11 @@ namespace HealthyMeal.Controls
             typeof(bool),
             typeof(ElementWithFlagAndButton),
             false);
+        public static readonly BindableProperty TriggerValueProperty = BindableProperty.Create(
+            nameof(TriggerValue),
+            typeof(bool),
+            typeof(ElementWithFlagAndButton),
+            false);
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(
             nameof(Command),
             typeof(Command),
@@ -69,6 +74,11 @@ namespace HealthyMeal.Controls
         {
             get => (bool)GetValue(IsCheckedProperty);
             set => SetValue(IsCheckedProperty, value);
+        }
+        public bool TriggerValue
+        {
+            get => (bool)GetValue(TriggerValueProperty);
+            set => SetValue(TriggerValueProperty, value);
         }
         public Command Command
         {

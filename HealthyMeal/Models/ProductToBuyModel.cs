@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace HealthyMeal.Models
 {
-    public class ProductToBuyModel
+    public class ProductToBuyModel : INotifyPropertyChanged
     {
         public string Id { get; set; }
         public int ProductId { get; set; }
@@ -14,7 +15,24 @@ namespace HealthyMeal.Models
         public string Brand { get; set; }
         public double Amount { get; set; }
         public DateTime Date { get; set; }
-        public bool IsBought { get; set; }
+
+        private bool _isBought;
+        public bool IsBought 
+        { 
+            get => _isBought; 
+            set
+            {
+                _isBought = value;
+                NotifyPropertyChanged(nameof(IsBought));
+            } 
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
     }
 }

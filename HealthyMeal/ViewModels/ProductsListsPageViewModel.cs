@@ -38,6 +38,28 @@ namespace HealthyMeal.ViewModels
             }
         }
 
+        private bool _isVisibleToNext;
+        public bool IsVisibleToNext
+        {
+            get => _isVisibleToNext;
+            set
+            {
+                _isVisibleToNext = value;
+                NotifyPropertyChanged(nameof(IsVisibleToNext));
+            }
+        }
+        
+        private bool _isVisibleToPrevious;
+        public bool IsVisibleToPrevious
+        {
+            get => _isVisibleToPrevious;
+            set
+            {
+                _isVisibleToPrevious = value;
+                NotifyPropertyChanged(nameof(IsVisibleToPrevious));
+            }
+        }
+
         private List<ProductToBuyModel> _productsToBuy;
 
         public ObservableCollection<ProductToBuyModel> ProductsToBuy { get; set; }
@@ -57,6 +79,9 @@ namespace HealthyMeal.ViewModels
             CheckBoxChangedCommand = new Command(FindChangedItemAndUpdate);
             LoadProducts();
             _isVisible = _productsToBuy.Count > 0;
+            _isVisibleToPrevious = !(_pageIndex == 1);
+            _isVisibleToNext = !(_pageIndex == _productsToBuy.Count / _pageSize + 1);
+
         }
 
         #endregion
@@ -67,8 +92,9 @@ namespace HealthyMeal.ViewModels
         {
             if (arg is string id)
             {
-                ProductToBuyModel changedItem = _productsToBuy.Find(p => p.Id == id);
-                Debug.WriteLine($"{changedItem.Name} is {changedItem.IsBought}");
+                ProductToBuyModel changedItem = ProductsToBuy.ToList().Find(p => p.Id == id);
+                if (changedItem != null) 
+                    Debug.WriteLine($"{changedItem.Name} is {changedItem.IsBought}");
             }
         }
 
@@ -94,6 +120,9 @@ namespace HealthyMeal.ViewModels
             {
                 ProductsToBuy.Add(_productsToBuy[i]);
             }
+
+            IsVisibleToPrevious = !(pageNumber == 1);
+            IsVisibleToNext = !(pageNumber == _productsToBuy.Count / _pageSize + 1);
             PageIndex = pageNumber;
         }
 

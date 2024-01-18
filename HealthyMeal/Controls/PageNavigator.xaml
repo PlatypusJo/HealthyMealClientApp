@@ -3,24 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthyMeal.Controls.PageNavigator"
              x:Name="this">
-    <StackLayout BindingContext="{Reference this}"
-                 Orientation="Horizontal"
-                 Padding="10"
-                 HeightRequest="50">
-        <Button WidthRequest="50"
-                VerticalOptions="Start"
+    <Grid BindingContext="{Reference this}"
+          Padding="10"
+          HeightRequest="50">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0"
+                WidthRequest="50"
+                IsVisible ="{Binding IsVisibleToPrevious}"
+                HorizontalOptions="Start"
                 BackgroundColor="{DynamicResource SecondaryColor}"
                 ImageSource="iconBackBtn.png"
                 Command="{Binding BackPageCommand}"/>
-        <Label Text="{Binding PageNumber}"
+        <Label Grid.Column="1"
+               Text="{Binding PageNumber}"
                HorizontalOptions="CenterAndExpand"
                VerticalOptions="Center"
                FontSize="22"
                TextColor="{DynamicResource DarkTextColor}"/>
-        <Button WidthRequest="50"
+        <Button Grid.Column="2"
+                WidthRequest="50"
                 HorizontalOptions="End"
+                IsVisible="{Binding IsVisibleToNext}"
                 BackgroundColor="{DynamicResource SecondaryColor}"
                 ImageSource="iconForwardBtn.png"
                 Command="{Binding NextPageCommand}"/>
-    </StackLayout>
+    </Grid>
 </ContentView>

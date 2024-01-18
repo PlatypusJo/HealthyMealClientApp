@@ -48,11 +48,29 @@
                         <Label Text="{Binding Amount}"
                             FontSize="16"
                             TextColor="{DynamicResource LightTextColor}"
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger Binding="{Binding TriggerValue}" 
+                                             TargetType="Label" 
+                                             Value="true">
+                                    <Setter Property="TextColor"
+                                            Value="Green"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                         <Label Text="{Binding UnitsName}"
                             FontSize="16"
                             TextColor="{DynamicResource LightTextColor}"
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger Binding="{Binding TriggerValue}" 
+                                             TargetType="Label" 
+                                             Value="true">
+                                    <Setter Property="TextColor"
+                                            Value="Green"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
                     </StackLayout>
                 </StackLayout>
                 <Button Style="{DynamicResource RoundButton}" 

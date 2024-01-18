@@ -17,6 +17,16 @@ namespace HealthyMeal.Controls
             typeof(string),
             typeof(PageNavigator),
             string.Empty);
+        public static readonly BindableProperty IsVisibleToNextProperty = BindableProperty.Create(
+            nameof(IsVisibleToNext),
+            typeof(bool),
+            typeof(PageNavigator),
+            false);
+        public static readonly BindableProperty IsVisibleToPreviousProperty = BindableProperty.Create(
+            nameof(IsVisibleToPrevious),
+            typeof(bool),
+            typeof(PageNavigator),
+            false);
         public static readonly BindableProperty NextPageCommandProperty = BindableProperty.Create(
             nameof(NextPageCommand),
             typeof(Command),
@@ -32,6 +42,16 @@ namespace HealthyMeal.Controls
         {
             get => (string)GetValue(PageNumberProperty);
             set => SetValue(PageNumberProperty, value);
+        }
+        public bool IsVisibleToNext
+        {
+            get => (bool)GetValue(IsVisibleToNextProperty);
+            set => SetValue(IsVisibleToNextProperty, value);
+        }
+        public bool IsVisibleToPrevious
+        {
+            get => (bool)GetValue(IsVisibleToPreviousProperty);
+            set => SetValue(IsVisibleToPreviousProperty, value);
         }
         public Command NextPageCommand
         {

@@ -37,7 +37,12 @@
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>
                     <StackLayout>
-                        <controls:PageNavigator IsVisible="{Binding IsVisible}" PageNumber="{Binding PageIndex}" BackPageCommand="{Binding BackPageCommand}" NextPageCommand="{Binding NextPageCommand}"/>
+                        <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                                PageNumber="{Binding PageIndex}" 
+                                                BackPageCommand="{Binding BackPageCommand}" 
+                                                NextPageCommand="{Binding NextPageCommand}"
+                                                IsVisibleToNext="{Binding IsVisibleToNext}"
+                                                IsVisibleToPrevious="{Binding IsVisibleToPrevious}"/>
                         <StackLayout x:Name="Buttons"
                              Padding="10" 
                              Spacing="20">

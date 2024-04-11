@@ -17,6 +17,11 @@ namespace HealthyMeal.Controls
             typeof(string),
             typeof(PageNavigator),
             string.Empty);
+        public static readonly BindableProperty ColorProperty = BindableProperty.Create(
+            nameof(Color),
+            typeof(Color),
+            typeof(PageNavigator),
+            null);
         public static readonly BindableProperty IsVisibleToNextProperty = BindableProperty.Create(
             nameof(IsVisibleToNext),
             typeof(bool),
@@ -42,6 +47,11 @@ namespace HealthyMeal.Controls
         {
             get => (string)GetValue(PageNumberProperty);
             set => SetValue(PageNumberProperty, value);
+        }
+        public Color Color
+        {
+            get => (Color)GetValue(ColorProperty);
+            set => SetValue(ColorProperty, value);
         }
         public bool IsVisibleToNext
         {

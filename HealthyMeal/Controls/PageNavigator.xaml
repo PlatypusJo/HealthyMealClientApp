@@ -5,7 +5,7 @@
              x:Name="this">
     <Grid BindingContext="{Reference this}"
           Padding="0"
-          HeightRequest="50">
+          BackgroundColor="{Binding Color}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
@@ -13,10 +13,12 @@
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0"
                 WidthRequest="50"
+                HeightRequest="50"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"
                 Margin="10, 0, 0, 0"
                 IsVisible ="{Binding IsVisibleToPrevious}"
-                HorizontalOptions="Start"
-                BackgroundColor="{DynamicResource BaseColor}"
+                BackgroundColor="{Binding Color}"
                 ImageSource="prev.png"
                 Command="{Binding BackPageCommand}"/>
         <Label Grid.Column="1"
@@ -27,10 +29,12 @@
                TextColor="{DynamicResource DarkTextColor}"/>
         <Button Grid.Column="2"
                 WidthRequest="50"
-                Margin="0, 0, 10, 0"
+                HeightRequest="50"
+                VerticalOptions="Center"
                 HorizontalOptions="End"
+                Margin="0, 0, 10, 0"
                 IsVisible="{Binding IsVisibleToNext}"
-                BackgroundColor="{DynamicResource BaseColor}"
+                BackgroundColor="{Binding Color}"
                 ImageSource="next.png"
                 Command="{Binding NextPageCommand}"/>
     </Grid>

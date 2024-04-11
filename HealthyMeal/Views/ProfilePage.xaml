@@ -8,7 +8,7 @@
     <ContentPage.Content>
         <StackLayout BackgroundColor="{DynamicResource BaseColor}">
 
-            <StackLayout x:Name="Header" Padding="10" BackgroundColor="#34D57F" Orientation="Horizontal">
+            <StackLayout x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <BoxView WidthRequest="50" 
                          HorizontalOptions="StartAndExpand"/>
                 <Label Text="Мой профиль"

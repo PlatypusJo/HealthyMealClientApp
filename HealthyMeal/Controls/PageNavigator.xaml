@@ -4,7 +4,7 @@
              x:Class="HealthyMeal.Controls.PageNavigator"
              x:Name="this">
     <Grid BindingContext="{Reference this}"
-          Padding="10"
+          Padding="0"
           HeightRequest="50">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -13,10 +13,11 @@
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0"
                 WidthRequest="50"
+                Margin="10, 0, 0, 0"
                 IsVisible ="{Binding IsVisibleToPrevious}"
                 HorizontalOptions="Start"
-                BackgroundColor="{DynamicResource SecondaryColor}"
-                ImageSource="iconBackBtn.png"
+                BackgroundColor="{DynamicResource BaseColor}"
+                ImageSource="prev.png"
                 Command="{Binding BackPageCommand}"/>
         <Label Grid.Column="1"
                Text="{Binding PageNumber}"
@@ -26,10 +27,11 @@
                TextColor="{DynamicResource DarkTextColor}"/>
         <Button Grid.Column="2"
                 WidthRequest="50"
+                Margin="0, 0, 10, 0"
                 HorizontalOptions="End"
                 IsVisible="{Binding IsVisibleToNext}"
-                BackgroundColor="{DynamicResource SecondaryColor}"
-                ImageSource="iconForwardBtn.png"
+                BackgroundColor="{DynamicResource BaseColor}"
+                ImageSource="next.png"
                 Command="{Binding NextPageCommand}"/>
     </Grid>
 </ContentView>

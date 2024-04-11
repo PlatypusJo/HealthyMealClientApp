@@ -14,7 +14,7 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля и свойства
 
-        private readonly int _pageSize = 5;
+        private readonly int _pageSize = 9;
 
         private int _pageIndex = 1;
         public int PageIndex
@@ -67,6 +67,7 @@ namespace HealthyMeal.ViewModels
         public ICommand NextPageCommand { get; private set; }
         public ICommand BackPageCommand { get; private set; }
         public ICommand CheckBoxChangedCommand { get; private set; }
+        public Command<ProductToBuyModel> ItemTapped { get; private set; }
 
         #endregion
 
@@ -77,6 +78,7 @@ namespace HealthyMeal.ViewModels
             NextPageCommand = new Command(NextPage);
             BackPageCommand = new Command(BackPage);
             CheckBoxChangedCommand = new Command(FindChangedItemAndUpdate);
+            ItemTapped = new Command<ProductToBuyModel>(OnItemSelected);
             LoadProducts();
             _isVisible = _productsToBuy.Count > 0;
             _isVisibleToPrevious = !(_pageIndex == 1);
@@ -150,6 +152,12 @@ namespace HealthyMeal.ViewModels
             {
                 ProductsToBuy.Add(_productsToBuy[i]);
             }
+        }
+
+        void OnItemSelected(ProductToBuyModel item)
+        {
+            if (item == null)
+                return;
         }
 
         #endregion

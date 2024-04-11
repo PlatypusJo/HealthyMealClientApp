@@ -20,22 +20,22 @@
                 <DatePicker Style="{DynamicResource DefaultDatePicker}"
                             HorizontalOptions="FillAndExpand"/>
             </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
+                <Button Style="{DynamicResource RoundButton}" 
+                        HorizontalOptions="StartAndExpand"
+                        VerticalOptions="Center"
+                        ImageSource="edit.png"/>
+                <Button Style="{DynamicResource RoundButton}" 
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
+                        ImageSource="delete.png"/>
+                <Button Style="{DynamicResource RoundButton}" 
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center"
+                        ImageSource="add.png"/>
+            </StackLayout>
             <ScrollView>
                 <StackLayout Padding="0" Spacing="0">
-                    <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
-                        <Button Style="{DynamicResource RoundButton}" 
-                                HorizontalOptions="StartAndExpand"
-                                VerticalOptions="Center"
-                                ImageSource="edit.png"/>
-                        <Button Style="{DynamicResource RoundButton}" 
-                                HorizontalOptions="CenterAndExpand"
-                                VerticalOptions="Center"
-                                ImageSource="delete.png"/>
-                        <Button Style="{DynamicResource RoundButton}" 
-                                HorizontalOptions="EndAndExpand"
-                                VerticalOptions="Center"
-                                ImageSource="add.png"/>
-                    </StackLayout>
                     <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
                     <ListView x:Name="ProductsToBuy"
                               ItemsSource="{Binding ProductsToBuy}"

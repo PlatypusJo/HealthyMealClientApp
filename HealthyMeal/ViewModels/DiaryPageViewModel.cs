@@ -116,7 +116,7 @@ namespace HealthyMeal.ViewModels
 
         public async void OnPlusButtonClick()
         {
-            await Shell.Current.GoToAsync($"//{nameof(FoodPage)}");
+            await Shell.Current.GoToAsync($"{nameof(FoodPage)}");
         }
 
         #endregion

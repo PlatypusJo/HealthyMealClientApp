@@ -130,7 +130,7 @@ namespace HealthyMeal.ViewModels
 
         private void LoadProducts()
         {
-            int count = 13;
+            int count = 22;
             _productsToBuy = new List<ProductToBuyModel>();
 
             for (int i = 0; i < count; i++)

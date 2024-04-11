@@ -18,7 +18,7 @@ namespace HealthyMeal.ViewModels
 
         public async void OnGoBackButtonClick()
         {
-            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            await Shell.Current.GoToAsync($"..");
         }
     }
 }

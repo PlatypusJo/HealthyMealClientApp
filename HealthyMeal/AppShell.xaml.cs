@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using HealthyMeal.Views;
 
 namespace HealthyMeal
 {
@@ -15,6 +16,7 @@ namespace HealthyMeal
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(FoodPage), typeof(FoodPage));
 
         }
     }

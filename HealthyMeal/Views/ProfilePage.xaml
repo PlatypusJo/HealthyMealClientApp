@@ -18,51 +18,115 @@
                        HorizontalOptions="CenterAndExpand"
                        VerticalOptions="CenterAndExpand"/>
                 <Button Style="{DynamicResource RoundButton}"
-                        ImageSource="iconSettings.png"
+                        BackgroundColor="{DynamicResource PrimaryColor}"
+                        ImageSource="exit.png"
                         HorizontalOptions="EndAndExpand"/>
             </StackLayout>
 
             <ScrollView>
 
                 <StackLayout>
-
-                    <Frame x:Name="Photo" 
-                           Padding="0"
-                           WidthRequest="200"
-                           HeightRequest="200"
-                           CornerRadius="200"
-                           HorizontalOptions="Center">
-                        <Image Source="ava.png"
-                               Aspect="Fill"/>
-                    </Frame>
-
+                    
                     <StackLayout x:Name="Info" Padding="10">
-                        
-                        <Label Style="{DynamicResource HeaderLabel}"
-                               Text="Животик приуныл" 
-                               HorizontalOptions="CenterAndExpand"/>
-                        <controls:DefaultLine Name="Имя:" Value="Михаил"/>
-                        <controls:DefaultLine Name="Пол:" Value="М"/>
-                        <controls:StatisticsLine Name="Цель ккал в день:" Value="2000" UnitsName="Ккал"/>
-                        <controls:StatisticsLine Name="Норма ккал в день:" Value="2500" UnitsName="Ккал"/>
+                        <Frame CornerRadius="10">
+                            <StackLayout>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Column="0" 
+                                                 VerticalOptions="Center">
+                                        <Label Text="Животик приуныл" 
+                                               TextColor="{DynamicResource PrimaryColor}"
+                                               FontSize="18"/>
+                                        <Label Text="Михаил" 
+                                               TextColor="{DynamicResource DarkTextColor}"
+                                               FontSize="16"/>
+                                    </StackLayout>
+                                    <Frame x:Name="Photo"
+                                           Grid.Column="1"
+                                           Padding="0"
+                                           WidthRequest="100"
+                                           HeightRequest="100"
+                                           CornerRadius="100"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                        <Image Source="ava.png"
+                                               Aspect="Fill"/>
+                                    </Frame>
+                                </Grid>
+                                <BoxView BackgroundColor="LightGray"
+                                         HeightRequest="2"/>
+                                <StackLayout>
+                                    <controls:DefaultLine Name="Вес (кг):" Value="80"/>
+                                    <controls:DefaultLine Name="Рост (см):" Value="180"/>
+                                    <controls:DefaultLine Name="Возраст:" Value="26"/>
+                                    <controls:StatisticsLine Name="РСК:" Value="2500" UnitsName="Ккал"/>
+                                    <controls:StatisticsLine Name="Цель ккал в день:" Value="2000" UnitsName="Ккал"/>
+                                </StackLayout>
+                                <BoxView BackgroundColor="LightGray"
+                                         HeightRequest="2"/>
+                                <StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButton}" 
+                                            Margin="0, 10, 0, 0"
+                                            HorizontalOptions="EndAndExpand"
+                                            VerticalOptions="Center"
+                                            ImageSource="edit.png"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
 
                         <StackLayout x:Name="Buttons"
-                                     Padding="10" 
+                                     Margin="0, 20, 0, 10"
                                      Spacing="20">
-                            <Button Style="{DynamicResource DefaultButton}"
-                                HorizontalOptions="FillAndExpand"
-                                Text="Мои продукты"/>
-                            <Button Style="{DynamicResource DefaultButton}"
-                                HorizontalOptions="FillAndExpand"
-                                Text="Мои рецепты"/>
-                            <Button Style="{DynamicResource SmallButton}"
-                                HorizontalOptions="FillAndExpand"
-                                Text="Редактировать профиль"/>
-                            <Button Style="{DynamicResource SmallButton}"
-                                HorizontalOptions="FillAndExpand" 
-                                Text="Выйти"/>
+                            <Grid HeightRequest="65">
+                                <Frame BackgroundColor="{DynamicResource MainColor}"
+                                       CornerRadius="10"
+                                       Grid.ColumnSpan="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                               FontSize="18"
+                                               TextColor="{DynamicResource DarkTextColor}"
+                                               Text="Мои продукты"
+                                               VerticalOptions="Center"/>
+                                        <Image Grid.Column="1"
+                                               HorizontalOptions="EndAndExpand"
+                                               Source="next.png"/>
+                                    </Grid>
+                                </Frame>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <Grid HeightRequest="65">
+                                <Frame BackgroundColor="{DynamicResource MainColor}"
+                                       CornerRadius="10"
+                                       Grid.ColumnSpan="2">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0"
+                                               FontSize="18"
+                                               TextColor="{DynamicResource DarkTextColor}"
+                                               Text="Мои рецепты"
+                                               VerticalOptions="Center"/>
+                                        <Image Grid.Column="1"
+                                               HorizontalOptions="EndAndExpand"
+                                               Source="next.png"/>
+                                    </Grid>
+                                </Frame>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
                         </StackLayout>
-
                     </StackLayout>
                     
                 </StackLayout>

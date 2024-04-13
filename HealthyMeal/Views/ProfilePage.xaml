@@ -59,11 +59,11 @@
                                 <BoxView BackgroundColor="LightGray"
                                          HeightRequest="2"/>
                                 <StackLayout>
-                                    <controls:DefaultLine Name="Вес (кг):" Value="80"/>
-                                    <controls:DefaultLine Name="Рост (см):" Value="180"/>
-                                    <controls:DefaultLine Name="Возраст:" Value="26"/>
-                                    <controls:StatisticsLine Name="РСК:" Value="2500" UnitsName="Ккал"/>
-                                    <controls:StatisticsLine Name="Цель ккал в день:" Value="2000" UnitsName="Ккал"/>
+                                    <controls:DefaultLine Name="Вес (кг)" Value="80"/>
+                                    <controls:DefaultLine Name="Рост (см)" Value="180"/>
+                                    <controls:DefaultLine Name="Возраст" Value="26"/>
+                                    <controls:StatisticsLine Name="РСК" Value="2500" UnitsName="Ккал"/>
+                                    <controls:StatisticsLine Name="Цель ккал в день" Value="2000" UnitsName="Ккал"/>
                                 </StackLayout>
                                 <BoxView BackgroundColor="LightGray"
                                          HeightRequest="2"/>

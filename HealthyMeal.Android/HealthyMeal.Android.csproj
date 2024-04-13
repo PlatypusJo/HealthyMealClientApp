@@ -115,9 +115,6 @@
     <AndroidResource Include="Resources\drawable\iconBackBtn.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\iconBreakfast.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconCalendar.png" />
   </ItemGroup>
   <ItemGroup>
@@ -127,9 +124,6 @@
     <AndroidResource Include="Resources\drawable\iconDiary.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\iconDinner.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconDoneBtn.png" />
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +131,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconLists.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\iconLunch.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconMenu.png" />
@@ -155,9 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconSettings.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\iconSnack.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\cross.png" />
@@ -176,6 +164,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\diary.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\breakfast.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\dinner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\lunch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\snack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

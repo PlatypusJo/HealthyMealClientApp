@@ -83,24 +83,24 @@ namespace HealthyMeal.ViewModels
                 {
                     Label = "Белки",
                     ValueLabel = proteinsPercent.ToString() + "%",
-                    Color = SKColor.Parse("#F1696B"),
-                    ValueLabelColor = SKColor.Parse("#F1696B"),
+                    Color = SKColor.Parse("#E30956"),
+                    ValueLabelColor = SKColor.Parse("#E30956"),
                     TextColor = SKColor.Parse("#000000")
                 },
                 new ChartEntry(fatsPercent)
                 {
                     Label = "Жиры",
                     ValueLabel = fatsPercent.ToString() + "%",
-                    Color = SKColor.Parse("#FFBC1F"),
-                    ValueLabelColor = SKColor.Parse("#FFBC1F"),
+                    Color = SKColor.Parse("#FFD40B"),
+                    ValueLabelColor = SKColor.Parse("#FFD40B"),
                     TextColor = SKColor.Parse("#000000")
                 },
                 new ChartEntry(carbohydratesPercent)
                 {
                     Label = "Углеводы",
                     ValueLabel = carbohydratesPercent.ToString() + "%",
-                    Color = SKColor.Parse("#63BBB8"),
-                    ValueLabelColor = SKColor.Parse("#63BBB8"),
+                    Color = SKColor.Parse("#1753B1"),
+                    ValueLabelColor = SKColor.Parse("#1753B1"),
                     TextColor = SKColor.Parse("#000000")
                 },
             };

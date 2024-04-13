@@ -28,13 +28,16 @@
     <Compile Update="Controls\DefaultLine.xaml.cs">
       <DependentUpon>DefaultLine.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\MealInfoElement.xaml.cs">
+      <DependentUpon>MealInfoElement.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Controls\DefaultLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\EatingsInfoElement.xaml">
+    <EmbeddedResource Update="Controls\MealInfoElement.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\ElementWithFlagAndButton.xaml">

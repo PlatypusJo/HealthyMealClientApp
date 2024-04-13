@@ -57,7 +57,7 @@
                                     </Frame>
                                 </Grid>
                                 <BoxView BackgroundColor="LightGray"
-                                         HeightRequest="2"/>
+                                         HeightRequest="1"/>
                                 <StackLayout>
                                     <controls:DefaultLine Name="Вес (кг)" Value="80"/>
                                     <controls:DefaultLine Name="Рост (см)" Value="180"/>
@@ -66,7 +66,7 @@
                                     <controls:StatisticsLine Name="Цель ккал в день" Value="2000" UnitsName="Ккал"/>
                                 </StackLayout>
                                 <BoxView BackgroundColor="LightGray"
-                                         HeightRequest="2"/>
+                                         HeightRequest="1"/>
                                 <StackLayout Orientation="Horizontal" BackgroundColor="{DynamicResource MainColor}">
                                     <Button Style="{DynamicResource RoundButton}" 
                                             Margin="0, 10, 0, 0"

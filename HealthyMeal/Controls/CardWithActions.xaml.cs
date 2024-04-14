@@ -53,6 +53,16 @@ namespace HealthyMeal.Controls
             typeof(object),
             typeof(CardWithActions),
             null);
+        public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(
+            nameof(TapCommand),
+            typeof(Command),
+            typeof(CardWithActions),
+            null);
+        public static readonly BindableProperty TapCommandParameterProperty = BindableProperty.Create(
+            nameof(TapCommandParameter),
+            typeof(object),
+            typeof(CardWithActions),
+            null);
 
         public ImageSource Photo
         {
@@ -93,6 +103,16 @@ namespace HealthyMeal.Controls
         {
             get => (object)GetValue(ActionRightCommandParameterProperty);
             set => SetValue(ActionRightCommandParameterProperty, value);
+        }
+        public Command TapCommand
+        {
+            get => (Command)GetValue(TapCommandProperty);
+            set => SetValue(TapCommandProperty, value);
+        }
+        public object TapCommandParameter
+        {
+            get => (object)GetValue(TapCommandParameterProperty);
+            set => SetValue(TapCommandParameterProperty, value);
         }
 
         public CardWithActions()

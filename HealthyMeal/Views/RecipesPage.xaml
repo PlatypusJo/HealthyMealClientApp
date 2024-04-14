@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthyMeal.Views.RecipesPage"             
              Title="Рецепты"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
              IconImageSource="iconRecipes.png">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Recipes"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ScrollView>
+                <controls:CardWithActions Photo="ava.png"
+                                          Name="Сосыска"
+                                          IconLeftAction="addDiary.png"
+                                          IconRightAction="addMenu.png"/>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

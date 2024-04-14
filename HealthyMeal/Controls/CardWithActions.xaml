@@ -6,6 +6,7 @@
     <StackLayout BindingContext="{x:Reference this}"
                  HorizontalOptions="Center"
                  HeightRequest="430"
+                 WidthRequest="300"
                  Padding="10">
         <Frame CornerRadius="20"
                BackgroundColor="{DynamicResource PrimaryColor}"
@@ -18,6 +19,7 @@
                 <StackLayout>
                     <Frame BackgroundColor="DarkGray"
                                Padding="0"
+                               HeightRequest="250"
                                HorizontalOptions="Center"
                                VerticalOptions="Center"
                                HasShadow="False">

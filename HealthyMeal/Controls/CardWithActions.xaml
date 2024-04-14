@@ -20,7 +20,7 @@
                     <Frame BackgroundColor="DarkGray"
                                Padding="0"
                                HeightRequest="250"
-                               HorizontalOptions="Center"
+                               HorizontalOptions="Fill"
                                VerticalOptions="Center"
                                HasShadow="False">
                         <Image Source="{Binding Photo}" 

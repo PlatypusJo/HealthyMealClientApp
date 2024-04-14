@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\CardWithActions.xaml.cs">
+      <DependentUpon>CardWithActions.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\DefaultLine.xaml.cs">
       <DependentUpon>DefaultLine.xaml</DependentUpon>
     </Compile>
@@ -34,6 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\CardWithActions.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\DefaultLine.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

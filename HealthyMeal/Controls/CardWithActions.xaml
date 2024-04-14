@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Controls.CardWithActions"
+             x:Name="this">
+    <StackLayout BindingContext="{x:Reference this}"
+                 HorizontalOptions="Center"
+                 HeightRequest="430"
+                 Padding="10">
+        <Frame CornerRadius="20"
+               BackgroundColor="{DynamicResource PrimaryColor}"
+               HasShadow="False"
+               Padding="0">
+            <Frame Padding="0" 
+                       Margin="5" 
+                       CornerRadius="15" 
+                       HasShadow="False">
+                <StackLayout>
+                    <Frame BackgroundColor="DarkGray"
+                               Padding="0"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               HasShadow="False">
+                        <Image Source="{Binding Photo}" 
+                               Aspect="Fill"/>
+                    </Frame>
+                    <Label Margin="25, 10, 0, 10" 
+                           Text="{Binding Name}" 
+                           FontSize="18" 
+                           TextColor="{DynamicResource DarkTextColor}"/>
+                    <BoxView BackgroundColor="LightGray" 
+                             HeightRequest="1"/>
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <BoxView BackgroundColor="LightGray" 
+                                 WidthRequest="1"
+                                 HorizontalOptions="Center" 
+                                 Grid.ColumnSpan="2"/>
+                        <Button Grid.Column="0"
+                                WidthRequest="50"
+                                CornerRadius="50"
+                                ImageSource="{Binding IconLeftAction}"
+                                Command="{Binding ActionLeftCommand}"
+                                CommandParameter="{Binding ActionLeftCommandParameter}"
+                                HorizontalOptions="Center"
+                                BackgroundColor="{DynamicResource MainColor}"/>
+                        <Button Grid.Column="1"
+                                WidthRequest="50"
+                                CornerRadius="50"
+                                ImageSource="{Binding IconRightAction}"
+                                Command="{Binding ActionRightCommand}"
+                                CommandParameter="{Binding ActionRightCommandParameter}"
+                                HorizontalOptions="Center"
+                                BackgroundColor="{DynamicResource MainColor}"/>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+        </Frame>
+        <StackLayout.GestureRecognizers>
+            <TapGestureRecognizer NumberOfTapsRequired="1"
+                                Command="{Binding TapCommand}"		
+                                CommandParameter="{Binding TapCommandParameter}"/>
+        </StackLayout.GestureRecognizers>
+    </StackLayout>
+</ContentView>

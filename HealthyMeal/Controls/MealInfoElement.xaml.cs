@@ -37,6 +37,11 @@ namespace HealthyMeal.Controls
             typeof(Command),
             typeof(MealInfoElement),
             null);
+        public static readonly BindableProperty ButtonCommandParameterProperty = BindableProperty.Create(
+            nameof(ButtonCommandParameter),
+            typeof(object),
+            typeof(MealInfoElement),
+            null);
         public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(
             nameof(TapCommand),
             typeof(Command),
@@ -47,11 +52,7 @@ namespace HealthyMeal.Controls
             typeof(object),
             typeof(MealInfoElement),
             null);
-        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
-            nameof(ButtonCommandParameter),
-            typeof(object),
-            typeof(MealInfoElement),
-            null);
+        
 
         public ImageSource Icon
         {
@@ -83,8 +84,8 @@ namespace HealthyMeal.Controls
         }
         public object ButtonCommandParameter
         {
-            get => (object)GetValue(CommandParameterProperty);
-            set => SetValue(CommandParameterProperty, value);
+            get => (object)GetValue(ButtonCommandParameterProperty);
+            set => SetValue(ButtonCommandParameterProperty, value);
         }
         public Command TapCommand
         {

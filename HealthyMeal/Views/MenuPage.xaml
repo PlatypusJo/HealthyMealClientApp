@@ -1,14 +1,107 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HealthyMeal.Views.MenuPage"             
+             x:Class="HealthyMeal.Views.MenuPage"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             xmlns:model="clr-namespace:HealthyMeal.Models" 
              Title="Меню"
              IconImageSource="iconMenu.png">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Menu"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <AbsoluteLayout x:DataType="vm:MenuPageViewModel" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout BackgroundColor="{DynamicResource BaseColor}"
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         Spacing="0">
+
+                <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                    <DatePicker Style="{DynamicResource DefaultDatePicker}"
+                                HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            ImageSource="delete.png"/>
+                    <Picker TextColor="{DynamicResource DarkTextColor}"
+                            HorizontalTextAlignment="Center"
+                            HorizontalOptions="FillAndExpand"/>
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                            HorizontalOptions="End"
+                            VerticalOptions="Center"
+                            ImageSource="add.png"/>
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray"
+                         HeightRequest="1"/>
+                <StackLayout Orientation="Horizontal" 
+                             Padding="10" 
+                             BackgroundColor="{DynamicResource MainColor}"
+                             IsVisible="true">
+                    <controls:StatisticsLine Name="Время приготовления"
+                                             Value="50"
+                                             UnitsName="мин"/>
+                </StackLayout>
+                <ScrollView>
+                    <StackLayout>
+                        <CarouselView ItemsSource="{Binding Recipes}"
+                                      PeekAreaInsets="35"
+                                      HeightRequest="430">
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <controls:CardWithActions x:DataType="model:RecipeModel"
+                                                              Name="{Binding Name}"
+                                                              IconLeftAction="addDiary.png"
+                                                              IconRightAction="delete.png"/>
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                        </CarouselView>
+                        <StackLayout Orientation="Horizontal" 
+                                     Spacing="30" 
+                                     HorizontalOptions="CenterAndExpand">
+                            <Button BackgroundColor="{DynamicResource BaseColor}"
+                                    WidthRequest="100"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    Text="Изменить меню"
+                                    FontSize="12"
+                                    ImageSource="edit.png"
+                                    ContentLayout="Top, 10"/>
+                            <Button BackgroundColor="{DynamicResource BaseColor}"
+                                    WidthRequest="100"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    Text="Создать меню"
+                                    FontSize="12"
+                                    ImageSource="createMenu.png"
+                                    ContentLayout="Top, 10"/>
+                            <Button BackgroundColor="{DynamicResource BaseColor}"
+                                    WidthRequest="100"
+                                    TextColor="{DynamicResource PrimaryColor}"
+                                    Text="Создать список покупок"
+                                    FontSize="12"
+                                    ImageSource="createList.png"
+                                    ContentLayout="Top, 10"/>
+                        </StackLayout>
+
+                        <StackLayout x:Name="Summary" Padding="10">
+                            <Frame CornerRadius="10">
+                                <StackLayout>
+                                    <Label FontSize="18"
+                                           TextColor="{DynamicResource DarkTextColor}"
+                                           Text="Сводка по меню" 
+                                           Margin="0, 0, 0, 5"
+                                           HorizontalOptions="StartAndExpand"/>
+                                    <controls:StatisticsLine Name="Всего белков" Value="250" UnitsName="г"/>
+                                    <controls:StatisticsLine Name="Всего жиров" Value="145" UnitsName="г"/>
+                                    <controls:StatisticsLine Name="Всего углеводов" Value="386" UnitsName="г"/>
+                                    <BoxView BackgroundColor="LightGray"
+                                             HeightRequest="1"/>
+                                    <controls:StatisticsLine Name="Калорийность меню" Value="577" UnitsName="Ккал"/>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

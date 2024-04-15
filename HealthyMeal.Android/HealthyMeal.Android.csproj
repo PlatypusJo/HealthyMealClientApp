@@ -192,5 +192,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\addDiary.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\createMenu.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

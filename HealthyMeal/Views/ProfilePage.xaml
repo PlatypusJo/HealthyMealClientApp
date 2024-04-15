@@ -49,6 +49,7 @@
                                            WidthRequest="100"
                                            HeightRequest="100"
                                            CornerRadius="100"
+                                           BackgroundColor="DarkGray"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center">
                                         <Image Source="ava.png"

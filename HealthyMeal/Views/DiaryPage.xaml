@@ -41,11 +41,11 @@
                                        Margin="0, 0, 0, 5"
                                        HorizontalOptions="StartAndExpand"/>
                                 <controls:StatisticsLine Name="Цель" Value="2500" UnitsName="Ккал"/>
-                                <controls:StatisticsLine Name="Употреблено калорий" Value="0" UnitsName="Ккал"/>
-                                <controls:StatisticsLine Name="Осталось употребить" Value="2500" UnitsName="Ккал"/>
+                                <controls:StatisticsLine Name="Употреблено калорий" Value="505" UnitsName="Ккал"/>
+                                <controls:StatisticsLine Name="Осталось употребить" Value="1995" UnitsName="Ккал"/>
                                 <BoxView BackgroundColor="LightGray"
                                          HeightRequest="1"/>
-                                <controls:StatisticsLine Name="От РСК" Value="100" UnitsName="%"/>
+                                <controls:StatisticsLine Name="От РСК" Value="25.25" UnitsName="%"/>
                             </StackLayout>
                         </Frame>
                     </StackLayout>

@@ -14,35 +14,39 @@
     </ContentPage.BindingContext>
     
     <ContentPage.Content>
-        <StackLayout BackgroundColor="{DynamicResource BaseColor}" Spacing="0">
+        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout BackgroundColor="{DynamicResource BaseColor}"
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         Spacing="0">
 
-            <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
-                <DatePicker Style="{DynamicResource DefaultDatePicker}"
+                <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                    <DatePicker Style="{DynamicResource DefaultDatePicker}"
                             HorizontalOptions="FillAndExpand"/>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
-                <Button Style="{DynamicResource RoundButtonMainColor}" 
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
                         HorizontalOptions="StartAndExpand"
                         VerticalOptions="Center"
                         ImageSource="edit.png"/>
-                <Button Style="{DynamicResource RoundButtonMainColor}" 
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
                         HorizontalOptions="CenterAndExpand"
                         VerticalOptions="Center"
                         ImageSource="delete.png"/>
-                <Button Style="{DynamicResource RoundButtonMainColor}" 
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Center"
                         ImageSource="add.png"/>
-            </StackLayout>
-            <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
-            <ListView x:Name="ProductsToBuy"
+                </StackLayout>
+                <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
+                <ListView x:Name="ProductsToBuy"
                         ItemsSource="{Binding ProductsToBuy}"
                         RowHeight="60">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.View>
-                                <controls:ShoppingListItem x:DataType="model:ProductToBuyModel"
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <controls:ShoppingListItem x:DataType="model:ProductToBuyModel"
                                                            IsChecked="{Binding IsBought, Mode=TwoWay}" 
                                                            Name="{Binding Name}" Amount="{Binding Amount}" 
                                                            UnitsName="{Binding UnitsName}" 
@@ -51,12 +55,12 @@
                                                            CheckBoxCommandParameter="{Binding Id}"
                                                            TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=ItemTapped}"
                                                            TapCommandParameter="{Binding .}"/>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Footer>
-                    <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <controls:PageNavigator IsVisible="{Binding IsVisible}" 
                                             PageNumber="{Binding PageIndex}" 
                                             BackPageCommand="{Binding BackPageCommand}" 
                                             NextPageCommand="{Binding NextPageCommand}"
@@ -64,8 +68,11 @@
                                             IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
                                             Color="{DynamicResource MainColor}"
                                             HeightRequest="65"/>
-                </ListView.Footer>
-            </ListView>
-        </StackLayout>
+                    </ListView.Footer>
+                </ListView>
+            </StackLayout>
+            
+        </AbsoluteLayout>
+        
     </ContentPage.Content>
 </ContentPage>

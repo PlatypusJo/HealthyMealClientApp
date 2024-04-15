@@ -6,13 +6,33 @@
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              IconImageSource="iconRecipes.png">
     <ContentPage.Content>
-        <StackLayout>
-            <ScrollView>
-                <controls:CardWithActions Photo="ava.png"
-                                          Name="Сосыска"
-                                          IconLeftAction="addDiary.png"
-                                          IconRightAction="addMenu.png"/>
-            </ScrollView>
-        </StackLayout>
+        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout BackgroundColor="{DynamicResource BaseColor}"
+                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 Spacing="0">
+
+                <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                    <DatePicker Style="{DynamicResource DefaultDatePicker}"
+                    HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="Center"
+                            ImageSource="edit.png"/>
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="Center"
+                            ImageSource="delete.png"/>
+                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="Center"
+                            ImageSource="add.png"/>
+                </StackLayout>
+
+            </StackLayout>
+
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

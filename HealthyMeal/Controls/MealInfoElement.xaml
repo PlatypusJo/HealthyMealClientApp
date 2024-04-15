@@ -42,10 +42,9 @@
                                FontSize="16"/>
                     </StackLayout>
                 </StackLayout>
-                <Button Style="{DynamicResource RoundButton}" 
+                <Button Style="{DynamicResource RoundButtonMainColor}" 
                         Grid.Column="2"
                         HorizontalOptions="EndAndExpand"
-                        BackgroundColor="{DynamicResource MainColor}"
                         ImageSource="add.png"
                         Command="{Binding ButtonCommand}"
                         CommandParameter="{Binding ButtonCommandParameter}"/>    

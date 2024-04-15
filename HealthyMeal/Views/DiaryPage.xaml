@@ -23,8 +23,7 @@
             <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <DatePicker Style="{DynamicResource DefaultDatePicker}"
                             HorizontalOptions="FillAndExpand"/>
-                <Button Style="{DynamicResource RoundButton}"
-                        BackgroundColor="{DynamicResource PrimaryColor}"
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
                         ImageSource="diary.png"
                         HorizontalOptions="End"/>
             </StackLayout>

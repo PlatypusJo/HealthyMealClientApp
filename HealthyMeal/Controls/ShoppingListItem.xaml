@@ -41,7 +41,7 @@
                            VerticalOptions="Center"/>
                 </StackLayout>
             </StackLayout>
-            <Button Style="{DynamicResource RoundButton}" 
+            <Button Style="{DynamicResource RoundButtonMainColor}" 
                     Grid.Column="2"
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="Center"

@@ -41,22 +41,18 @@
                                  WidthRequest="1"
                                  HorizontalOptions="Center" 
                                  Grid.ColumnSpan="2"/>
-                        <Button Grid.Column="0"
-                                WidthRequest="50"
-                                CornerRadius="50"
+                        <Button Style="{DynamicResource RoundButtonMainColor}"
+                                Grid.Column="0"
                                 ImageSource="{Binding IconLeftAction}"
                                 Command="{Binding ActionLeftCommand}"
                                 CommandParameter="{Binding ActionLeftCommandParameter}"
-                                HorizontalOptions="Center"
-                                BackgroundColor="{DynamicResource MainColor}"/>
-                        <Button Grid.Column="1"
-                                WidthRequest="50"
-                                CornerRadius="50"
+                                HorizontalOptions="Center"/>
+                        <Button Style="{DynamicResource RoundButtonMainColor}"
+                                Grid.Column="1"
                                 ImageSource="{Binding IconRightAction}"
                                 Command="{Binding ActionRightCommand}"
                                 CommandParameter="{Binding ActionRightCommandParameter}"
-                                HorizontalOptions="Center"
-                                BackgroundColor="{DynamicResource MainColor}"/>
+                                HorizontalOptions="Center"/>
                     </Grid>
                 </StackLayout>
             </Frame>

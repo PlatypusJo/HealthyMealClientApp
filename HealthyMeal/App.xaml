@@ -25,7 +25,14 @@
                 <Setter Property="CornerRadius" Value="50"/>
                 <Setter Property="WidthRequest" Value="50"/>
                 <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="BackgroundColor" Value="{StaticResource MainColor}"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="RoundButtonPrimaryColor" BasedOn="{StaticResource RoundButton}">
+                <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
+            </Style>
+
+            <Style TargetType="Button" x:Key="RoundButtonMainColor" BasedOn="{StaticResource RoundButton}">
+                <Setter Property="BackgroundColor" Value="{DynamicResource MainColor}"/>
             </Style>
 
             <Style TargetType="Button" x:Key="DefaultButton">

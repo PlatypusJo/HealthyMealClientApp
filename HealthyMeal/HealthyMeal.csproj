@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Controls\CardWithActions.xaml.cs">
       <DependentUpon>CardWithActions.xaml</DependentUpon>
     </Compile>

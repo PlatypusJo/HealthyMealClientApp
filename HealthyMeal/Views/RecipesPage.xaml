@@ -9,14 +9,14 @@
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              IconImageSource="iconRecipes.png">
     <ContentPage.Content>
-        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <AbsoluteLayout x:DataType="vm:RecipesPageViewModel" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             
             <StackLayout BackgroundColor="{DynamicResource BaseColor}"
-                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-                 AbsoluteLayout.LayoutFlags="All"
-                 Spacing="0">
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         Spacing="0">
 
-                <StackLayout x:Name="Date" Padding="10" HeightRequest="50" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <StackLayout x:Name="Date" Padding="10" HeightRequest="59" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                     <Label Text="Рецепты"
                            TextColor="White"
                            FontSize="20"
@@ -81,6 +81,29 @@
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </StackLayout>
+                <BoxView BackgroundColor="LightGray"
+                         HeightRequest="1"
+                         IsVisible="false"/>
+                <CollectionView ItemsSource="{Binding Recipes}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:Card x:DataType="model:RecipeModel"
+                                           Name="{Binding Name}"
+                                           KcalValue="100"
+                                           CookingTime="1 ч 10 мин"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                                PageNumber="{Binding PageIndex}" 
+                                                BackPageCommand="{Binding BackPageCommand}" 
+                                                NextPageCommand="{Binding NextPageCommand}"
+                                                IsVisibleToNext="{Binding IsVisibleToNext}"
+                                                IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
+                                                Color="{DynamicResource BaseColor}"
+                                                HeightRequest="65"/>
+                    </CollectionView.Footer>
+                </CollectionView>
             </StackLayout>
 
         </AbsoluteLayout>

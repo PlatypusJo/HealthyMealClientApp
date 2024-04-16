@@ -14,7 +14,7 @@
                          AbsoluteLayout.LayoutFlags="All"
                          Spacing="0">
 
-                <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <StackLayout x:Name="Date" Padding="10" HeightRequest="50" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                     <DatePicker Style="{DynamicResource DefaultDatePicker}"
                                 HorizontalOptions="FillAndExpand"/>
                 </StackLayout>

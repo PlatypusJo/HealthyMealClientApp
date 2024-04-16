@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthyMeal.Views.RecipesPage"             
              Title="Рецепты"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              IconImageSource="iconRecipes.png">
     <ContentPage.Content>
@@ -13,23 +16,35 @@
                  AbsoluteLayout.LayoutFlags="All"
                  Spacing="0">
 
-                <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
-                    <DatePicker Style="{DynamicResource DefaultDatePicker}"
-                    HorizontalOptions="FillAndExpand"/>
+                <StackLayout x:Name="Date" Padding="10" HeightRequest="50" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                    <Label Text="Рецепты"
+                           TextColor="White"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"/>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
+                <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
+                    <SearchBar x:Name="srcB"
+                               TextColor="{DynamicResource DarkTextColor}"
+                               CancelButtonColor="{DynamicResource DarkTextColor}"
+                               Placeholder="Поиск рецепта"
+                               HorizontalOptions="FillAndExpand"
+                               FontSize="16">
+                        <SearchBar.Behaviors>
+                            <xct:EventToCommandBehavior EventName="SearchButtonPressed"
+                                    Command="{Binding SearchCommand}"
+                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                    Command="{Binding SearchCommand}"
+                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                        </SearchBar.Behaviors>
+                    </SearchBar>
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="Center"
-                            ImageSource="edit.png"/>
-                    <Button Style="{DynamicResource RoundButtonMainColor}" 
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="Center"
-                            ImageSource="delete.png"/>
-                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                            IsVisible="true"
                             HorizontalOptions="EndAndExpand"
                             VerticalOptions="Center"
-                            ImageSource="add.png"/>
+                            ImageSource="filters.png"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray"
                          HeightRequest="1"/>

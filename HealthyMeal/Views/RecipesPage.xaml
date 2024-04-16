@@ -31,6 +31,41 @@
                             VerticalOptions="Center"
                             ImageSource="add.png"/>
                 </StackLayout>
+                <BoxView BackgroundColor="LightGray"
+                         HeightRequest="1"/>
+                <StackLayout Orientation="Horizontal" 
+                             Padding="10" 
+                             BackgroundColor="{DynamicResource MainColor}"
+                             IsVisible="false"
+                             HeightRequest="40">
+                    <CollectionView ItemsLayout="HorizontalList">
+                        <!--<CollectionView.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Более 60 мин</x:String>
+                                <x:String>Менее 100 кал</x:String>
+                                <x:String>Более 500 кал</x:String>
+                                <x:String>100-150 кал</x:String>
+                                <x:String>15-30 мин</x:String>
+                            </x:Array>
+                        </CollectionView.ItemsSource>-->
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="10, 0, 0, 10">
+                                    <Button BackgroundColor="{DynamicResource PrimaryColor}"
+                                            TextColor="{DynamicResource MainColor}"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            Text="{Binding}"
+                                            CornerRadius="20"
+                                            WidthRequest="160"
+                                            HeightRequest="40"
+                                            ImageSource="delFilter.png"
+                                            ContentLayout="Right, 10"/>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
             </StackLayout>
 
         </AbsoluteLayout>

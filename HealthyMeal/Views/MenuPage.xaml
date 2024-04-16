@@ -37,9 +37,12 @@
                              Padding="10" 
                              BackgroundColor="{DynamicResource MainColor}"
                              IsVisible="true">
-                    <controls:StatisticsLine Name="Время приготовления"
-                                             Value="50"
-                                             UnitsName="мин"/>
+                    <Label Text="Время приготовления"
+                           FontSize="16"
+                           TextColor="{DynamicResource DarkTextColor}"/>
+                    <Label Text="1 ч 30 мин"
+                           FontSize="16"
+                           TextColor="{DynamicResource DarkTextColor}"/>
                 </StackLayout>
                 <ScrollView>
                     <StackLayout>

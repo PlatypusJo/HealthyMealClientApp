@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Controls.Card"
+             x:Name="this">
+    <StackLayout BindingContext="{x:Reference this}"
+                 HorizontalOptions="Center"
+                 HeightRequest="430"
+                 WidthRequest="300"
+                 Padding="10">
+        <Frame CornerRadius="20"
+               BackgroundColor="{DynamicResource PrimaryColor}"
+               HasShadow="False"
+               Padding="0">
+            <Frame Padding="0" 
+                   Margin="5" 
+                   CornerRadius="15" 
+                   HasShadow="False">
+                <StackLayout>
+                    <Frame BackgroundColor="DarkGray"
+                           Padding="0"
+                           HeightRequest="250"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center"
+                           HasShadow="False">
+                        <Image Source="{Binding Photo}" 
+                           Aspect="Fill"/>
+                    </Frame>
+                    <Label Margin="10, 10, 0, 0" 
+                           Text="{Binding Name}" 
+                           FontSize="18" 
+                           TextColor="{DynamicResource DarkTextColor}"
+                           LineBreakMode="TailTruncation"/>
+                    <StackLayout Margin="10, 0, 0, 0"
+                                 Orientation="Horizontal">
+                        <Label Text="{Binding KcalValue}"
+                               FontSize="16"
+                               TextColor="{DynamicResource DarkTextColor}"/>
+                        <Label Text="Ккал"
+                               FontSize="16"
+                               TextColor="{DynamicResource DarkTextColor}"/>
+                    </StackLayout>
+                    <Label Margin="10, 0, 0, 10"
+                           Text="{Binding CookingTime}"
+                           FontSize="16"
+                           TextColor="{DynamicResource DarkTextColor}"/>
+                </StackLayout>
+            </Frame>
+        </Frame>
+        <StackLayout.GestureRecognizers>
+            <TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding TapCommand}"		
+                            CommandParameter="{Binding TapCommandParameter}"/>
+        </StackLayout.GestureRecognizers>
+    </StackLayout>
+</ContentView>

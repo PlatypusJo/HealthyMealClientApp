@@ -7,6 +7,7 @@
              IconImageSource="iconRecipes.png">
     <ContentPage.Content>
         <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            
             <StackLayout BackgroundColor="{DynamicResource BaseColor}"
                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                  AbsoluteLayout.LayoutFlags="All"
@@ -30,7 +31,6 @@
                             VerticalOptions="Center"
                             ImageSource="add.png"/>
                 </StackLayout>
-
             </StackLayout>
 
         </AbsoluteLayout>

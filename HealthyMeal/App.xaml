@@ -7,7 +7,7 @@
         
             <!--#region Colors-->
 
-            <Color x:Key="MainColor">White</Color>
+            <Color x:Key="MainColor">#FFFFFF</Color>
             <Color x:Key="PrimaryColor">#2DBE37</Color>
             <Color x:Key="SecondaryColor">#0F7B16</Color>
             <Color x:Key="MenuFooterColor">#5FDE68</Color>

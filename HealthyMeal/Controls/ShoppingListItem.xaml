@@ -28,7 +28,9 @@
                        FontSize="18"
                        TextColor="{DynamicResource DarkTextColor}"
                        HorizontalOptions="StartAndExpand"
-                       VerticalOptions="Center"/>
+                       VerticalOptions="Center"
+                       LineBreakMode="WordWrap"
+                       MaxLines="2"/>
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="StartAndExpand">
                     <Label Text="{Binding Amount}"

@@ -2,31 +2,77 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:HealthyMeal.ViewModels" 
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HealthyMeal.Views.FoodPage">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#DEF4C6">
+        <StackLayout x:DataType="vm:FoodPageViewModel" BackgroundColor="{DynamicResource BaseColor}" Spacing="0">
             
-            <StackLayout x:Name="Header" Padding="10" BackgroundColor="#34D57F" Orientation="Horizontal">
-                <Button BackgroundColor="#1C7C54" 
-                        WidthRequest="50"
-                        HeightRequest="50"
-                        HorizontalOptions="StartAndExpand"
-                        CornerRadius="50"
-                        ImageSource="iconBack.png"
+            <StackLayout x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
+                        HorizontalOptions="Start"
+                        ImageSource="back.png"
                         Command="{Binding GoBackCommand}"/>
-                <Label Text="Еда"
-                       TextColor="White"
-                       FontSize="20"
-                       FontAttributes="Bold"
-                       HorizontalOptions="CenterAndExpand"
-                       VerticalOptions="CenterAndExpand"/>
-                <BoxView WidthRequest="50" 
-                         HorizontalOptions="EndAndExpand"/>
+                <Picker TextColor="{DynamicResource MainColor}"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        WidthRequest="150"
+                        HorizontalTextAlignment="Center"
+                        HorizontalOptions="CenterAndExpand"/>
+                <Label Text="12.01,пт"
+                       TextColor="{DynamicResource MainColor}"
+                       FontSize="16"
+                       WidthRequest="50" 
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"/>
             </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
+                <SearchBar x:Name="srcB"
+                           TextColor="{DynamicResource DarkTextColor}"
+                           CancelButtonColor="{DynamicResource DarkTextColor}"
+                           Placeholder="Поиск продукта"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="16">
+                    <SearchBar.Behaviors>
+                        <xct:EventToCommandBehavior EventName="SearchButtonPressed"
+                                                    Command="{Binding SearchCommand}"
+                                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                        <xct:EventToCommandBehavior EventName="TextChanged"
+                                                    Command="{Binding SearchCommand}"
+                                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+            </StackLayout>
+            <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
+            <ListView x:Name="ProductsToBuy"
+                      ItemsSource="{Binding Foods}"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <controls:FoodListItem x:DataType="model:FoodModel"
+                                                       Name="{Binding Name}"
+                                                       Amount="{Binding Amount}"
+                                                       UnitsName="{Binding UnitsName}"
+                                                       KcalValue="{Binding Kcal}"/>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                            PageNumber="{Binding PageIndex}" 
+                                            BackPageCommand="{Binding BackPageCommand}" 
+                                            NextPageCommand="{Binding NextPageCommand}"
+                                            IsVisibleToNext="{Binding IsVisibleToNext}"
+                                            IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
+                                            Color="{DynamicResource MainColor}"
+                                            HeightRequest="65"/>
+                </ListView.Footer>
+            </ListView>
             
-            <Label Text="Meals"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

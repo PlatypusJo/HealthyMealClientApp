@@ -14,7 +14,7 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля и свойства
 
-        private readonly int _pageSize = 9;
+        private readonly int _pageSize = 11;
 
         private int _pageIndex = 1;
         public int PageIndex
@@ -146,6 +146,16 @@ namespace HealthyMeal.ViewModels
                     IsBought = false,
                 });
             }
+            _productsToBuy.Add(new ProductToBuyModel()
+            {
+                Id = "1234",
+                ProductId = 1234,
+                UnitsId = 12123,
+                UnitsName = "у.е.",
+                Name = "Очень длинное название продукта чтобы все с ума посходили от этого приложения",
+                Amount = 100,
+                IsBought = false,
+            });
 
             ProductsToBuy = new ObservableCollection<ProductToBuyModel>();
             for (int i = 0; i < _productsToBuy.Count && i < _pageSize; i++)

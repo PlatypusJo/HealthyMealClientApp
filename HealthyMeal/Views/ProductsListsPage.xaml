@@ -41,7 +41,7 @@
                 <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
                 <ListView x:Name="ProductsToBuy"
                         ItemsSource="{Binding ProductsToBuy}"
-                        RowHeight="60">
+                        HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Controls.FoodListItem"
+             x:Name="this">
+  <ContentView.Content>
+        <Grid BindingContext="{x:Reference this}" 
+              BackgroundColor="{StaticResource MainColor}">
+            <StackLayout Margin="10, 0, 0, 0">
+                <Label Text="{Binding Name}"
+                       FontSize="18"
+                       TextColor="{DynamicResource DarkTextColor}"
+                       HorizontalOptions="StartAndExpand"
+                       VerticalOptions="Center"
+                       LineBreakMode="WordWrap"
+                       MaxLines="2"/>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="StartAndExpand">
+                    <Label Text="{Binding Amount}"
+                           FontSize="16"
+                           TextColor="{DynamicResource PrimaryColor}"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding UnitsName}"
+                           FontSize="16"
+                           TextColor="{DynamicResource PrimaryColor}"
+                           VerticalOptions="Center"/>
+                    <Label Text=" - "
+                           FontSize="16"
+                           TextColor="{DynamicResource DarkTextColor}"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding KcalValue}" 
+                           TextColor="{DynamicResource DarkTextColor}"
+                           LineBreakMode="NoWrap"
+                           FontSize="16"/>
+                    <Label Text="Ккал"
+                           TextColor="{DynamicResource DarkTextColor}"
+                           LineBreakMode="NoWrap"
+                           FontSize="16"/>
+                </StackLayout>
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding TapCommand}"
+                                CommandParameter="{Binding TapCommandParameter}"/>
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

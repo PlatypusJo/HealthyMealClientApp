@@ -9,7 +9,7 @@
             <StackLayout Margin="10, 0, 0, 0">
                 <Label Text="{Binding Name}"
                        FontSize="18"
-                       TextColor="{DynamicResource DarkTextColor}"
+                       TextColor="{DynamicResource CommonTextColor}"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="Center"
                        LineBreakMode="WordWrap"
@@ -24,18 +24,15 @@
                            FontSize="16"
                            TextColor="{DynamicResource PrimaryColor}"
                            VerticalOptions="Center"/>
-                    <Label Text=" - "
-                           FontSize="16"
-                           TextColor="{DynamicResource DarkTextColor}"
+                    <Label Style="{DynamicResource CommonText}"
+                           Text=" - "
                            VerticalOptions="Center"/>
-                    <Label Text="{Binding KcalValue}" 
-                           TextColor="{DynamicResource DarkTextColor}"
-                           LineBreakMode="NoWrap"
-                           FontSize="16"/>
-                    <Label Text="Ккал"
-                           TextColor="{DynamicResource DarkTextColor}"
-                           LineBreakMode="NoWrap"
-                           FontSize="16"/>
+                    <Label Style="{DynamicResource CommonText}"
+                           Text="{Binding KcalValue}" 
+                           LineBreakMode="NoWrap"/>
+                    <Label Style="{DynamicResource CommonText}"
+                           Text="Ккал"
+                           LineBreakMode="NoWrap"/>
                 </StackLayout>
             </StackLayout>
             <Grid.GestureRecognizers>

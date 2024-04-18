@@ -6,15 +6,13 @@
              Title="Профиль"
              IconImageSource="iconProfile.png">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="{DynamicResource BaseColor}">
+        <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}">
 
             <StackLayout x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <BoxView WidthRequest="50" 
                          HorizontalOptions="StartAndExpand"/>
-                <Label Text="Мой профиль"
-                       TextColor="White"
-                       FontSize="20"
-                       FontAttributes="Bold"
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Мой профиль"
                        HorizontalOptions="CenterAndExpand"
                        VerticalOptions="CenterAndExpand"/>
                 <Button Style="{DynamicResource RoundButtonPrimaryColor}"
@@ -36,12 +34,11 @@
                                     </Grid.ColumnDefinitions>
                                     <StackLayout Grid.Column="0" 
                                                  VerticalOptions="Center">
-                                        <Label Text="Животик приуныл" 
-                                               TextColor="{DynamicResource PrimaryColor}"
-                                               FontSize="18"/>
-                                        <Label Text="Михаил" 
-                                               TextColor="{DynamicResource DarkTextColor}"
-                                               FontSize="16"/>
+                                        <Label Style="{DynamicResource LargeText}"
+                                               Text="Животик приуныл" 
+                                               TextColor="{DynamicResource PrimaryColor}"/>
+                                        <Label Style="{DynamicResource CommonText}"
+                                               Text="Михаил"/>
                                     </StackLayout>
                                     <Frame x:Name="Photo"
                                            Grid.Column="1"
@@ -89,9 +86,8 @@
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="0.5*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0"
-                                               FontSize="18"
-                                               TextColor="{DynamicResource DarkTextColor}"
+                                        <Label Style="{DynamicResource LargeText}"
+                                               Grid.Column="0"
                                                Text="Мои продукты"
                                                VerticalOptions="Center"/>
                                         <Image Grid.Column="1"
@@ -112,9 +108,8 @@
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="0.5*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0"
-                                               FontSize="18"
-                                               TextColor="{DynamicResource DarkTextColor}"
+                                        <Label Style="{DynamicResource LargeText}"
+                                               Grid.Column="0"
                                                Text="Мои рецепты"
                                                VerticalOptions="Center"/>
                                         <Image Grid.Column="1"

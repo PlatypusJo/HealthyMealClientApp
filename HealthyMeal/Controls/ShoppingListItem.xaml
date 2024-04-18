@@ -24,9 +24,8 @@
             </CheckBox>
             <StackLayout Grid.Column="1"
                          Orientation="Vertical">
-                <Label Text="{Binding Name}"
-                       FontSize="18"
-                       TextColor="{DynamicResource DarkTextColor}"
+                <Label Style="{DynamicResource LargeText}"
+                       Text="{Binding Name}"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="Center"
                        LineBreakMode="WordWrap"

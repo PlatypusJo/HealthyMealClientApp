@@ -7,7 +7,7 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HealthyMeal.Views.FoodPage">
     <ContentPage.Content>
-        <StackLayout x:DataType="vm:FoodPageViewModel" BackgroundColor="{DynamicResource BaseColor}" Spacing="0">
+        <StackLayout x:DataType="vm:FoodPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
             
             <StackLayout x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <Button Style="{DynamicResource RoundButtonPrimaryColor}"
@@ -29,8 +29,8 @@
             </StackLayout>
             <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
                 <SearchBar x:Name="srcB"
-                           TextColor="{DynamicResource DarkTextColor}"
-                           CancelButtonColor="{DynamicResource DarkTextColor}"
+                           TextColor="{DynamicResource CommonTextColor}"
+                           CancelButtonColor="{DynamicResource CommonTextColor}"
                            Placeholder="Поиск продукта"
                            HorizontalOptions="FillAndExpand"
                            FontSize="16">

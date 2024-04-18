@@ -15,7 +15,7 @@
     
     <ContentPage.Content>
         <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <StackLayout BackgroundColor="{DynamicResource BaseColor}"
+            <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                          AbsoluteLayout.LayoutFlags="All"
                          Spacing="0">

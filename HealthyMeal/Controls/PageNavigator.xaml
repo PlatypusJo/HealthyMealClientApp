@@ -26,7 +26,7 @@
                HorizontalOptions="CenterAndExpand"
                VerticalOptions="Center"
                FontSize="22"
-               TextColor="{DynamicResource DarkTextColor}"/>
+               TextColor="{DynamicResource CommonTextColor}"/>
         <Button Grid.Column="2"
                 WidthRequest="50"
                 HeightRequest="50"

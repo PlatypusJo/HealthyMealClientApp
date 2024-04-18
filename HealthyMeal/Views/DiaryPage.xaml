@@ -18,7 +18,7 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout Spacing="0" BackgroundColor="{DynamicResource BaseColor}">
+        <StackLayout Spacing="0" BackgroundColor="{DynamicResource PageBackgroundColor}">
 
             <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <DatePicker Style="{DynamicResource DefaultDatePicker}"
@@ -35,8 +35,7 @@
                     <StackLayout x:Name="Summary" Padding="10">
                         <Frame CornerRadius="10">
                             <StackLayout>
-                                <Label FontSize="18"
-                                       TextColor="{DynamicResource DarkTextColor}"
+                                <Label Style="{DynamicResource LargeText}"
                                        Text="Сводка" 
                                        Margin="0, 0, 0, 5"
                                        HorizontalOptions="StartAndExpand"/>
@@ -84,8 +83,7 @@
                         <Frame CornerRadius="10">
                             <StackLayout>
                                 <StackLayout>
-                                    <Label FontSize="18"
-                                           TextColor="{DynamicResource DarkTextColor}"
+                                    <Label Style="{DynamicResource LargeText}"
                                            Text="Статистика" 
                                            Margin="0, 0, 0, 10"
                                            HorizontalOptions="StartAndExpand"/>

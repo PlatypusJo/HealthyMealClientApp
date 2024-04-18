@@ -16,10 +16,9 @@
                 <Image Source="{Binding Icon}"
                        Grid.Column="0"/>
                 <StackLayout Grid.Column="1">
-                    <Label Text="{Binding MealTypeName}" 
-                           TextColor="{DynamicResource DarkTextColor}"
-                           LineBreakMode="NoWrap"
-                           FontSize="18"/>
+                    <Label Style="{DynamicResource LargeText}"
+                           Text="{Binding MealTypeName}"
+                           LineBreakMode="NoWrap"/>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="{Binding KcalValue}" 
                                TextColor="{DynamicResource PrimaryColor}"
@@ -32,14 +31,12 @@
                         <BoxView HeightRequest="1"
                                  WidthRequest="1"
                                  BackgroundColor="LightGray"/>
-                        <Label Text="{Binding FoodAmount}" 
-                               TextColor="{DynamicResource DarkTextColor}"
-                               LineBreakMode="NoWrap"
-                               FontSize="16"/>
-                        <Label Text="Шт"
-                               TextColor="{DynamicResource DarkTextColor}"
-                               LineBreakMode="NoWrap"
-                               FontSize="16"/>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="{Binding FoodAmount}"
+                               LineBreakMode="NoWrap"/>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Шт"
+                               LineBreakMode="NoWrap"/>
                     </StackLayout>
                 </StackLayout>
                 <Button Style="{DynamicResource RoundButtonMainColor}" 

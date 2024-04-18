@@ -6,7 +6,7 @@
              xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              android:TabbedPage.ToolbarPlacement="Bottom"
              BarBackgroundColor="{DynamicResource MenuFooterColor}"
-             UnselectedTabColor="{DynamicResource LightTextColor}"
+             UnselectedTabColor="{DynamicResource MainColor}"
              SelectedTabColor="{DynamicResource SecondaryColor}"
              NavigationPage.HasNavigationBar="False">
 

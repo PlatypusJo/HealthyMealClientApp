@@ -26,24 +26,20 @@
                         <Image Source="{Binding Photo}" 
                            Aspect="Fill"/>
                     </Frame>
-                    <Label Margin="10, 10, 0, 0" 
-                           Text="{Binding Name}" 
-                           FontSize="18" 
-                           TextColor="{DynamicResource DarkTextColor}"
+                    <Label Style="{DynamicResource LargeText}"
+                           Margin="10, 10, 0, 0" 
+                           Text="{Binding Name}"
                            LineBreakMode="TailTruncation"/>
                     <StackLayout Margin="10, 0, 0, 0"
                                  Orientation="Horizontal">
-                        <Label Text="{Binding KcalValue}"
-                               FontSize="16"
-                               TextColor="{DynamicResource DarkTextColor}"/>
-                        <Label Text="Ккал"
-                               FontSize="16"
-                               TextColor="{DynamicResource DarkTextColor}"/>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="{Binding KcalValue}"/>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Ккал"/>
                     </StackLayout>
-                    <Label Margin="10, 0, 0, 10"
-                           Text="{Binding CookingTime}"
-                           FontSize="16"
-                           TextColor="{DynamicResource DarkTextColor}"/>
+                    <Label Style="{DynamicResource CommonText}"
+                           Margin="10, 0, 0, 10"
+                           Text="{Binding CookingTime}"/>
                 </StackLayout>
             </Frame>
         </Frame>

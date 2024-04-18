@@ -9,7 +9,7 @@
              IconImageSource="iconMenu.png">
     <ContentPage.Content>
         <AbsoluteLayout x:DataType="vm:MenuPageViewModel" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <StackLayout BackgroundColor="{DynamicResource BaseColor}"
+            <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                          AbsoluteLayout.LayoutFlags="All"
                          Spacing="0">
@@ -23,7 +23,7 @@
                             HorizontalOptions="Start"
                             VerticalOptions="Center"
                             ImageSource="delete.png"/>
-                    <Picker TextColor="{DynamicResource DarkTextColor}"
+                    <Picker TextColor="{DynamicResource CommonTextColor}"
                             HorizontalTextAlignment="Center"
                             HorizontalOptions="FillAndExpand"/>
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
@@ -37,12 +37,10 @@
                              Padding="10" 
                              BackgroundColor="{DynamicResource MainColor}"
                              IsVisible="true">
-                    <Label Text="Время приготовления"
-                           FontSize="16"
-                           TextColor="{DynamicResource DarkTextColor}"/>
-                    <Label Text="1 ч 30 мин"
-                           FontSize="16"
-                           TextColor="{DynamicResource DarkTextColor}"/>
+                    <Label Style="{DynamicResource CommonText}"
+                           Text="Время приготовления"/>
+                    <Label Style="{DynamicResource CommonText}"
+                           Text="1 ч 30 мин"/>
                 </StackLayout>
                 <ScrollView>
                     <StackLayout>
@@ -61,21 +59,21 @@
                         <StackLayout Orientation="Horizontal" 
                                      Spacing="30" 
                                      HorizontalOptions="CenterAndExpand">
-                            <Button BackgroundColor="{DynamicResource BaseColor}"
+                            <Button BackgroundColor="{DynamicResource PageBackgroundColor}"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="Изменить меню"
                                     FontSize="12"
                                     ImageSource="edit.png"
                                     ContentLayout="Top, 10"/>
-                            <Button BackgroundColor="{DynamicResource BaseColor}"
+                            <Button BackgroundColor="{DynamicResource PageBackgroundColor}"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="Создать меню"
                                     FontSize="12"
                                     ImageSource="createMenu.png"
                                     ContentLayout="Top, 10"/>
-                            <Button BackgroundColor="{DynamicResource BaseColor}"
+                            <Button BackgroundColor="{DynamicResource PageBackgroundColor}"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="Создать список покупок"
@@ -87,8 +85,7 @@
                         <StackLayout x:Name="Summary" Padding="10">
                             <Frame CornerRadius="10">
                                 <StackLayout>
-                                    <Label FontSize="18"
-                                           TextColor="{DynamicResource DarkTextColor}"
+                                    <Label Style="{DynamicResource LargeText}"
                                            Text="Сводка по меню" 
                                            Margin="0, 0, 0, 5"
                                            HorizontalOptions="StartAndExpand"/>

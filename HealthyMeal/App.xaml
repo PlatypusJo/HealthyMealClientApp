@@ -8,14 +8,11 @@
             <!--#region Colors-->
 
             <Color x:Key="MainColor">White</Color>
-            <Color x:Key="BaseColor">#E3E3E3</Color>
             <Color x:Key="PrimaryColor">#2DBE37</Color>
-            <Color x:Key="SecondaryColor">#1C7C54</Color>
-            <Color x:Key="PressedDarkColor">#1B512D</Color>
-            <Color x:Key="PressedLightColor">#AAFCB8</Color>
+            <Color x:Key="SecondaryColor">#0F7B16</Color>
             <Color x:Key="MenuFooterColor">#5FDE68</Color>
-            <Color x:Key="LightTextColor">#FFFFFF</Color>
-            <Color x:Key="DarkTextColor">#000000</Color>
+            <Color x:Key="PageBackgroundColor">#E3E3E3</Color>
+            <Color x:Key="CommonTextColor">#000000</Color>
             
             <!--#endregion-->
             
@@ -37,54 +34,40 @@
 
             <Style TargetType="Button" x:Key="DefaultButton">
                 <Setter Property="CornerRadius" Value="10"/>
-                <Setter Property="TextColor" Value="{StaticResource LightTextColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource MainColor}"/>
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}"/>
             </Style>
 
-            <Style TargetType="Button" x:Key="SmallButton" BasedOn="{StaticResource DefaultButton}">
-                <Setter Property="Padding" Value="10"/>
-                <Setter Property="Margin" Value="50, 0, 50, 0"/>
-            </Style>
-            
             <!--#endregion-->
             
             <!--#region Label Styles-->
 
-            <Style TargetType="Label" x:Key="CommonLabelWithDarkText">
-                <Setter Property="TextColor" Value="{DynamicResource DarkTextColor}"/>
+            <Style TargetType="Label" x:Key="CommonDarkText">
+                <Setter Property="TextColor" Value="{DynamicResource CommonTextColor}"/>
             </Style>
-            
-            <Style TargetType="Label" x:Key="DefaultLabel" BasedOn="{StaticResource CommonLabelWithDarkText}">
+
+            <Style TargetType="Label" x:Key="CommonText" BasedOn="{StaticResource CommonDarkText}">
                 <Setter Property="FontSize" Value="16"/>
             </Style>
 
-            <Style TargetType="Label" x:Key="HeaderLabel" BasedOn="{StaticResource CommonLabelWithDarkText}">
+            <Style TargetType="Label" x:Key="LargeText" BasedOn="{StaticResource CommonDarkText}">
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="HeaderText">
+                <Setter Property="TextColor" Value="{StaticResource MainColor}"/>
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
-            
-            <Style TargetType="Label" x:Key="CommonLabelWithLightText">
-                <Setter Property="TextColor" Value="{DynamicResource LightTextColor}"/>
-            </Style>
 
-            <Style TargetType="Label" x:Key="LightText" BasedOn="{StaticResource CommonLabelWithLightText}">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="LineBreakMode" Value="NoWrap"/>
-            </Style>
-
-            <Style TargetType="Label" x:Key="LightBoldText" BasedOn="{StaticResource LightText}">
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-            </Style>
-            
             <!--#endregion-->
             
             <!--#region DatePicker Styles-->
 
             <Style TargetType="DatePicker" x:Key="DefaultDatePicker">
 
-                <Setter Property="TextColor" Value="{DynamicResource LightTextColor}"/>
+                <Setter Property="TextColor" Value="{DynamicResource MainColor}"/>
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="Format" Value="dd MMMM yyyy, dddd"/>
 

@@ -26,10 +26,9 @@
                         <Image Source="{Binding Photo}" 
                                Aspect="Fill"/>
                     </Frame>
-                    <Label Margin="10, 10, 0, 10" 
-                           Text="{Binding Name}" 
-                           FontSize="18" 
-                           TextColor="{DynamicResource DarkTextColor}"
+                    <Label Style="{DynamicResource LargeText}"
+                           Margin="10, 10, 0, 10" 
+                           Text="{Binding Name}"
                            LineBreakMode="TailTruncation"/>
                     <BoxView BackgroundColor="LightGray" 
                              HeightRequest="1"/>

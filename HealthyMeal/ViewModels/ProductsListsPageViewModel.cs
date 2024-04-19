@@ -1,4 +1,5 @@
-﻿using HealthyMeal.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using HealthyMeal.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ using Xamarin.Forms;
 
 namespace HealthyMeal.ViewModels
 {
-    public class ProductsListsPageViewModel : BaseViewModel
+    public partial class ProductsListsPageViewModel : BaseViewModel
     {
         #region Поля и свойства
 
@@ -66,7 +67,6 @@ namespace HealthyMeal.ViewModels
 
         public ICommand NextPageCommand { get; private set; }
         public ICommand BackPageCommand { get; private set; }
-        public ICommand CheckBoxChangedCommand { get; private set; }
         public Command<ProductToBuyModel> ItemTapped { get; private set; }
 
         #endregion
@@ -77,7 +77,6 @@ namespace HealthyMeal.ViewModels
         {
             NextPageCommand = new Command(NextPage);
             BackPageCommand = new Command(BackPage);
-            CheckBoxChangedCommand = new Command(FindChangedItemAndUpdate);
             ItemTapped = new Command<ProductToBuyModel>(OnItemSelected);
             LoadProducts();
             _isVisible = _productsToBuy.Count > 0;
@@ -90,7 +89,8 @@ namespace HealthyMeal.ViewModels
 
         #region Методы
 
-        private void FindChangedItemAndUpdate(object arg)
+        [RelayCommand]
+        private void CheckBoxChanged(object arg)
         {
             if (arg is string id)
             {

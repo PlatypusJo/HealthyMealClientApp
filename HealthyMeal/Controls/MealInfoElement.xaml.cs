@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace HealthyMeal.Controls
             string.Empty);
         public static readonly BindableProperty ButtonCommandProperty = BindableProperty.Create(
             nameof(ButtonCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(MealInfoElement),
             null);
         public static readonly BindableProperty ButtonCommandParameterProperty = BindableProperty.Create(
@@ -44,7 +45,7 @@ namespace HealthyMeal.Controls
             null);
         public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(
             nameof(TapCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(MealInfoElement),
             null);
         public static readonly BindableProperty TapCommandParameterProperty = BindableProperty.Create(
@@ -74,11 +75,11 @@ namespace HealthyMeal.Controls
             get => (string)GetValue(FoodAmountProperty);
             set => SetValue(FoodAmountProperty, value);
         }
-        public Command ButtonCommand
+        public IRelayCommand ButtonCommand
         {
             get
             {
-                return (Command)GetValue(ButtonCommandProperty);
+                return (IRelayCommand)GetValue(ButtonCommandProperty);
             }
             set => SetValue(ButtonCommandProperty, value);
         }
@@ -87,11 +88,11 @@ namespace HealthyMeal.Controls
             get => (object)GetValue(ButtonCommandParameterProperty);
             set => SetValue(ButtonCommandParameterProperty, value);
         }
-        public Command TapCommand
+        public IRelayCommand TapCommand
         {
             get
             {
-                return (Command)GetValue(TapCommandProperty);
+                return (IRelayCommand)GetValue(TapCommandProperty);
             }
             set => SetValue(TapCommandProperty, value);
         }

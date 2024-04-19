@@ -1,15 +1,17 @@
-﻿using HealthyMeal.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using HealthyMeal.Models;
 using HealthyMeal.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HealthyMeal.ViewModels
 {
-    public class FoodPageViewModel : BaseViewModel
+    public partial class FoodPageViewModel : BaseViewModel
     {
         #region Поля
 
@@ -76,10 +78,6 @@ namespace HealthyMeal.ViewModels
 
         #region Команды
 
-        public ICommand GoBackCommand { get; private set; }
-
-        public ICommand OpenSavingFoodPageCommand { get; private set; }
-
         public ICommand NextPageCommand { get; private set; }
 
         public ICommand BackPageCommand { get; private set; }
@@ -91,8 +89,6 @@ namespace HealthyMeal.ViewModels
         public FoodPageViewModel()
         {
             LoadData();
-            GoBackCommand = new Command(OnGoBackButtonClick);
-            OpenSavingFoodPageCommand = new Command<FoodModel>(OpenSavingFoodPage);
             _isVisible = _foods.Count > 0;
             _isVisibleToNext = true;
             _isVisibleToPrevious = true;
@@ -102,12 +98,14 @@ namespace HealthyMeal.ViewModels
 
         #region Методы
 
-        public async void OnGoBackButtonClick()
+        [RelayCommand]
+        private async Task GoBack()
         {
             await Shell.Current.GoToAsync($"..");
         }
 
-        public async void OpenSavingFoodPage(FoodModel food)
+        [RelayCommand]
+        private async Task OpenSavingFoodPage(FoodModel food)
         {
             await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}");
         }

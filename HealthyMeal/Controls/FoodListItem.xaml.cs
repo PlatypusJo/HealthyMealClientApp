@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,7 @@ namespace HealthyMeal.Controls
             string.Empty);
         public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(
             nameof(TapCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(FoodListItem),
             null);
         public static readonly BindableProperty TapCommandParameterProperty = BindableProperty.Create(
@@ -64,11 +65,11 @@ namespace HealthyMeal.Controls
             get => (string)GetValue(KcalValueProperty);
             set => SetValue(KcalValueProperty, value);
         }
-        public Command TapCommand
+        public IRelayCommand TapCommand
         {
             get
             {
-                return (Command)GetValue(TapCommandProperty);
+                return (IRelayCommand)GetValue(TapCommandProperty);
             }
             set => SetValue(TapCommandProperty, value);
         }

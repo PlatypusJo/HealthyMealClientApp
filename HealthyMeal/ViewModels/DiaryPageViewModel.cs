@@ -7,14 +7,27 @@ using HealthyMeal.Views;
 using Microcharts;
 using SkiaSharp;
 using HealthyMeal.Models;
+using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
 
 namespace HealthyMeal.ViewModels
 {
-    public class DiaryPageViewModel : BaseViewModel
+    public partial class DiaryPageViewModel : BaseViewModel
     {
-        #region Поля и свойства
+        #region Поля
 
         private DonutChart _chart;
+
+        private double _proteinsAmount = 250;
+
+        private double _fatsAmount = 150;
+
+        private double _carbohydratesAmount = 600;
+
+        #endregion
+
+        #region Свойства
+
         public DonutChart Chart
         {
             get => _chart;
@@ -25,7 +38,6 @@ namespace HealthyMeal.ViewModels
             }
         }
 
-        private double _proteinsAmount = 250;
         public double ProteinsAmount
         {
             get => _proteinsAmount;
@@ -35,7 +47,6 @@ namespace HealthyMeal.ViewModels
             }
         }
         
-        private double _fatsAmount = 150;
         public double FatsAmount
         {
             get => _fatsAmount;
@@ -45,7 +56,6 @@ namespace HealthyMeal.ViewModels
             }
         }
         
-        private double _carbohydratesAmount = 600;
         public double CarbohydratesAmount
         {
             get => _carbohydratesAmount;
@@ -55,15 +65,12 @@ namespace HealthyMeal.ViewModels
             }
         }
 
-        public ICommand OpenMealsPageCommand { get; private set; }
-
         #endregion
 
         #region Конструкторы
 
         public DiaryPageViewModel() 
         {
-            OpenMealsPageCommand = new Command(OnPlusButtonClick);
             LoadDiagramData();
         }
 
@@ -114,7 +121,8 @@ namespace HealthyMeal.ViewModels
             };
         }
 
-        public async void OnPlusButtonClick()
+        [RelayCommand]
+        private async Task OpenFoodPage()
         {
             await Shell.Current.GoToAsync($"{nameof(FoodPage)}");
         }

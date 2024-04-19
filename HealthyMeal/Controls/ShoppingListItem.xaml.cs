@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,7 +41,7 @@ namespace HealthyMeal.Controls
             false);
         public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(
             nameof(TapCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(ShoppingListItem),
             null);
         public static readonly BindableProperty TapCommandParameterProperty = BindableProperty.Create(
@@ -50,7 +51,7 @@ namespace HealthyMeal.Controls
             null);
         public static readonly BindableProperty CheckBoxCommandProperty = BindableProperty.Create(
             nameof(CheckBoxCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(ShoppingListItem),
             null);
         public static readonly BindableProperty CheckBoxCommandParameterProperty = BindableProperty.Create(
@@ -84,11 +85,11 @@ namespace HealthyMeal.Controls
             get => (bool)GetValue(TriggerValueProperty);
             set => SetValue(TriggerValueProperty, value);
         }
-        public Command TapCommand
+        public IRelayCommand TapCommand
         {
             get
             {
-                return (Command)GetValue(TapCommandProperty);
+                return (IRelayCommand)GetValue(TapCommandProperty);
             }
             set => SetValue(TapCommandProperty, value);
         }
@@ -97,11 +98,11 @@ namespace HealthyMeal.Controls
             get => (object)GetValue(TapCommandParameterProperty);
             set => SetValue(TapCommandParameterProperty, value);
         }
-        public Command CheckBoxCommand
+        public IRelayCommand CheckBoxCommand
         {
             get
             {
-                return (Command)GetValue(CheckBoxCommandProperty);
+                return (IRelayCommand)GetValue(CheckBoxCommandProperty);
             }
             set => SetValue(CheckBoxCommandProperty, value);
         }

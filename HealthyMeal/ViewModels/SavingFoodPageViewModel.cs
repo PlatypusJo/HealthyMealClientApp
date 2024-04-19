@@ -1,16 +1,16 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HealthyMeal.ViewModels
 {
-    public class SavingFoodPageViewModel : BaseViewModel
+    public partial class SavingFoodPageViewModel : BaseViewModel
     {
         #region Команды
-
-        public ICommand GoBackCommand { get; private set; }
 
         #endregion
 
@@ -18,14 +18,15 @@ namespace HealthyMeal.ViewModels
 
         public SavingFoodPageViewModel()
         {
-            GoBackCommand = new Command(GoBack);
+            
         }
 
         #endregion
 
         #region Методы
 
-        public async void GoBack()
+        [RelayCommand]
+        private async Task GoBack()
         {
             await Shell.Current.GoToAsync($"..");
         }

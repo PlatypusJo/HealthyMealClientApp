@@ -12,10 +12,11 @@ namespace HealthyMeal.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DiaryPage : ContentPage
     {
+        private static DiaryPageViewModel _vm = new();
         public DiaryPage()
         {
             InitializeComponent();
-            this.BindingContext = new DiaryPageViewModel();
+            BindingContext = _vm;
         }
     }
 }

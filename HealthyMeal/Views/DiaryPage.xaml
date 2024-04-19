@@ -13,12 +13,12 @@
 
     </ContentPage.Resources>
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <vm:DiaryPageViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
     <ContentPage.Content>
-        <StackLayout Spacing="0" BackgroundColor="{DynamicResource PageBackgroundColor}">
+        <StackLayout x:DataType="vm:DiaryPageViewModel" Spacing="0" BackgroundColor="{DynamicResource PageBackgroundColor}">
 
             <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <DatePicker Style="{DynamicResource DefaultDatePicker}"

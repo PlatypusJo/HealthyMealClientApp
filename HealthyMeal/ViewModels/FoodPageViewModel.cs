@@ -78,6 +78,8 @@ namespace HealthyMeal.ViewModels
 
         public ICommand GoBackCommand { get; private set; }
 
+        public ICommand OpenSavingFoodPageCommand { get; private set; }
+
         public ICommand NextPageCommand { get; private set; }
 
         public ICommand BackPageCommand { get; private set; }
@@ -90,6 +92,7 @@ namespace HealthyMeal.ViewModels
         {
             LoadData();
             GoBackCommand = new Command(OnGoBackButtonClick);
+            OpenSavingFoodPageCommand = new Command<FoodModel>(OpenSavingFoodPage);
             _isVisible = _foods.Count > 0;
             _isVisibleToNext = true;
             _isVisibleToPrevious = true;
@@ -102,6 +105,11 @@ namespace HealthyMeal.ViewModels
         public async void OnGoBackButtonClick()
         {
             await Shell.Current.GoToAsync($"..");
+        }
+
+        public async void OpenSavingFoodPage(FoodModel food)
+        {
+            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}");
         }
 
         #endregion

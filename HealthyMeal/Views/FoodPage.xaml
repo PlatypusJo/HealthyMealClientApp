@@ -56,7 +56,9 @@
                                                        Name="{Binding Name}"
                                                        Amount="{Binding Amount}"
                                                        UnitsName="{Binding UnitsName}"
-                                                       KcalValue="{Binding Kcal}"/>
+                                                       KcalValue="{Binding Kcal}"
+                                                       TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:FoodPageViewModel}}, Path=OpenSavingFoodPageCommand}"
+                                                       TapCommandParameter="{Binding .}"/>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>

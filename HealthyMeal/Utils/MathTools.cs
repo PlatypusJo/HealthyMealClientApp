@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HealthyMeal.Models
+namespace HealthyMeal.Utils
 {
     public static class MathTools
     {

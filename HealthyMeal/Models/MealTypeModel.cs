@@ -1,14 +1,44 @@
-﻿using System;
+﻿using HealthyMeal.Intefaces;
+using HealthyMeal.Utils;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HealthyMeal.Models
 {
     public class MealTypeModel
     {
-        public MealTypeModel() { }
+        #region Поля
+
+        private int _countMeals;
+
+        private double _kcalCount;
+
+        #endregion
+
+        #region Свойства
 
         public int Id { get; set; }
+
         public string Name { get; set; }
+
+        public MealType Type { get; set; }
+
+        public int CountMeals => _countMeals;
+
+        public double KcalCount => _kcalCount;
+
+        #endregion
+
+        #region Методы
+
+        public void CalcKcalCount(IReadOnlyList<INutritionalValue> nutritionalValues)
+        {
+            _kcalCount = nutritionalValues.Sum(x => x.Kcal);
+            _countMeals = nutritionalValues.Count();
+        }
+
+        #endregion
     }
 }

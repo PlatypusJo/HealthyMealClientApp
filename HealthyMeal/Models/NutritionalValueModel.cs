@@ -6,8 +6,6 @@ namespace HealthyMeal.Models
 {
     public class NutritionalValueModel
     {
-        public NutritionalValueModel() { }
-
         public int Id { get; set; }
         public int FoodId { get; set; }
         public int UnitsId { get; set; }

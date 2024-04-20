@@ -6,9 +6,9 @@ using Xamarin.Forms;
 using HealthyMeal.Views;
 using Microcharts;
 using SkiaSharp;
-using HealthyMeal.Models;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using HealthyMeal.Utils;
 
 namespace HealthyMeal.ViewModels
 {

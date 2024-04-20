@@ -4,10 +4,12 @@ using System.Text;
 
 namespace HealthyMeal.Models
 {
-    public class UnitsModel
+    public class SexModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public double Coeff { get; set; }
     }
 }

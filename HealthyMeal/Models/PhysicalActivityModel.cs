@@ -4,14 +4,14 @@ using System.Text;
 
 namespace HealthyMeal.Models
 {
-    public class StepModel
+    public class PhysicalActivityModel
     {
         public string Id { get; set; }
 
-        public string RecipeId { get; set; }
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public int StepNumber { get; set; }
+        public double FactorActivity { get; set; }
     }
 }

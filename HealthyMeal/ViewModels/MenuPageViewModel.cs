@@ -17,22 +17,22 @@ namespace HealthyMeal.ViewModels
                 new RecipeModel() 
                 { 
                     Name = "Овощной суп",
-                    Id = 1,
+                    Id = 1.ToString(),
                 },
                 new RecipeModel() 
                 { 
                     Name = "Борщ",
-                    Id = 2,
+                    Id = 2.ToString(),
                 },
                 new RecipeModel() 
                 { 
                     Name = "Фруктовый салат",
-                    Id = 3,
+                    Id = 3.ToString(),
                 },
                 new RecipeModel() 
                 { 
                     Name = "Греческий салат",
-                    Id = 4,
+                    Id = 4.ToString(),
                 },
             };
         }

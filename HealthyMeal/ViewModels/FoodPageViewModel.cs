@@ -116,37 +116,37 @@ namespace HealthyMeal.ViewModels
 
         private void LoadData()
         {
-            _foods = new ObservableCollection<FoodModel>()
-            {
-                new FoodModel()
+            _foods =
+            [
+                new()
                 {
                     Name = "Очень длинное название еды, чтобы проверить работу",
                     Kcal = 100,
-                    Amount = 100,
-                    UnitsName = "г"
+                    DefaultUnitsAmount = 100,
+                    DefaultUnitsName = "г"
                 },
-                new FoodModel()
+                new()
                 {
                     Name = "Очень длинное название еды, чтобы проверить работу и посмотреть, что будет при >2 строк",
                     Kcal = 233,
-                    Amount = 1,
-                    UnitsName = "ст. ложка"
+                    DefaultUnitsAmount = 1,
+                    DefaultUnitsName = "ст. ложка"
                 },
-                new FoodModel()
+                new()
                 {
                     Name = "Тест",
                     Kcal = 233,
-                    Amount = 1,
-                    UnitsName = "шт"
+                    DefaultUnitsAmount = 1,
+                    DefaultUnitsName = "шт"
                 },
-                new FoodModel()
+                new()
                 {
                     Name = "Халлоу",
                     Kcal = 199,
-                    Amount = 1,
-                    UnitsName = "л"
+                    DefaultUnitsAmount = 1,
+                    DefaultUnitsName = "л"
                 }
-            };
+            ];
         }
 
         #endregion

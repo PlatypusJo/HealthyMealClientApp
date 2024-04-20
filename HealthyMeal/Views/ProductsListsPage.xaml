@@ -48,12 +48,13 @@
                                 <ViewCell.View>
                                     <controls:ShoppingListItem x:DataType="model:ProductToBuyModel"
                                                            IsChecked="{Binding IsBought, Mode=TwoWay}" 
-                                                           Name="{Binding Name}" Amount="{Binding Amount}" 
+                                                           Name="{Binding FoodName}" 
+                                                           Amount="{Binding UnitsAmount}" 
                                                            UnitsName="{Binding UnitsName}" 
                                                            TriggerValue="{Binding IsBought}"
                                                            CheckBoxCommand="{Binding Source={x:Reference ShoppingListPage}, Path=BindingContext.CheckBoxChangedCommand}"
                                                            CheckBoxCommandParameter="{Binding Id}"
-                                                           TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=ItemTapped}"
+                                                           TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=ItemTappedCommand}"
                                                            TapCommandParameter="{Binding .}"/>
                                 </ViewCell.View>
                             </ViewCell>

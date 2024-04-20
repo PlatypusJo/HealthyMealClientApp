@@ -67,7 +67,6 @@ namespace HealthyMeal.ViewModels
 
         public ICommand NextPageCommand { get; private set; }
         public ICommand BackPageCommand { get; private set; }
-        public Command<ProductToBuyModel> ItemTapped { get; private set; }
 
         #endregion
 
@@ -77,7 +76,6 @@ namespace HealthyMeal.ViewModels
         {
             NextPageCommand = new Command(NextPage);
             BackPageCommand = new Command(BackPage);
-            ItemTapped = new Command<ProductToBuyModel>(OnItemSelected);
             LoadProducts();
             _isVisible = _productsToBuy.Count > 0;
             _isVisibleToPrevious = !(_pageIndex == 1);
@@ -96,7 +94,7 @@ namespace HealthyMeal.ViewModels
             {
                 ProductToBuyModel changedItem = ProductsToBuy.ToList().Find(p => p.Id == id);
                 if (changedItem != null) 
-                    Debug.WriteLine($"{changedItem.Name} is {changedItem.IsBought}");
+                    Debug.WriteLine($"{changedItem.FoodName} is {changedItem.IsBought}");
             }
         }
 
@@ -131,40 +129,41 @@ namespace HealthyMeal.ViewModels
         private void LoadProducts()
         {
             int count = 22;
-            _productsToBuy = new List<ProductToBuyModel>();
+            _productsToBuy = [];
 
             for (int i = 0; i < count; i++)
             {
                 _productsToBuy.Add(new ProductToBuyModel()
                 {
                     Id = i.ToString(),
-                    ProductId = i,
-                    UnitsId = i,
+                    FoodId = i.ToString(),
+                    UnitsId = i.ToString(),
                     UnitsName = "у.е.",
-                    Name = "Test" + i.ToString(),
-                    Amount = 100,
+                    FoodName = "Test" + i.ToString(),
+                    UnitsAmount = 100,
                     IsBought = false,
                 });
             }
             _productsToBuy.Add(new ProductToBuyModel()
             {
                 Id = "1234",
-                ProductId = 1234,
-                UnitsId = 12123,
+                FoodId = "1234",
+                UnitsId = "12123",
                 UnitsName = "у.е.",
-                Name = "Очень длинное название продукта чтобы все с ума посходили от этого приложения",
-                Amount = 100,
+                FoodName = "Очень длинное название продукта чтобы все с ума посходили от этого приложения",
+                UnitsAmount = 100,
                 IsBought = false,
             });
 
-            ProductsToBuy = new ObservableCollection<ProductToBuyModel>();
+            ProductsToBuy = [];
             for (int i = 0; i < _productsToBuy.Count && i < _pageSize; i++)
             {
                 ProductsToBuy.Add(_productsToBuy[i]);
             }
         }
 
-        void OnItemSelected(ProductToBuyModel item)
+        [RelayCommand]
+        void ItemTapped(ProductToBuyModel item)
         {
             if (item == null)
                 return;

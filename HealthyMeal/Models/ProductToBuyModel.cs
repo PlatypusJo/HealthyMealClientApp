@@ -5,34 +5,22 @@ using System.Text;
 
 namespace HealthyMeal.Models
 {
-    public class ProductToBuyModel : INotifyPropertyChanged
+    public class ProductToBuyModel
     {
         public string Id { get; set; }
-        public int ProductId { get; set; }
-        public int UnitsId { get; set; }
+
+        public string FoodId { get; set; }
+
+        public string UnitsId { get; set; }
+
         public string UnitsName { get; set; }
-        public string Name { get; set; }
-        public string Brand { get; set; }
-        public double Amount { get; set; }
+
+        public string FoodName { get; set; }
+
+        public double UnitsAmount { get; set; }
+
         public DateTime Date { get; set; }
 
-        private bool _isBought;
-        public bool IsBought 
-        { 
-            get => _isBought; 
-            set
-            {
-                _isBought = value;
-                NotifyPropertyChanged(nameof(IsBought));
-            } 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        public bool IsBought { get; set; }
     }
 }

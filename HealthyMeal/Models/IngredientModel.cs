@@ -25,13 +25,13 @@ namespace HealthyMeal.Models
 
         public NutritionalValueModel NutritionalValue { private get; set; }
 
-        public double Kcal => NutritionalValue.Kcal * UnitsAmount / NutritionalValue.Amount;
+        public double Kcal => NutritionalValue.Kcal * UnitsAmount / NutritionalValue.UnitsAmount;
 
-        public double Proteins => NutritionalValue.Proteins * UnitsAmount / NutritionalValue.Amount;
+        public double Proteins => NutritionalValue.Proteins * UnitsAmount / NutritionalValue.UnitsAmount;
 
-        public double Fats => NutritionalValue.Fats * UnitsAmount / NutritionalValue.Amount;
+        public double Fats => NutritionalValue.Fats * UnitsAmount / NutritionalValue.UnitsAmount;
 
-        public double Carbohydtrates => NutritionalValue.Carbohydrates * UnitsAmount / NutritionalValue.Amount;
+        public double Carbohydrates => NutritionalValue.Carbohydrates * UnitsAmount / NutritionalValue.UnitsAmount;
 
         #endregion
     }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HealthyMeal.Models
 {
-    public class FoodModel : INutritionalValue
+    public class FoodModel : BaseNutritionalValueModel
     {
         #region Свойства
 
@@ -24,14 +24,6 @@ namespace HealthyMeal.Models
         public string DefaultUnitsName { get; set; } = null!;
 
         public double DefaultUnitsAmount { get; set; }
-
-        public double Kcal { get; set; }
-
-        public double Proteins { get; set; }
-
-        public double Fats { get; set; }
-
-        public double Carbohydtrates { get; set; }
 
         #endregion
     }

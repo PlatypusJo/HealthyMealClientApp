@@ -9,6 +9,6 @@ namespace HealthyMeal.Intefaces
         double Kcal { get; }
         double Proteins { get; }
         double Fats { get; }
-        double Carbohydtrates { get; }
+        double Carbohydrates { get; }
     }
 }

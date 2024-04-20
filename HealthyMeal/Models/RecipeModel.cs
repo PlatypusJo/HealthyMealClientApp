@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace HealthyMeal.Models
 {
-    public class RecipeModel : INutritionalValue
+    public class RecipeModel : BaseNutritionalValueModel
     {
         #region Свойства
 
@@ -37,14 +37,6 @@ namespace HealthyMeal.Models
                 CookingTime.Minutes.ToString("%m") + " мин " : 
                 CookingTime.Hours.ToString("%h") + " ч " + CookingTime.Minutes.ToString("%m") + " мин ";
         }
-
-        public double Kcal { get; set; }
-
-        public double Proteins { get; set; }
-
-        public double Fats { get; set; }
-
-        public double Carbohydtrates { get; set; }
 
         #endregion
     }

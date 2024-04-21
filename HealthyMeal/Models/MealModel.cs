@@ -7,7 +7,7 @@ namespace HealthyMeal.Models
 {
     public class MealModel : INutritionalValue
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         public string UserId { get; set; }
 

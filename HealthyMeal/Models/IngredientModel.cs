@@ -9,7 +9,7 @@ namespace HealthyMeal.Models
     {
         #region Свойства
 
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         public string RecipeId { get; set; }
 

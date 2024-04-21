@@ -11,7 +11,7 @@ namespace HealthyMeal.Models
     {
         #region Свойства
 
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         public string UserId { get; set; }
 
@@ -20,9 +20,7 @@ namespace HealthyMeal.Models
         public string Description { get; set; }
 
         #nullable enable
-        public byte[]? ImageBytes { get; set; }
-
-        public ImageSource? Image { get; set; }
+        public byte[]? Image { get; set; }
 
         public string DefaultUnitsName { get; set; } = null!;
 

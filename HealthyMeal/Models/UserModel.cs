@@ -7,7 +7,7 @@ namespace HealthyMeal.Models
 {
     public class UserModel
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         public string SexId { get; set; }
 
@@ -28,8 +28,6 @@ namespace HealthyMeal.Models
         public int Age { get; set; }
 
         #nullable enable
-        public byte[]? PhotoBytes { get; set; }
-
-        public ImageSource? Photo { get; set; }
+        public byte[]? Photo { get; set; }
     }
 }

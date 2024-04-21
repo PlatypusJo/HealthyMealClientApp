@@ -6,7 +6,7 @@ namespace HealthyMeal.Models
 {
     public class StepModel
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         public string RecipeId { get; set; }
 

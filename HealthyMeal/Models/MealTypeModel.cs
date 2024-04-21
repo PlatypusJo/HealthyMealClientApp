@@ -20,16 +20,14 @@ namespace HealthyMeal.Models
 
         #region Свойства
 
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         public string Name { get; set; }
 
         public MealType Type { get; set; }
 
         #nullable enable
-        public byte[]? IconBytes { get; set; }
-
-        public ImageSource? Icon { get; set; }
+        public byte[]? Icon { get; set; }
 
         public int CountMeals => _countMeals;
 

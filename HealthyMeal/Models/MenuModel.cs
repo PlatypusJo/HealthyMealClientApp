@@ -7,7 +7,7 @@ namespace HealthyMeal.Models
 {
     public class MenuModel : BaseNutritionalValueModel
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
         public string UserId { get; set; }
 

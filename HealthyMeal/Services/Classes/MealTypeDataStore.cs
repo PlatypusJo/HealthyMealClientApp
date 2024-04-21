@@ -22,28 +22,24 @@ namespace HealthyMeal.Services.Classes
                     Id = Guid.NewGuid().ToString(),
                     Name = "Завтрак",
                     Type = MealTypesProvider.Provide("Завтрак"),
-                    Icon = File.ReadAllBytes("D:\\University\\HealthyMealProject\\HealthyMeal\\HealthyMeal.Android\\Resources\\drawable\\breakfast.png")
                 },
                 new()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Обед",
                     Type = MealTypesProvider.Provide("Обед"),
-                    Icon = File.ReadAllBytes("D:\\University\\HealthyMealProject\\HealthyMeal\\HealthyMeal.Android\\Resources\\drawable\\lunch.png")
                 },
                 new()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Ужин",
                     Type = MealTypesProvider.Provide("Ужин"),
-                    Icon = File.ReadAllBytes("D:\\University\\HealthyMealProject\\HealthyMeal\\HealthyMeal.Android\\Resources\\drawable\\dinner.png")
                 },
                 new()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Перекус",
                     Type = MealTypesProvider.Provide("Перекус"),
-                    Icon = File.ReadAllBytes("D:\\University\\HealthyMealProject\\HealthyMeal\\HealthyMeal.Android\\Resources\\drawable\\snack.png")
                 }
                 ];
         }

@@ -27,7 +27,9 @@ namespace HealthyMeal.Models
         public string Description { get; set; }
 
         #nullable enable
-        public byte[]? Image { get; set; }
+        public byte[]? ImageBytes { get; set; }
+
+        public ImageSource? Image { get; set; }
 
         public TimeSpan CookingTime { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace HealthyMeal.Models
 {
@@ -27,6 +28,8 @@ namespace HealthyMeal.Models
         public int Age { get; set; }
 
         #nullable enable
-        public byte[]? Photo { get; set; }
+        public byte[]? PhotoBytes { get; set; }
+
+        public ImageSource? Photo { get; set; }
     }
 }

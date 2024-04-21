@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xamarin.Forms;
 
 namespace HealthyMeal.Models
 {
@@ -26,7 +27,9 @@ namespace HealthyMeal.Models
         public MealType Type { get; set; }
 
         #nullable enable
-        public byte[]? Icon { get; set; }
+        public byte[]? IconBytes { get; set; }
+
+        public ImageSource? Icon { get; set; }
 
         public int CountMeals => _countMeals;
 

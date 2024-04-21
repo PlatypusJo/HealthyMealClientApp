@@ -5,12 +5,15 @@
              xmlns:vm ="clr-namespace:HealthyMeal.ViewModels"
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HealthyMeal.Views.DiaryPage"             
              Title="Дневник"
              IconImageSource="iconDiary.png">
 
     <ContentPage.Resources>
-
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
     </ContentPage.Resources>
 
     <!--<ContentPage.BindingContext>

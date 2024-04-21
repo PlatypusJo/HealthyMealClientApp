@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Xamarin.Forms;
 
 namespace HealthyMeal.Models
 {
@@ -19,7 +20,9 @@ namespace HealthyMeal.Models
         public string Description { get; set; }
 
         #nullable enable
-        public byte[]? Image { get; set; }
+        public byte[]? ImageBytes { get; set; }
+
+        public ImageSource? Image { get; set; }
 
         public string DefaultUnitsName { get; set; } = null!;
 

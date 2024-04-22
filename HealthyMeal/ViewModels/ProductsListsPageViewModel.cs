@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
 using System;
 using System.Collections.Generic;
@@ -13,79 +14,37 @@ namespace HealthyMeal.ViewModels
 {
     public partial class ProductsListsPageViewModel : BaseViewModel
     {
-        #region Поля и свойства
+        #region Поля
 
         private readonly int _pageSize = 11;
-
-        private int _pageIndex = 1;
-        public int PageIndex
-        { 
-            get => _pageIndex;
-            set 
-            { 
-                _pageIndex = value; 
-                NotifyPropertyChanged(nameof(PageIndex));
-            }
-        }
-
-        private bool _isVisible = true;
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                _isVisible = value;
-                NotifyPropertyChanged(nameof(IsVisible));
-            }
-        }
-
-        private bool _isVisibleToNext;
-        public bool IsVisibleToNext
-        {
-            get => _isVisibleToNext;
-            set
-            {
-                _isVisibleToNext = value;
-                NotifyPropertyChanged(nameof(IsVisibleToNext));
-            }
-        }
         
-        private bool _isVisibleToPrevious;
-        public bool IsVisibleToPrevious
-        {
-            get => _isVisibleToPrevious;
-            set
-            {
-                _isVisibleToPrevious = value;
-                NotifyPropertyChanged(nameof(IsVisibleToPrevious));
-            }
-        }
-
         private List<ProductToBuyModel> _productsToBuy;
+
+        #endregion
+
+        #region ObservableProperties
+
+        [ObservableProperty]
+        private int _pageIndex = 1;
+
+        [ObservableProperty]
+        private bool _isVisible = true;
+
+        [ObservableProperty]
+        private bool _isVisibleToNext;
+
+        [ObservableProperty]
+        private bool _isVisibleToPrevious;
+
+        #endregion
+
+        #region Свойства
 
         public ObservableCollection<ProductToBuyModel> ProductsToBuy { get; set; }
 
-        public ICommand NextPageCommand { get; private set; }
-        public ICommand BackPageCommand { get; private set; }
-
         #endregion
 
-        #region Конструкторы
-
-        public ProductsListsPageViewModel()
-        {
-            NextPageCommand = new Command(NextPage);
-            BackPageCommand = new Command(BackPage);
-            LoadProducts();
-            _isVisible = _productsToBuy.Count > 0;
-            _isVisibleToPrevious = !(_pageIndex == 1);
-            _isVisibleToNext = !(_pageIndex == _productsToBuy.Count / _pageSize + 1);
-
-        }
-
-        #endregion
-
-        #region Методы
+        #region Команды
 
         [RelayCommand]
         private void CheckBoxChanged(object arg)
@@ -98,15 +57,47 @@ namespace HealthyMeal.ViewModels
             }
         }
 
-        public void NextPage()
+        [RelayCommand]
+        private void NextPage()
         {
-            SwitchPageAndReloadData(_pageIndex + 1);
+            SwitchPageAndReloadData(PageIndex + 1);
         }
 
-        public void BackPage()
+        [RelayCommand]
+        private void BackPage()
         {
-            SwitchPageAndReloadData(_pageIndex - 1);
+            SwitchPageAndReloadData(PageIndex - 1);
         }
+
+        [RelayCommand]
+        private void ItemTapped(ProductToBuyModel item)
+        {
+            if (item == null)
+                return;
+        }
+
+        #endregion
+        
+        #region Конструкторы
+
+        public ProductsListsPageViewModel()
+        {
+            LoadProducts();
+            _isVisible = _productsToBuy.Count > 0;
+            _isVisibleToPrevious = !(_pageIndex == 1);
+            _isVisibleToNext = !(_pageIndex == _productsToBuy.Count / _pageSize + 1);
+
+        }
+
+        #endregion
+
+        #region Методы
+
+       
+
+        #endregion
+
+        #region Внутренние методы
 
         private void SwitchPageAndReloadData(int pageNumber)
         {
@@ -160,13 +151,6 @@ namespace HealthyMeal.ViewModels
             {
                 ProductsToBuy.Add(_productsToBuy[i]);
             }
-        }
-
-        [RelayCommand]
-        void ItemTapped(ProductToBuyModel item)
-        {
-            if (item == null)
-                return;
         }
 
         #endregion

@@ -6,9 +6,34 @@ using System.Text;
 
 namespace HealthyMeal.ViewModels
 {
-    public class MenuPageViewModel
+    public partial class MenuPageViewModel : BaseViewModel
     {
+        #region Поля
+
         ObservableCollection<RecipeModel> _recipes;
+
+        #endregion
+
+        #region ObservableProperties
+
+        #endregion
+
+        #region Свойства
+
+        public ObservableCollection<RecipeModel> Recipes 
+        {
+            get => _recipes; 
+        }
+
+        #endregion
+
+        #region Команды
+
+
+
+        #endregion
+
+        #region Конструктор
 
         public MenuPageViewModel() 
         {
@@ -37,9 +62,18 @@ namespace HealthyMeal.ViewModels
             };
         }
 
-        public ObservableCollection<RecipeModel> Recipes 
-        {
-            get => _recipes; 
-        }
+        #endregion
+
+        #region Методы
+
+
+
+        #endregion
+
+        #region Внутренние методы
+
+
+
+        #endregion
     }
 }

@@ -12,6 +12,12 @@ namespace HealthyMeal.ViewModels
     {
         #region Команды
 
+        [RelayCommand]
+        private async Task GoBack()
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
+
         #endregion
 
         #region Коструктор
@@ -25,11 +31,7 @@ namespace HealthyMeal.ViewModels
 
         #region Методы
 
-        [RelayCommand]
-        private async Task GoBack()
-        {
-            await Shell.Current.GoToAsync($"..");
-        }
+        
 
         #endregion
     }

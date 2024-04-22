@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,12 +35,12 @@ namespace HealthyMeal.Controls
             false);
         public static readonly BindableProperty NextPageCommandProperty = BindableProperty.Create(
             nameof(NextPageCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(PageNavigator),
             null);
         public static readonly BindableProperty BackPageCommandProperty = BindableProperty.Create(
             nameof(BackPageCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(PageNavigator),
             null);
 
@@ -63,19 +64,19 @@ namespace HealthyMeal.Controls
             get => (bool)GetValue(IsVisibleToPreviousProperty);
             set => SetValue(IsVisibleToPreviousProperty, value);
         }
-        public Command NextPageCommand
+        public IRelayCommand NextPageCommand
         {
             get
             {
-                return (Command)GetValue(NextPageCommandProperty);
+                return (IRelayCommand)GetValue(NextPageCommandProperty);
             }
             set => SetValue(NextPageCommandProperty, value);
         }
-        public Command BackPageCommand
+        public IRelayCommand BackPageCommand
         {
             get
             {
-                return (Command)GetValue(BackPageCommandProperty);
+                return (IRelayCommand)GetValue(BackPageCommandProperty);
             }
             set => SetValue(BackPageCommandProperty, value);
         }

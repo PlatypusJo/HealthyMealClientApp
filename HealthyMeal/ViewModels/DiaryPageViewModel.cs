@@ -9,6 +9,7 @@ using SkiaSharp;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using HealthyMeal.Utils;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace HealthyMeal.ViewModels
 {
@@ -16,53 +17,38 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
+
+
+        #endregion
+
+        #region ObservableProperties
+
+        [ObservableProperty]
         private DonutChart _chart;
 
+        [ObservableProperty]
         private double _proteinsAmount = 250;
 
+        [ObservableProperty]
         private double _fatsAmount = 150;
 
+        [ObservableProperty]
         private double _carbohydratesAmount = 600;
 
         #endregion
 
         #region Свойства
 
-        public DonutChart Chart
-        {
-            get => _chart;
-            set
-            {
-                _chart = value;
-                NotifyPropertyChanged(nameof(Chart));
-            }
-        }
+        
 
-        public double ProteinsAmount
+        #endregion
+
+        #region Команды
+
+        [RelayCommand]
+        private async Task OpenFoodPage()
         {
-            get => _proteinsAmount;
-            set
-            {
-                _proteinsAmount = value;
-            }
-        }
-        
-        public double FatsAmount
-        {
-            get => _fatsAmount;
-            set
-            {
-                _fatsAmount = value;
-            }
-        }
-        
-        public double CarbohydratesAmount
-        {
-            get => _carbohydratesAmount;
-            set
-            {
-                _carbohydratesAmount = value;
-            }
+            await Shell.Current.GoToAsync($"{nameof(FoodPage)}");
         }
 
         #endregion
@@ -78,12 +64,18 @@ namespace HealthyMeal.ViewModels
 
         #region Методы
 
+
+
+        #endregion
+
+        #region Внутренние методы
+
         private void LoadDiagramData()
         {
             double nutrientsTotalAmount = ProteinsAmount + FatsAmount + CarbohydratesAmount;
-            float proteinsPercent = (float)Math.Round(_proteinsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
-            float fatsPercent = (float)Math.Round(_fatsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
-            float carbohydratesPercent = (float)Math.Round(_carbohydratesAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
+            float proteinsPercent = (float)Math.Round(ProteinsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
+            float fatsPercent = (float)Math.Round(FatsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
+            float carbohydratesPercent = (float)Math.Round(CarbohydratesAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
             List<ChartEntry> chartEntries = new List<ChartEntry> 
             { 
                 new ChartEntry(proteinsPercent)
@@ -121,11 +113,7 @@ namespace HealthyMeal.ViewModels
             };
         }
 
-        [RelayCommand]
-        private async Task OpenFoodPage()
-        {
-            await Shell.Current.GoToAsync($"{nameof(FoodPage)}");
-        }
+        
 
         #endregion
     }

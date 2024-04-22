@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
 using HealthyMeal.Views;
 using System;
@@ -15,59 +16,27 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
-        private int _pageIndex = 1;
-
-        private bool _isVisible = true;
-
-        private bool _isVisibleToNext;
-
-        private bool _isVisibleToPrevious;
-
         ObservableCollection<FoodModel> _foods;
 
         #endregion
 
+        #region ObservableProperties
+
+        [ObservableProperty]
+        private int _pageIndex = 1;
+
+        [ObservableProperty]
+        private bool _isVisible = true;
+
+        [ObservableProperty]
+        private bool _isVisibleToNext;
+
+        [ObservableProperty]
+        private bool _isVisibleToPrevious;
+
+        #endregion
+
         #region Свойства
-
-        public int PageIndex
-        {
-            get => _pageIndex;
-            set
-            {
-                _pageIndex = value;
-                NotifyPropertyChanged(nameof(PageIndex));
-            }
-        }
-
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                _isVisible = value;
-                NotifyPropertyChanged(nameof(IsVisible));
-            }
-        }
-
-        public bool IsVisibleToNext
-        {
-            get => _isVisibleToNext;
-            set
-            {
-                _isVisibleToNext = value;
-                NotifyPropertyChanged(nameof(IsVisibleToNext));
-            }
-        }
-
-        public bool IsVisibleToPrevious
-        {
-            get => _isVisibleToPrevious;
-            set
-            {
-                _isVisibleToPrevious = value;
-                NotifyPropertyChanged(nameof(IsVisibleToPrevious));
-            }
-        }
 
         public ObservableCollection<FoodModel> Foods
         {
@@ -77,6 +46,18 @@ namespace HealthyMeal.ViewModels
         #endregion
 
         #region Команды
+
+        [RelayCommand]
+        private async Task GoBack()
+        {
+            await Shell.Current.GoToAsync($"..");
+        }
+
+        [RelayCommand]
+        private async Task OpenSavingFoodPage(FoodModel food)
+        {
+            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}");
+        }
 
         public ICommand NextPageCommand { get; private set; }
 
@@ -98,17 +79,7 @@ namespace HealthyMeal.ViewModels
 
         #region Методы
 
-        [RelayCommand]
-        private async Task GoBack()
-        {
-            await Shell.Current.GoToAsync($"..");
-        }
-
-        [RelayCommand]
-        private async Task OpenSavingFoodPage(FoodModel food)
-        {
-            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}");
-        }
+        
 
         #endregion
 

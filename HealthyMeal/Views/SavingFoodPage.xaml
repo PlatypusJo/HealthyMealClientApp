@@ -34,7 +34,9 @@
                             <Label Style="{DynamicResource LargeText}"
                                    Margin="10, 0, 0, 0"
                                    Text="Название блюда"
-                                   VerticalOptions="Center"/>
+                                   VerticalOptions="Center"
+                                   LineBreakMode="WordWrap"
+                                   MaxLines="2"/>
                         </StackLayout>
                         <Frame BackgroundColor="DarkGray"
                                HeightRequest="200">

@@ -1,4 +1,5 @@
-﻿using HealthyMeal.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using HealthyMeal.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,63 +8,31 @@ using System.Windows.Input;
 
 namespace HealthyMeal.ViewModels
 {
-    public class RecipesPageViewModel : BaseViewModel
+    public partial class RecipesPageViewModel : BaseViewModel
     {
         #region Поля
-
-        private int _pageIndex = 1;
-
-        private bool _isVisible = true;
-
-        private bool _isVisibleToNext;
-
-        private bool _isVisibleToPrevious;
 
         ObservableCollection<RecipeModel> _recipes;
 
         #endregion
 
-        #region Свойства
+        #region ObservableProperties
 
-        public int PageIndex
-        {
-            get => _pageIndex;
-            set
-            {
-                _pageIndex = value;
-                NotifyPropertyChanged(nameof(PageIndex));
-            }
-        }
-        
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set
-            {
-                _isVisible = value;
-                NotifyPropertyChanged(nameof(IsVisible));
-            }
-        }
-        
-        public bool IsVisibleToNext
-        {
-            get => _isVisibleToNext;
-            set
-            {
-                _isVisibleToNext = value;
-                NotifyPropertyChanged(nameof(IsVisibleToNext));
-            }
-        }
-        
-        public bool IsVisibleToPrevious
-        {
-            get => _isVisibleToPrevious;
-            set
-            {
-                _isVisibleToPrevious = value;
-                NotifyPropertyChanged(nameof(IsVisibleToPrevious));
-            }
-        }
+        [ObservableProperty]
+        private int _pageIndex = 1;
+
+        [ObservableProperty]
+        private bool _isVisible = true;
+
+        [ObservableProperty]
+        private bool _isVisibleToNext;
+
+        [ObservableProperty]
+        private bool _isVisibleToPrevious;
+
+        #endregion
+
+        #region Свойства
 
         public ObservableCollection<RecipeModel> Recipes
         {

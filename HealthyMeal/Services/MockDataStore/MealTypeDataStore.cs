@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthyMeal.Services.Classes
+namespace HealthyMeal.Services.MockDataStore
 {
     public class MealTypeDataStore : IDataStore<MealTypeModel>
     {
@@ -21,25 +21,21 @@ namespace HealthyMeal.Services.Classes
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Завтрак",
-                    Type = MealTypesProvider.Provide("Завтрак"),
                 },
                 new()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Обед",
-                    Type = MealTypesProvider.Provide("Обед"),
                 },
                 new()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Ужин",
-                    Type = MealTypesProvider.Provide("Ужин"),
                 },
                 new()
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Перекус",
-                    Type = MealTypesProvider.Provide("Перекус"),
                 }
                 ];
         }
@@ -64,7 +60,7 @@ namespace HealthyMeal.Services.Classes
             return await Task.FromResult(_data.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<MealTypeModel>> GetAllItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<MealTypeModel>> GetAllItemsAsync()
         {
             return await Task.FromResult(_data);
         }

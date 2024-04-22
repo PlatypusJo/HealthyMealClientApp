@@ -24,7 +24,7 @@ namespace HealthyMeal.Models
 
         public string Name { get; set; }
 
-        public MealType Type { get; set; }
+        public MealType Type => MealTypesProvider.Provide(Name);
 
         #nullable enable
         public byte[]? Icon { get; set; }

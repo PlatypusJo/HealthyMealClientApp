@@ -16,7 +16,7 @@ namespace HealthyMeal.Utils
     {
         #region Поля
 
-        public static readonly Dictionary<string, MealType> _dictionary = [];
+        private static readonly Dictionary<string, MealType> _dictionary = [];
 
         #endregion
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthyMeal.Services.Classes
+namespace HealthyMeal.Services.MockDataStore
 {
     public class UnitsDataStore : IDataStore<UnitsModel>
     {
@@ -78,7 +78,7 @@ namespace HealthyMeal.Services.Classes
             return await Task.FromResult(_data.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<UnitsModel>> GetAllItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<UnitsModel>> GetAllItemsAsync()
         {
             return await Task.FromResult(_data);
         }

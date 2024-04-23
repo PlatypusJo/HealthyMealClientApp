@@ -35,7 +35,7 @@ namespace HealthyMeal.Models
         {
             get => CookingTime.TotalMinutes <= 59 ? 
                 CookingTime.ToString("%m") + " мин " : 
-                CookingTime.TotalHours.ToString() + " ч " + CookingTime.ToString("%m") + " мин ";
+                (CookingTime.Days * 24 + CookingTime.Hours).ToString() + " ч " + CookingTime.ToString("%m") + " мин ";
         }
 
         #endregion

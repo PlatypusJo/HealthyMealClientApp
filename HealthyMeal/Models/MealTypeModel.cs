@@ -38,7 +38,7 @@ namespace HealthyMeal.Models
 
         #region Методы
 
-        public void CalcKcalCount(IReadOnlyList<IModelWithMealType> nutritionalValues)
+        public void CalcKcalCount(IReadOnlyList<IMealNutritionalValue> nutritionalValues)
         {
             nutritionalValues = nutritionalValues.Where(n => n.MealTypeId == Id).ToList();
             _kcalCount = nutritionalValues.Sum(n => n.Kcal);

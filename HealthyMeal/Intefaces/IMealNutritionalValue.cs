@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HealthyMeal.Intefaces
 {
-    public interface IModelWithMealType : INutritionalValue
+    public interface IMealNutritionalValue : INutritionalValue
     {
         string MealTypeId { get; set; }
     }

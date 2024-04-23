@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HealthyMeal.Models
 {
-    public class MealModel : IModelWithMealType
+    public class MealModel : IMealNutritionalValue
     {
         public string Id { get; set; } = null!;
 

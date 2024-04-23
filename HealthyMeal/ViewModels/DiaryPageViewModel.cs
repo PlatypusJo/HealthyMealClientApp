@@ -59,7 +59,7 @@ namespace HealthyMeal.ViewModels
             {
                 _date = value;
                 DateFormat = DateTime.Now.Year != _date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
-                LoadDataByDate();
+                LoadDataByDateAsync();
                 OnPropertyChanged(nameof(Date));
             }
         }
@@ -117,7 +117,7 @@ namespace HealthyMeal.ViewModels
                 Height = 176,
                 Weight = 73,
             };
-            _mealTypes = GlobalDataStore.MealTypes.GetAllItemsAsync().Result;
+            LoadMealTypesAsync();
             DateTime today = DateTime.Now;
             Date = new DateTime(today.Year, today.Month, today.Day);
         }
@@ -126,13 +126,16 @@ namespace HealthyMeal.ViewModels
 
         #region Методы
 
-
+        public void LoadDataAfterNavigation()
+        {
+            LoadDataByDateAsync();
+        }
 
         #endregion
 
         #region Внутренние методы
 
-        private void LoadDiagramData(IReadOnlyList<INutritionalValue> nutritionalValues)
+        private void LoadChartData(IReadOnlyList<INutritionalValue> nutritionalValues)
         {
             ProteinsAmount = nutritionalValues.Sum(n => n.Proteins);
             FatsAmount = nutritionalValues.Sum(n => n.Fats);
@@ -180,9 +183,9 @@ namespace HealthyMeal.ViewModels
             };
         }
 
-        private void LoadDataByDate()
+        private async void LoadDataByDateAsync()
         {
-            List<MealModel> meals = GlobalDataStore.Meals.GetAllItemsAsync().Result;
+            List<MealModel> meals = await GlobalDataStore.Meals.GetAllItemsAsync();
             meals = meals.Where(x => x.Date == Date).ToList();
 
             Breakfast.CalcKcalCount(meals);
@@ -191,7 +194,12 @@ namespace HealthyMeal.ViewModels
             Snack.CalcKcalCount(meals);
             KcalConsumed = meals.Sum(m => m.Kcal);
 
-            LoadDiagramData(meals);
+            LoadChartData(meals);
+        }
+
+        private async void LoadMealTypesAsync()
+        {
+            _mealTypes = await GlobalDataStore.MealTypes.GetAllItemsAsync();
         }
 
         #endregion

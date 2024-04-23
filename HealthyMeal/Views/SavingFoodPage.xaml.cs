@@ -12,11 +12,11 @@ namespace HealthyMeal.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SavingFoodPage : ContentPage
     {
-        SavingFoodPageViewModel _vm;
+        private static SavingFoodPageViewModel _vm = new();
         public SavingFoodPage()
         {
             InitializeComponent();
-            BindingContext = _vm = new SavingFoodPageViewModel();
+            BindingContext = _vm;
         }
     }
 }

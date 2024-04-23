@@ -60,7 +60,7 @@ namespace HealthyMeal.Services.MockDataStore
             return await Task.FromResult(_data.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<MealTypeModel>> GetAllItemsAsync()
+        public async Task<List<MealTypeModel>> GetAllItemsAsync()
         {
             return await Task.FromResult(_data);
         }

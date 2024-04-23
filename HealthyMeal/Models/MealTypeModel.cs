@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
+using static Xamarin.Essentials.Permissions;
 
 namespace HealthyMeal.Models
 {
@@ -37,9 +38,10 @@ namespace HealthyMeal.Models
 
         #region Методы
 
-        public void CalcKcalCount(IReadOnlyList<INutritionalValue> nutritionalValues)
+        public void CalcKcalCount(IReadOnlyList<IModelWithMealType> nutritionalValues)
         {
-            _kcalCount = nutritionalValues.Sum(x => x.Kcal);
+            nutritionalValues = nutritionalValues.Where(n => n.MealTypeId == Id).ToList();
+            _kcalCount = nutritionalValues.Sum(n => n.Kcal);
             _countMeals = nutritionalValues.Count();
         }
 

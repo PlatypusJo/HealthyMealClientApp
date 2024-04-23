@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using HealthyMeal.Services.Interfaces;
+using HealthyMeal.Services.MockDataStore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,6 @@ namespace HealthyMeal.ViewModels
 {
     public class BaseViewModel : ObservableObject
     {
-        protected static IGlobalDataStore GlobalDataStore => DependencyService.Get<IGlobalDataStore>();
+        protected static IGlobalDataStore GlobalDataStore = new GlobalDataStore();
     }
 }

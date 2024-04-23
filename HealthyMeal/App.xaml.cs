@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthyMeal.Utils;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -9,7 +10,7 @@ namespace HealthyMeal
         public App()
         {
             InitializeComponent();
-
+            MealTypesProvider.RegisterAll();
             MainPage = new AppShell();
         }
 

@@ -10,6 +10,9 @@ using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using HealthyMeal.Utils;
 using CommunityToolkit.Mvvm.ComponentModel;
+using HealthyMeal.Models;
+using System.Linq;
+using HealthyMeal.Intefaces;
 
 namespace HealthyMeal.ViewModels
 {
@@ -17,7 +20,11 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
+        private UserModel _user;
 
+        private DateTime _date;
+
+        private List<MealTypeModel> _mealTypes;
 
         #endregion
 
@@ -27,26 +34,68 @@ namespace HealthyMeal.ViewModels
         private DonutChart _chart;
 
         [ObservableProperty]
-        private double _proteinsAmount = 250;
+        private double _proteinsAmount;
 
         [ObservableProperty]
-        private double _fatsAmount = 150;
+        private double _fatsAmount;
 
         [ObservableProperty]
-        private double _carbohydratesAmount = 600;
+        private double _carbohydratesAmount;
+
+        [ObservableProperty]
+        private string _dateFormat;
+
+        [ObservableProperty]
+        private double _kcalConsumed;
 
         #endregion
 
         #region Свойства
 
-        
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                DateFormat = DateTime.Now.Year != _date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
+                LoadDataByDate();
+                OnPropertyChanged(nameof(Date));
+            }
+        }
+
+        public MealTypeModel Breakfast
+        {
+            get => _mealTypes.Find(m => m.Type == MealType.Breakfast);
+        }
+
+        public MealTypeModel Lunch
+        {
+            get => _mealTypes.Find(m => m.Type == MealType.Lunch);
+        }
+
+        public MealTypeModel Dinner
+        {
+            get => _mealTypes.Find(m => m.Type == MealType.Dinner);
+        }
+
+        public MealTypeModel Snack
+        {
+            get => _mealTypes.Find(m => m.Type == MealType.Snack);
+        }
+
+        public double KcalAmountGoal => _user.KcalAmountGoal;
+
+        public double KcalRemainder => _user.KcalAmountGoal - KcalConsumed;
+
+        public double RdcPercent => KcalConsumed * 100 / _user.Rdc;
 
         #endregion
 
         #region Команды
 
         [RelayCommand]
-        private async Task OpenFoodPage()
+        private async Task OpenFoodPage(MealTypeModel mealType)
         {
             await Shell.Current.GoToAsync($"{nameof(FoodPage)}");
         }
@@ -57,7 +106,20 @@ namespace HealthyMeal.ViewModels
 
         public DiaryPageViewModel() 
         {
-            LoadDiagramData();
+            _user = new()
+            {
+                Id = "1",
+                Name = "Иван",
+                Login = "LoVan",
+                Rdc = 2500,
+                KcalAmountGoal = 2000,
+                Age = 25,
+                Height = 176,
+                Weight = 73,
+            };
+            _mealTypes = GlobalDataStore.MealTypes.GetAllItemsAsync().Result;
+            DateTime today = DateTime.Now;
+            Date = new DateTime(today.Year, today.Month, today.Day);
         }
 
         #endregion
@@ -70,15 +132,20 @@ namespace HealthyMeal.ViewModels
 
         #region Внутренние методы
 
-        private void LoadDiagramData()
+        private void LoadDiagramData(IReadOnlyList<INutritionalValue> nutritionalValues)
         {
+            ProteinsAmount = nutritionalValues.Sum(n => n.Proteins);
+            FatsAmount = nutritionalValues.Sum(n => n.Fats);
+            CarbohydratesAmount = nutritionalValues.Sum(n => n.Carbohydrates);
+
             double nutrientsTotalAmount = ProteinsAmount + FatsAmount + CarbohydratesAmount;
             float proteinsPercent = (float)Math.Round(ProteinsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
             float fatsPercent = (float)Math.Round(FatsAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
             float carbohydratesPercent = (float)Math.Round(CarbohydratesAmount.ToPercentage(nutrientsTotalAmount), 1, MidpointRounding.AwayFromZero);
-            List<ChartEntry> chartEntries = new List<ChartEntry> 
-            { 
-                new ChartEntry(proteinsPercent)
+
+            List<ChartEntry> chartEntries =
+            [
+                new(proteinsPercent)
                 {
                     Label = "Белки",
                     ValueLabel = proteinsPercent.ToString() + "%",
@@ -86,7 +153,7 @@ namespace HealthyMeal.ViewModels
                     ValueLabelColor = SKColor.Parse("#E30956"),
                     TextColor = SKColor.Parse("#000000")
                 },
-                new ChartEntry(fatsPercent)
+                new(fatsPercent)
                 {
                     Label = "Жиры",
                     ValueLabel = fatsPercent.ToString() + "%",
@@ -94,7 +161,7 @@ namespace HealthyMeal.ViewModels
                     ValueLabelColor = SKColor.Parse("#FFD40B"),
                     TextColor = SKColor.Parse("#000000")
                 },
-                new ChartEntry(carbohydratesPercent)
+                new(carbohydratesPercent)
                 {
                     Label = "Углеводы",
                     ValueLabel = carbohydratesPercent.ToString() + "%",
@@ -102,7 +169,7 @@ namespace HealthyMeal.ViewModels
                     ValueLabelColor = SKColor.Parse("#1753B1"),
                     TextColor = SKColor.Parse("#000000")
                 },
-            };
+            ];
 
             Chart = new DonutChart 
             { 
@@ -113,7 +180,19 @@ namespace HealthyMeal.ViewModels
             };
         }
 
-        
+        private void LoadDataByDate()
+        {
+            List<MealModel> meals = GlobalDataStore.Meals.GetAllItemsAsync().Result;
+            meals = meals.Where(x => x.Date == Date).ToList();
+
+            Breakfast.CalcKcalCount(meals);
+            Lunch.CalcKcalCount(meals);
+            Dinner.CalcKcalCount(meals);
+            Snack.CalcKcalCount(meals);
+            KcalConsumed = meals.Sum(m => m.Kcal);
+
+            LoadDiagramData(meals);
+        }
 
         #endregion
     }

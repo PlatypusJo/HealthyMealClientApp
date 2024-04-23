@@ -21,11 +21,13 @@
     </ContentPage.BindingContext>-->
 
     <ContentPage.Content>
-        <StackLayout x:DataType="vm:DiaryPageViewModel" Spacing="0" BackgroundColor="{DynamicResource PageBackgroundColor}">
+        <StackLayout Spacing="0" BackgroundColor="{DynamicResource PageBackgroundColor}">
 
             <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <DatePicker Style="{DynamicResource DefaultDatePicker}"
-                            HorizontalOptions="FillAndExpand"/>
+                            HorizontalOptions="FillAndExpand"
+                            Date="{Binding Date}"
+                            Format="{Binding DateFormat}"/>
                 <Button Style="{DynamicResource RoundButtonPrimaryColor}"
                         ImageSource="diary.png"
                         HorizontalOptions="End"/>
@@ -35,19 +37,19 @@
 
                 <StackLayout>
 
-                    <StackLayout x:Name="Summary" Padding="10">
+                    <StackLayout x:DataType="vm:DiaryPageViewModel" x:Name="Summary" Padding="10">
                         <Frame CornerRadius="10">
                             <StackLayout>
                                 <Label Style="{DynamicResource LargeText}"
                                        Text="Сводка" 
                                        Margin="0, 0, 0, 5"
                                        HorizontalOptions="StartAndExpand"/>
-                                <controls:StatisticsLine Name="Цель" Value="2500" UnitsName="Ккал"/>
-                                <controls:StatisticsLine Name="Употреблено калорий" Value="505" UnitsName="Ккал"/>
-                                <controls:StatisticsLine Name="Осталось употребить" Value="1995" UnitsName="Ккал"/>
+                                <controls:StatisticsLine Name="Цель" Value="{Binding KcalAmountGoal}" UnitsName="Ккал"/>
+                                <controls:StatisticsLine Name="Употреблено калорий" Value="{Binding KcalConsumed}" UnitsName="Ккал"/>
+                                <controls:StatisticsLine Name="Осталось употребить" Value="{Binding KcalRemainder}" UnitsName="Ккал"/>
                                 <BoxView BackgroundColor="LightGray"
                                          HeightRequest="1"/>
-                                <controls:StatisticsLine Name="От РСК" Value="25.25" UnitsName="%"/>
+                                <controls:StatisticsLine Name="От РСК" Value="{Binding RdcPercent}" UnitsName="%"/>
                             </StackLayout>
                         </Frame>
                     </StackLayout>
@@ -56,33 +58,41 @@
                                  Padding="10"
                                  Spacing="20">
 
-                        <controls:MealInfoElement Icon="breakfast.png"
-                                                  MealTypeName="Завтрак"
-                                                  KcalValue="100"
-                                                  FoodAmount="4"
-                                                  ButtonCommand="{Binding OpenFoodPageCommand}"/>
+                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Breakfast}"
+                                                  Icon="breakfast.png"
+                                                  MealTypeName="{Binding Name}"
+                                                  KcalValue="{Binding KcalCount}"
+                                                  FoodAmount="{Binding CountMeals}"
+                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
+                                                  ButtonCommandParameter="{Binding .}"/>
 
-                        <controls:MealInfoElement Icon="lunch.png"
-                                                  MealTypeName="Обед"
-                                                  KcalValue="105"
-                                                  FoodAmount="1"
-                                                  ButtonCommand="{Binding OpenFoodPageCommand}"/>
-                        
-                        <controls:MealInfoElement Icon="dinner.png"
-                                                  MealTypeName="Ужин"
-                                                  KcalValue="0"
-                                                  FoodAmount="0"
-                                                  ButtonCommand="{Binding OpenFoodPageCommand}"/>
+                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Lunch}"
+                                                  Icon="lunch.png"
+                                                  MealTypeName="{Binding Name}"
+                                                  KcalValue="{Binding KcalCount}"
+                                                  FoodAmount="{Binding CountMeals}"
+                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
+                                                  ButtonCommandParameter="{Binding .}"/>
 
-                        <controls:MealInfoElement Icon="snack.png"
-                                                  MealTypeName="Перекус"
-                                                  KcalValue="300"
-                                                  FoodAmount="10"
-                                                  ButtonCommand="{Binding OpenFoodPageCommand}"/>
+                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Dinner}"
+                                                  Icon="dinner.png"
+                                                  MealTypeName="{Binding Name}"
+                                                  KcalValue="{Binding KcalCount}"
+                                                  FoodAmount="{Binding CountMeals}"
+                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
+                                                  ButtonCommandParameter="{Binding .}"/>
+
+                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Snack}"
+                                                  Icon="snack.png"
+                                                  MealTypeName="{Binding Name}"
+                                                  KcalValue="{Binding KcalCount}"
+                                                  FoodAmount="{Binding CountMeals}"
+                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
+                                                  ButtonCommandParameter="{Binding .}"/>
 
                     </StackLayout>
 
-                    <StackLayout x:Name="Statistics" Padding="10" Spacing="20">
+                    <StackLayout x:DataType="vm:DiaryPageViewModel" x:Name="Statistics" Padding="10" Spacing="20">
                         <Frame CornerRadius="10">
                             <StackLayout>
                                 <StackLayout>

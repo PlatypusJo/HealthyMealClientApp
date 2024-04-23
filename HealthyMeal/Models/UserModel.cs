@@ -17,7 +17,7 @@ namespace HealthyMeal.Models
 
         public string Login { get; set; }
 
-        public double RDC { get; set; }
+        public double Rdc { get; set; }
 
         public double KcalAmountGoal { get; set; }
 

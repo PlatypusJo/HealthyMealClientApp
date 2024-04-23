@@ -14,7 +14,7 @@ namespace HealthyMeal.Services.MockDataStore
 
         public MealDataStore()
         {
-
+            _data = [];
         }
 
         public async Task<bool> AddItemAsync(MealModel item)
@@ -37,7 +37,7 @@ namespace HealthyMeal.Services.MockDataStore
             return await Task.FromResult(_data.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<MealModel>> GetAllItemsAsync()
+        public async Task<List<MealModel>> GetAllItemsAsync()
         {
             return await Task.FromResult(_data);
         }

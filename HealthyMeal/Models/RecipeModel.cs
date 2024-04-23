@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace HealthyMeal.Models
 {
-    public class RecipeModel : BaseNutritionalValueModel
+    public class RecipeModel : BaseNutritionalValueModel, IModelWithMealType
     {
         #region Свойства
 

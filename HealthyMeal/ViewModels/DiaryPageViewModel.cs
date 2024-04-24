@@ -13,10 +13,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using HealthyMeal.Models;
 using System.Linq;
 using HealthyMeal.Intefaces;
+using System.Web;
 
 namespace HealthyMeal.ViewModels
 {
-    public partial class DiaryPageViewModel : BaseViewModel
+    public partial class DiaryPageViewModel : BaseViewModel, IQueryAttributable
     {
         #region Поля
 
@@ -24,11 +25,12 @@ namespace HealthyMeal.ViewModels
 
         private DateTime _date;
 
-        private List<MealTypeModel> _mealTypes;
-
         #endregion
 
         #region ObservableProperties
+
+        [ObservableProperty]
+        private List<MealTypeModel> _mealTypes;
 
         [ObservableProperty]
         private DonutChart _chart;
@@ -64,26 +66,6 @@ namespace HealthyMeal.ViewModels
             }
         }
 
-        public MealTypeModel Breakfast
-        {
-            get => _mealTypes.Find(m => m.Type == MealType.Breakfast);
-        }
-
-        public MealTypeModel Lunch
-        {
-            get => _mealTypes.Find(m => m.Type == MealType.Lunch);
-        }
-
-        public MealTypeModel Dinner
-        {
-            get => _mealTypes.Find(m => m.Type == MealType.Dinner);
-        }
-
-        public MealTypeModel Snack
-        {
-            get => _mealTypes.Find(m => m.Type == MealType.Snack);
-        }
-
         public double KcalAmountGoal => _user.KcalAmountGoal;
 
         public double KcalRemainder => _user.KcalAmountGoal - KcalConsumed;
@@ -97,7 +79,10 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenFoodPage(MealTypeModel mealType)
         {
-            await Shell.Current.GoToAsync($"{nameof(FoodPage)}");
+            string parameter1 = NavigationParameterConverter.ObjectToPairKeyValue(mealType.Id, "MealTypeId");
+            string parameter2 = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
+            string parameter3 = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsAdd");
+            await Shell.Current.GoToAsync($"{nameof(FoodPage)}?{parameter1}&{parameter2}&{parameter3}");
         }
 
         #endregion
@@ -129,6 +114,12 @@ namespace HealthyMeal.ViewModels
         public void LoadDataAfterNavigation()
         {
             LoadDataByDateAsync();
+        }
+
+        public void ApplyQueryAttributes(IDictionary<string, string> query)
+        {
+            string date = HttpUtility.UrlDecode(query["date"]);
+            Date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
         }
 
         #endregion
@@ -188,10 +179,11 @@ namespace HealthyMeal.ViewModels
             List<MealModel> meals = await GlobalDataStore.Meals.GetAllItemsAsync();
             meals = meals.Where(x => x.Date == Date).ToList();
 
-            Breakfast.CalcKcalCount(meals);
-            Lunch.CalcKcalCount(meals);
-            Dinner.CalcKcalCount(meals);
-            Snack.CalcKcalCount(meals);
+            foreach (MealTypeModel mealType in MealTypes)
+            {
+                mealType.CalcKcalCount(meals);
+            }
+
             KcalConsumed = meals.Sum(m => m.Kcal);
 
             LoadChartData(meals);
@@ -199,7 +191,8 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadMealTypesAsync()
         {
-            _mealTypes = await GlobalDataStore.MealTypes.GetAllItemsAsync();
+            MealTypes = await GlobalDataStore.MealTypes.GetAllItemsAsync();
+            MealTypes = [.. MealTypes.OrderBy(x => x.Type)];
         }
 
         #endregion

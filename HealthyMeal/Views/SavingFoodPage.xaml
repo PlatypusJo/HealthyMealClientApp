@@ -52,12 +52,12 @@
                                    BackgroundColor="White">
                                     <StackLayout Orientation="Horizontal">
                                         <Entry VerticalOptions="Center"
-                                           HorizontalOptions="FillAndExpand"
-                                           TextColor="Black"
-                                           FontSize="16"
-                                           Placeholder="Количество съеденного"
-                                           Keyboard="Numeric"
-                                           Text="100"/>
+                                               HorizontalOptions="FillAndExpand"
+                                               TextColor="Black"
+                                               FontSize="16"
+                                               Placeholder="Количество съеденного"
+                                               Keyboard="Numeric"
+                                               Text="100"/>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>

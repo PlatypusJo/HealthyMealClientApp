@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:viewmodels="clr-namespace:HealthyMeal.ViewModels" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
              xmlns:vm ="clr-namespace:HealthyMeal.ViewModels"
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
@@ -23,7 +23,11 @@
     <ContentPage.Content>
         <StackLayout Spacing="0" BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-            <StackLayout x:Name="Date" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+            <StackLayout x:DataType="vm:DiaryPageViewModel" 
+                         x:Name="Date"
+                         Padding="10"
+                         BackgroundColor="{DynamicResource PrimaryColor}"
+                         Orientation="Horizontal">
                 <DatePicker Style="{DynamicResource DefaultDatePicker}"
                             HorizontalOptions="FillAndExpand"
                             Date="{Binding Date}"
@@ -55,41 +59,21 @@
                     </StackLayout>
 
                     <StackLayout x:Name="Eatings"
+                                 x:DataType="vm:DiaryPageViewModel"
                                  Padding="10"
-                                 Spacing="20">
-
-                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Breakfast}"
-                                                  Icon="breakfast.png"
-                                                  MealTypeName="{Binding Name}"
-                                                  KcalValue="{Binding KcalCount}"
-                                                  FoodAmount="{Binding CountMeals}"
-                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
-                                                  ButtonCommandParameter="{Binding .}"/>
-
-                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Lunch}"
-                                                  Icon="lunch.png"
-                                                  MealTypeName="{Binding Name}"
-                                                  KcalValue="{Binding KcalCount}"
-                                                  FoodAmount="{Binding CountMeals}"
-                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
-                                                  ButtonCommandParameter="{Binding .}"/>
-
-                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Dinner}"
-                                                  Icon="dinner.png"
-                                                  MealTypeName="{Binding Name}"
-                                                  KcalValue="{Binding KcalCount}"
-                                                  FoodAmount="{Binding CountMeals}"
-                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
-                                                  ButtonCommandParameter="{Binding .}"/>
-
-                        <controls:MealInfoElement BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=Snack}"
-                                                  Icon="snack.png"
-                                                  MealTypeName="{Binding Name}"
-                                                  KcalValue="{Binding KcalCount}"
-                                                  FoodAmount="{Binding CountMeals}"
-                                                  ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
-                                                  ButtonCommandParameter="{Binding .}"/>
-
+                                 Spacing="20"
+                                 BindableLayout.ItemsSource="{Binding MealTypes}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <controls:MealInfoElement x:DataType="model:MealTypeModel"
+                                                          Icon="breakfast.png"
+                                                          MealTypeName="{Binding Name}"
+                                                          KcalValue="{Binding KcalCount}"
+                                                          FoodAmount="{Binding CountMeals}"
+                                                          ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
+                                                          ButtonCommandParameter="{Binding .}"/>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
                     </StackLayout>
 
                     <StackLayout x:DataType="vm:DiaryPageViewModel" x:Name="Statistics" Padding="10" Spacing="20">

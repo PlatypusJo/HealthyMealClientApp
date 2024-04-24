@@ -8,19 +8,22 @@
              x:Class="HealthyMeal.Views.FoodPage">
     <ContentPage.Content>
         <StackLayout x:DataType="vm:FoodPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
-            
-            <StackLayout x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+
+            <StackLayout x:DataType="vm:FoodPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <Button Style="{DynamicResource RoundButtonPrimaryColor}"
                         HorizontalOptions="Start"
                         ImageSource="back.png"
                         Command="{Binding GoBackCommand}"/>
-                <Picker TextColor="{DynamicResource MainColor}"
+                <Picker ItemsSource="{Binding MealTypes}"
+                        SelectedItem="{Binding SelectedMealType}"
+                        ItemDisplayBinding="{Binding Name}"
+                        TextColor="{DynamicResource MainColor}"
                         FontSize="20"
                         FontAttributes="Bold"
                         WidthRequest="150"
                         HorizontalTextAlignment="Center"
                         HorizontalOptions="CenterAndExpand"/>
-                <Label Text="12.01,пт"
+                <Label Text="{Binding Day}"
                        TextColor="{DynamicResource MainColor}"
                        FontSize="16"
                        WidthRequest="50" 
@@ -46,7 +49,7 @@
             </StackLayout>
             <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
             <ListView x:Name="ProductsToBuy"
-                      ItemsSource="{Binding Foods}"
+                      ItemsSource="{Binding FoodsToShow}"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -79,10 +79,10 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenFoodPage(MealTypeModel mealType)
         {
-            string parameter1 = NavigationParameterConverter.ObjectToPairKeyValue(mealType.Id, "MealTypeId");
-            string parameter2 = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
-            string parameter3 = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsAdd");
-            await Shell.Current.GoToAsync($"{nameof(FoodPage)}?{parameter1}&{parameter2}&{parameter3}");
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(mealType.Id, "MealTypeId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
+            string isAdd = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsAdd");
+            await Shell.Current.GoToAsync($"{nameof(FoodPage)}?{mealTypeId}&{date}&{isAdd}");
         }
 
         #endregion

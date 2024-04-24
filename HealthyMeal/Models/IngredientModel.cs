@@ -23,7 +23,7 @@ namespace HealthyMeal.Models
 
         public double UnitsAmount { get; set; }
 
-        public NutritionalValueModel NutritionalValue { private get; set; }
+        public NutritionalValueModel NutritionalValue { get; set; }
 
         public double Kcal => NutritionalValue.Kcal * UnitsAmount / NutritionalValue.UnitsAmount;
 

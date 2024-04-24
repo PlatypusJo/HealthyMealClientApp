@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -59,7 +60,7 @@ namespace HealthyMeal.ViewModels
 
         public string Day
         {
-            get => _date.ToString("dd.MM, ddd");
+            get => _date.ToString("dd.MM, ddd").ToUpper();
         }
 
         #endregion
@@ -75,7 +76,11 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenSavingFoodPage(FoodModel food)
         {
-            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}");
+            string mealType = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType, "MealType");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
+            string foodId = NavigationParameterConverter.ObjectToPairKeyValue(food.Id, "FoodId");
+            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
+            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{mealType}&{date}&{foodId}&{isEdit}");
         }
 
         [RelayCommand]
@@ -96,11 +101,9 @@ namespace HealthyMeal.ViewModels
 
         public FoodPageViewModel()
         {
-            LoadData();
-            _isVisible = _foodsToShow.Count > 0;
-            _isVisibleToNext = true;
-            _isVisibleToPrevious = true;
             LoadMealTypesAsync();
+            _foods = [];
+            FoodsToShow = [];
         }
 
         #endregion
@@ -125,58 +128,20 @@ namespace HealthyMeal.ViewModels
             {
                 string isAdd = HttpUtility.UrlDecode(query["IsAdd"]);
                 IsAdd = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isAdd);
-                if (IsAdd)
-                    ClearSearchBarAndReloadData();
             }
+        }
 
-            //try
-            //{
-                
-            //}
-            //catch 
-            //{ 
-                
-            //}
+        public async void LoadDataAfterNavigation()
+        {
+            _foods = await GlobalDataStore.Foods.GetAllItemsAsync();
+            IsVisible = _foods.Count > _pageSize;
+            PageIndex = IsAdd ? 1 : PageIndex;
+            SwitchPageAndReloadData(PageIndex);
         }
 
         #endregion
 
         #region Внутренние методы
-
-        private void LoadData()
-        {
-            FoodsToShow =
-            [
-                new()
-                {
-                    Name = "Очень длинное название еды, чтобы проверить работу",
-                    Kcal = 100,
-                    DefaultUnitsAmount = 100,
-                    DefaultUnitsName = "г"
-                },
-                new()
-                {
-                    Name = "Очень длинное название еды, чтобы проверить работу и посмотреть, что будет при >2 строк",
-                    Kcal = 233,
-                    DefaultUnitsAmount = 1,
-                    DefaultUnitsName = "ст. ложка"
-                },
-                new()
-                {
-                    Name = "Тест",
-                    Kcal = 233,
-                    DefaultUnitsAmount = 1,
-                    DefaultUnitsName = "шт"
-                },
-                new()
-                {
-                    Name = "Халлоу",
-                    Kcal = 199,
-                    DefaultUnitsAmount = 1,
-                    DefaultUnitsName = "л"
-                }
-            ];
-        }
 
         private async void LoadMealTypesAsync()
         {
@@ -186,12 +151,25 @@ namespace HealthyMeal.ViewModels
 
         private void SwitchPageAndReloadData(int pageNumber)
         {
-            
+            int index = pageNumber - 1;
+            if (index < 0 || index > _foods.Count / _pageSize)
+                return;
+
+            LoadDataToShow(index);
+
+            IsVisibleToPrevious = !(pageNumber == 1);
+            IsVisibleToNext = !(pageNumber == _foods.Count / _pageSize + 1);
+            PageIndex = pageNumber;
         }
 
-        private void ClearSearchBarAndReloadData()
+        private void LoadDataToShow(int curIndexPage)
         {
-
+            FoodsToShow.Clear();
+            int startIndex = curIndexPage * _pageSize;
+            for (int i = startIndex; i < _foods.Count && i < startIndex + _pageSize; i++)
+            {
+                FoodsToShow.Add(_foods[i]);
+            }
         }
 
         #endregion

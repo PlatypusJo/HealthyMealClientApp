@@ -19,5 +19,11 @@ namespace HealthyMeal.Views
             InitializeComponent();
             BindingContext = _vm;
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _vm.LoadDataAfterNavigation();
+        }
     }
 }

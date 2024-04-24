@@ -27,13 +27,13 @@
                              HorizontalOptions="End"/>
                 </StackLayout>
                 <ScrollView>
-                    <StackLayout Spacing="0">
+                    <StackLayout x:DataType="vm:SavingFoodPageViewModel" Spacing="0">
                         <StackLayout BackgroundColor="{DynamicResource MainColor}"
                                      HeightRequest="50"
                                      Orientation="Horizontal">
                             <Label Style="{DynamicResource LargeText}"
                                    Margin="10, 0, 0, 0"
-                                   Text="Название блюда"
+                                   Text="{Binding FoodName}"
                                    VerticalOptions="Center"
                                    LineBreakMode="WordWrap"
                                    MaxLines="2"/>
@@ -57,7 +57,7 @@
                                                FontSize="16"
                                                Placeholder="Количество съеденного"
                                                Keyboard="Numeric"
-                                               Text="100"/>
+                                               Text="{Binding AmountEaten, Mode=TwoWay}"/>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
@@ -68,8 +68,11 @@
                                        CornerRadius="5"
                                        BackgroundColor="White">
                                     <StackLayout Orientation="Horizontal">
-                                        <Picker VerticalOptions="Center"
-                                            HorizontalOptions="FillAndExpand"/>
+                                        <Picker ItemsSource="{Binding Units}"
+                                                SelectedItem="{Binding SelectedUnits}"
+                                                ItemDisplayBinding="{Binding Name}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
@@ -77,71 +80,16 @@
                         <StackLayout Padding="10">
                             <Button Style="{DynamicResource DefaultButton}"
                                     Text="Сохранить"
-                                    Padding="0"/>
+                                    Padding="0"
+                                    Command="{Binding SaveCommand}"/>
                         </StackLayout>
                         <Label Style="{DynamicResource LargeText}"
                                Text="Пищевая ценность"
                                Margin="10, 0, 0, 0"/>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="1*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Frame Grid.Row="0"
-                                   Grid.Column="0">
-                                <StackLayout Orientation="Horizontal"
-                                             HorizontalOptions="CenterAndExpand"
-                                             VerticalOptions="CenterAndExpand">
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="50"/>
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="Ккал"/>
-                                </StackLayout>
-                            </Frame>
-                            <Frame Grid.Row="0"
-                                   Grid.Column="1">
-                                <StackLayout Orientation="Horizontal"
-                                         HorizontalOptions="CenterAndExpand"
-                                         VerticalOptions="CenterAndExpand">
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="122"/>
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="г"/>
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="белки"/>
-                                </StackLayout>
-                            </Frame>
-                            <Frame Grid.Row="1"
-                                   Grid.Column="0">
-                                <StackLayout Orientation="Horizontal"
-                                             HorizontalOptions="CenterAndExpand"
-                                             VerticalOptions="CenterAndExpand">
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="75"/>
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="г"/>
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="жиры"/>
-                                </StackLayout>
-                            </Frame>
-                            <Frame Grid.Row="1"
-                                   Grid.Column="1">
-                                <StackLayout Orientation="Horizontal"
-                                         HorizontalOptions="CenterAndExpand"
-                                         VerticalOptions="CenterAndExpand">
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="500"/>
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="г"/>
-                                    <Label Style="{DynamicResource CommonText}"
-                                           Text="углеводы"/>
-                                </StackLayout>
-                            </Frame>
-                        </Grid>
+                        <controls:NutritionalValueInfo Kcal="{Binding Kcal}"
+                                                       Proteins="{Binding Proteins}"
+                                                       Fats="{Binding Fats}"
+                                                       Carbohydrates="{Binding Carbohydrates}"/>
                     </StackLayout>
                 </ScrollView>
             </StackLayout>

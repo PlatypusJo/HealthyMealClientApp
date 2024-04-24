@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Controls.NutritionalValueInfo"
+             x:Name="this">
+  <ContentView.Content>
+        <Grid BindingContext="{x:Reference this}"
+              Padding="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Frame Grid.Row="0"
+           Grid.Column="0">
+                <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="CenterAndExpand">
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="{Binding Kcal}"/>
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="Ккал"/>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="0"
+           Grid.Column="1">
+                <StackLayout Orientation="Horizontal"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="{Binding Proteins}"/>
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="г"/>
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="белки"/>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="1"
+           Grid.Column="0">
+                <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="CenterAndExpand"
+                     VerticalOptions="CenterAndExpand">
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="{Binding Fats}"/>
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="г"/>
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="жиры"/>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="1"
+           Grid.Column="1">
+                <StackLayout Orientation="Horizontal"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="{Binding Carbohydrates}"/>
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="г"/>
+                    <Label Style="{DynamicResource CommonText}"
+                   Text="углеводы"/>
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

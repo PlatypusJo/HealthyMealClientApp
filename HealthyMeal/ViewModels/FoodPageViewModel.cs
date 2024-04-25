@@ -22,6 +22,8 @@ namespace HealthyMeal.ViewModels
 
         private readonly int _pageSize = 15;
 
+        private string _userId;
+
         private DateTime _date;
 
         List<FoodModel> _foods;
@@ -76,11 +78,12 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenSavingFoodPage(FoodModel food)
         {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
             string mealType = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType, "MealType");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
             string foodId = NavigationParameterConverter.ObjectToPairKeyValue(food.Id, "FoodId");
             string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
-            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{mealType}&{date}&{foodId}&{isEdit}");
+            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{userId}&{mealType}&{date}&{foodId}&{isEdit}");
         }
 
         [RelayCommand]
@@ -112,6 +115,11 @@ namespace HealthyMeal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
+            if (query.ContainsKey("UserId")) 
+            { 
+                string userId = HttpUtility.UrlDecode(query["UserId"]);
+                _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
+            }
             if (query.ContainsKey("MealTypeId"))
             {
                 string mealTypeId = HttpUtility.UrlDecode(query["MealTypeId"]);

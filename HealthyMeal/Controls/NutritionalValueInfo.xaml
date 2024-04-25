@@ -16,52 +16,66 @@
             </Grid.ColumnDefinitions>
             <Frame Grid.Row="0"
            Grid.Column="0">
-                <StackLayout Orientation="Horizontal"
-                     HorizontalOptions="CenterAndExpand"
-                     VerticalOptions="CenterAndExpand">
+                <StackLayout Orientation="Vertical"
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand">
                     <Label Style="{DynamicResource CommonText}"
-                   Text="{Binding Kcal}"/>
+                           Text="Ккал"
+                           HorizontalOptions="Center"/>
                     <Label Style="{DynamicResource CommonText}"
-                   Text="Ккал"/>
+                           Text="{Binding Kcal}"
+                           HorizontalOptions="Center"/>
                 </StackLayout>
             </Frame>
             <Frame Grid.Row="0"
            Grid.Column="1">
-                <StackLayout Orientation="Horizontal"
-                 HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="CenterAndExpand">
+                <StackLayout Orientation="Vertical"
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand">
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="Center">
+                        <Label Style="{DynamicResource CommonText}"
+                           Text="Белки"/>
+                        <Label Style="{DynamicResource CommonText}"
+                           Text="(г)"/>
+                    </StackLayout>
                     <Label Style="{DynamicResource CommonText}"
-                   Text="{Binding Proteins}"/>
-                    <Label Style="{DynamicResource CommonText}"
-                   Text="г"/>
-                    <Label Style="{DynamicResource CommonText}"
-                   Text="белки"/>
+                           Text="{Binding Proteins}"
+                           HorizontalOptions="Center"/>
                 </StackLayout>
             </Frame>
             <Frame Grid.Row="1"
            Grid.Column="0">
-                <StackLayout Orientation="Horizontal"
-                     HorizontalOptions="CenterAndExpand"
-                     VerticalOptions="CenterAndExpand">
+                <StackLayout Orientation="Vertical"
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand">
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="Center">
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Жиры"/>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="(г)"/>
+                    </StackLayout>
                     <Label Style="{DynamicResource CommonText}"
-                   Text="{Binding Fats}"/>
-                    <Label Style="{DynamicResource CommonText}"
-                   Text="г"/>
-                    <Label Style="{DynamicResource CommonText}"
-                   Text="жиры"/>
+                           Text="{Binding Fats}"
+                           HorizontalOptions="Center"/>
                 </StackLayout>
             </Frame>
             <Frame Grid.Row="1"
            Grid.Column="1">
-                <StackLayout Orientation="Horizontal"
-                 HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="CenterAndExpand">
+                <StackLayout Orientation="Vertical"
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand">
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="Center">
+                        <Label Style="{DynamicResource CommonText}"
+                           Text="Углеводы"/>
+                        <Label Style="{DynamicResource CommonText}"
+                           Text="(г)"/>
+                    </StackLayout>
                     <Label Style="{DynamicResource CommonText}"
-                   Text="{Binding Carbohydrates}"/>
-                    <Label Style="{DynamicResource CommonText}"
-                   Text="г"/>
-                    <Label Style="{DynamicResource CommonText}"
-                   Text="углеводы"/>
+                           Text="{Binding Carbohydrates}"
+                           HorizontalOptions="Center"/>
                 </StackLayout>
             </Frame>
         </Grid>

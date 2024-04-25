@@ -17,6 +17,12 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
+        private string _userId;
+
+        private string _foodId;
+
+        private string _mealId;
+
         private NutritionalValueModel _selectedNutritionalValue;
 
         private List<NutritionalValueModel> _nutritionalValues;
@@ -30,8 +36,6 @@ namespace HealthyMeal.ViewModels
         private DateTime _date;
 
         private MealTypeModel _mealType;
-
-        private string _foodId;
 
         private double _amountEaten;
 
@@ -67,7 +71,7 @@ namespace HealthyMeal.ViewModels
             get => _amountEaten;
             set
             {
-                _amountEaten = value > 0 ? value : 1;
+                _amountEaten = value < 0 ? 0 : value;
                 OnPropertyChanged(nameof(AmountEaten));
                 NutritionalValueInfoUpdate();
             }
@@ -100,7 +104,23 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task Save()
         {
+            _meal.Id = _mealId;
+            _meal.NutritionalValue = _selectedNutritionalValue;
+            _meal.AmountEaten = AmountEaten;
+            _meal.Date = _date;
+            _meal.MealTypeId = _mealType.Id;
+            _meal.FoodId = _foodId;
+            _meal.FoodName = _food.Name;
+            _meal.UnitsId = SelectedUnits.Id;
+            _meal.UnitsName = SelectedUnits.Name;
+            _meal.UserId = _userId;
+        }
 
+        [RelayCommand]
+        private void TextChanged(string text)
+        {
+            if (text == string.Empty)
+                AmountEaten = 0;
         }
 
         #endregion
@@ -119,6 +139,11 @@ namespace HealthyMeal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
+            if (query.ContainsKey("UserId"))
+            {
+                string userId = HttpUtility.UrlDecode(query["UserId"]);
+                _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
+            }
             if (query.ContainsKey("IsEdit"))
             {
                 string isEdit = HttpUtility.UrlDecode(query["IsEdit"]);
@@ -139,10 +164,10 @@ namespace HealthyMeal.ViewModels
                 string date = HttpUtility.UrlDecode(query["Date"]);
                 _date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
             }
-            if (query.ContainsKey("Meal"))
+            if (query.ContainsKey("MealId"))
             {
-                string meal = HttpUtility.UrlDecode(query["Meal"]);
-                _meal = NavigationParameterConverter.ObjectFromPairKeyValue<MealModel>(meal);
+                string mealId = HttpUtility.UrlDecode(query["MealId"]);
+                _mealId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealId);
             }
             
         }
@@ -151,7 +176,7 @@ namespace HealthyMeal.ViewModels
         {
             _food = await GlobalDataStore.Foods.GetItemAsync(_foodId);
             _nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
-            _nutritionalValues = _nutritionalValues.Where(n => n.FoodId == _foodId).ToList();
+            _nutritionalValues = _nutritionalValues.Where(n => n.FoodId == _food.Id).ToList();
 
             List<UnitsModel> unitsBuf = [];
             foreach (NutritionalValueModel nutritionalValue in _nutritionalValues)
@@ -163,11 +188,13 @@ namespace HealthyMeal.ViewModels
 
             if (IsEdit)
             {
+                _meal = await GlobalDataStore.Meals.GetItemAsync(_mealId);
                 AmountEaten = _meal.AmountEaten;
                 SelectedUnits = Units.Find(u => u.Id == _meal.UnitsId);
             }
             else
             {
+                _mealId = Guid.NewGuid().ToString();
                 _meal = new();
                 _selectedNutritionalValue = _nutritionalValues.Find(n => n.IsDefault);
                 AmountEaten = _selectedNutritionalValue.UnitsAmount;

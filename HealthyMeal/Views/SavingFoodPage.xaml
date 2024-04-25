@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
              xmlns:model="clr-namespace:HealthyMeal.Models"
              x:Class="HealthyMeal.Views.SavingFoodPage">
@@ -51,13 +52,20 @@
                                    CornerRadius="5"
                                    BackgroundColor="White">
                                     <StackLayout Orientation="Horizontal">
-                                        <Entry VerticalOptions="Center"
+                                        <Entry x:Name="numEntry"
+                                               VerticalOptions="Center"
                                                HorizontalOptions="FillAndExpand"
                                                TextColor="Black"
                                                FontSize="16"
                                                Placeholder="Количество съеденного"
                                                Keyboard="Numeric"
-                                               Text="{Binding AmountEaten, Mode=TwoWay}"/>
+                                               Text="{Binding AmountEaten, Mode=TwoWay}">
+                                            <Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                            Command="{Binding TextChangedCommand}"
+                                                                            CommandParameter="{Binding Text, Source={x:Reference numEntry}}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>

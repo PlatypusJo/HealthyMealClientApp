@@ -86,6 +86,14 @@ namespace HealthyMeal.ViewModels
             await Shell.Current.GoToAsync($"{nameof(FoodPage)}?{userId}&{mealTypeId}&{date}&{isAdd}");
         }
 
+        [RelayCommand]
+        private async Task OpenDaysPage()
+        {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
+            await Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{userId}&{date}");
+        }
+
         #endregion
 
         #region Конструкторы

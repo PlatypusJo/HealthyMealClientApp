@@ -18,6 +18,7 @@ namespace HealthyMeal
             InitializeComponent();
             Routing.RegisterRoute(nameof(FoodPage), typeof(FoodPage));
             Routing.RegisterRoute(nameof(SavingFoodPage), typeof(SavingFoodPage));
+            Routing.RegisterRoute(nameof(SchedulePage), typeof(SchedulePage));
         }
     }
 }

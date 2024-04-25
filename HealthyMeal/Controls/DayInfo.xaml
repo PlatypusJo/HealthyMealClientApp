@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthyMeal.Controls.DayInfo"
+             x:Name="this">
+    <Grid BindingContext="{x:Reference this}">
+        <Frame BorderColor="LightGray">
+            <Grid Padding="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Label Style="{DynamicResource LargeText}"
+                           Text="{Binding DayNumber}"/>
+                    <Label Style="{DynamicResource LargeText}"
+                           Text="{Binding DayOfWeek}"/>
+                </StackLayout>
+                <StackLayout Grid.Column="1"
+                             Orientation="Horizontal">
+                    <Label Style="{DynamicResource CommonText}"
+                           Text="{Binding KcalAmount}"
+                           VerticalOptions="CenterAndExpand"/>
+                    <Label Style="{DynamicResource CommonText}"
+                           Text="Ккал"
+                           VerticalOptions="CenterAndExpand"/>
+                </StackLayout>
+                
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TapCommand}"
+                                      CommandParameter="{Binding TapCommandParameter}"/>
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentView>

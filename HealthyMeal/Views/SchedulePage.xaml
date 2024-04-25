@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             x:Class="HealthyMeal.Views.SchedulePage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
+
+            <StackLayout x:DataType="vm:SchedulePageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
+                        HorizontalOptions="Start"
+                        ImageSource="back.png"
+                        Command="{Binding GoBackCommand}"/>
+                <Picker ItemsSource="{Binding Months}"
+                        SelectedItem="{Binding SelectedMonth}"
+                        ItemDisplayBinding="{Binding Name}"
+                        TextColor="{DynamicResource MainColor}"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        WidthRequest="150"
+                        HorizontalTextAlignment="Center"
+                        HorizontalOptions="CenterAndExpand"/>
+                <BoxView WidthRequest="50" 
+                         BackgroundColor="{DynamicResource PrimaryColor}"
+                         VerticalOptions="Center"
+                         HorizontalOptions="End"/>
+            </StackLayout>
+
+            <ScrollView>
+                <StackLayout x:DataType="vm:SchedulePageViewModel">
+                    <StackLayout BindableLayout.ItemsSource="{Binding Days}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <controls:DayInfo x:DataType="model:DayModel"
+                                                  DayNumber="{Binding DayNumber}"
+                                                  DayOfWeek="{Binding DayName}"
+                                                  KcalAmount="{Binding KcalAmount}"/>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+
+                    <StackLayout x:Name="Summary" Padding="10">
+                        <Frame CornerRadius="10">
+                            <StackLayout>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="Сводка" 
+                                       Margin="0, 0, 0, 5"
+                                       HorizontalOptions="StartAndExpand"/>
+                                <controls:StatisticsLine Name="Всего" Value="{Binding TotalKcalAmount}" UnitsName="Ккал"/>
+                                <controls:StatisticsLine Name="Среднее" Value="{Binding AverageKcalAmount}" UnitsName="Ккал"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

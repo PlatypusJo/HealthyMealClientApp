@@ -34,7 +34,8 @@
                             Format="{Binding DateFormat}"/>
                 <Button Style="{DynamicResource RoundButtonPrimaryColor}"
                         ImageSource="diary.png"
-                        HorizontalOptions="End"/>
+                        HorizontalOptions="End"
+                        Command="{Binding OpenDaysPageCommand}"/>
             </StackLayout>
 
             <ScrollView>

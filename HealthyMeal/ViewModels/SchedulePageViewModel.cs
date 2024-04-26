@@ -117,13 +117,22 @@ namespace HealthyMeal.ViewModels
                 Days.Add(new() { Date = date });
             }
             Days = new(Days.OrderByDescending(d => d.DayNumber));
+            ObservableCollection<DayModel> daysBuf = [];
 
             foreach (DayModel day in Days)
             {
                 List<MealModel> meals = [];
                 meals = await GlobalDataStore.Meals.GetAllItemsAsync();
+                meals = meals.Where(m => m.Date == day.Date).ToList();
                 day.KcalAmount = meals.Sum(m => m.Kcal);
+                daysBuf.Add(day);
             }
+
+            Days = daysBuf;
+            double totalKcalAmount = Days.Sum(d => d.KcalAmount);
+            double avgKcalAmount = totalKcalAmount / Days.Count;
+            TotalKcalAmount = totalKcalAmount;
+            AverageKcalAmount = Math.Round(avgKcalAmount, 1, MidpointRounding.AwayFromZero);
         }
 
         private void CreateMonthList()

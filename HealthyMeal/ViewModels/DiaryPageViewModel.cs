@@ -14,6 +14,7 @@ using HealthyMeal.Models;
 using System.Linq;
 using HealthyMeal.Intefaces;
 using System.Web;
+using System.Collections.ObjectModel;
 
 namespace HealthyMeal.ViewModels
 {
@@ -30,7 +31,7 @@ namespace HealthyMeal.ViewModels
         #region ObservableProperties
 
         [ObservableProperty]
-        private List<MealTypeModel> _mealTypes;
+        private ObservableCollection<MealTypeModel> _mealTypes;
 
         [ObservableProperty]
         private DonutChart _chart;
@@ -70,7 +71,7 @@ namespace HealthyMeal.ViewModels
 
         public double KcalRemainder => _user.KcalAmountGoal - KcalConsumed;
 
-        public double RdcPercent => KcalConsumed * 100 / _user.Rdc;
+        public double RdcPercent => Math.Round(KcalConsumed * 100 / _user.Rdc, 1, MidpointRounding.AwayFromZero);
 
         #endregion
 
@@ -185,23 +186,27 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadDataByDateAsync()
         {
+            List<MealTypeModel> mealTypes = [];
             List<MealModel> meals = await GlobalDataStore.Meals.GetAllItemsAsync();
             meals = meals.Where(x => x.Date == Date).ToList();
 
-            foreach (MealTypeModel mealType in MealTypes)
+            for (int i = 0; i < MealTypes.Count; i++)
             {
-                mealType.CalcKcalCount(meals);
+                MealTypes[i].CalcKcalCount(meals);
+                mealTypes.Add(MealTypes[i]);
             }
 
+            MealTypes = new(mealTypes);
             KcalConsumed = meals.Sum(m => m.Kcal);
+            OnPropertyChanged(nameof(RdcPercent));
 
             LoadChartData(meals);
         }
 
         private async void LoadMealTypesAsync()
         {
-            MealTypes = await GlobalDataStore.MealTypes.GetAllItemsAsync();
-            MealTypes = [.. MealTypes.OrderBy(x => x.Type)];
+            List<MealTypeModel> mealTypes = await GlobalDataStore.MealTypes.GetAllItemsAsync();
+            MealTypes = [.. mealTypes.OrderBy(m => m.Type)];
         }
 
         #endregion

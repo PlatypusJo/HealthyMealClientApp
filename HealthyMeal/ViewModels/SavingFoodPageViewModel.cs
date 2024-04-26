@@ -114,6 +114,12 @@ namespace HealthyMeal.ViewModels
             _meal.UnitsId = SelectedUnits.Id;
             _meal.UnitsName = SelectedUnits.Name;
             _meal.UserId = _userId;
+            await GlobalDataStore.Meals.AddItemAsync(_meal);
+
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(_mealType.Id, "MealTypeId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
+            string isAdd = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsAdd");
+            await Shell.Current.GoToAsync($"..?{mealTypeId}&{date}&{isAdd}");
         }
 
         [RelayCommand]

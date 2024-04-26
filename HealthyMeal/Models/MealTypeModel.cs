@@ -45,6 +45,11 @@ namespace HealthyMeal.Models
             _countMeals = nutritionalValues.Count();
         }
 
+        public void ResetKcalCount()
+        {
+            _kcalCount = 0;
+        }
+
         #endregion
     }
 }

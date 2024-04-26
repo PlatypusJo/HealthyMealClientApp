@@ -36,10 +36,10 @@ namespace HealthyMeal.Services.MockDataStore
                     UserId = "Common",
                     DefaultUnitsName = "шт",
                     DefaultUnitsAmount = 1,
-                    Kcal = 47,
-                    Proteins = 0.4,
-                    Fats = 0.4,
-                    Carbohydrates = 9.8,
+                    Kcal = 82.7,
+                    Proteins = 0.7,
+                    Fats = 0.7,
+                    Carbohydrates = 17.2,
                 },
                 new()
                 {

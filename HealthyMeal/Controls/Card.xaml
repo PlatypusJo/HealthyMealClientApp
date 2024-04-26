@@ -40,13 +40,13 @@
                     <Label Style="{DynamicResource CommonText}"
                            Margin="10, 0, 0, 10"
                            Text="{Binding CookingTime}"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                            Command="{Binding TapCommand}"		
+                            CommandParameter="{Binding TapCommandParameter}"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
             </Frame>
         </Frame>
-        <StackLayout.GestureRecognizers>
-            <TapGestureRecognizer NumberOfTapsRequired="1"
-                            Command="{Binding TapCommand}"		
-                            CommandParameter="{Binding TapCommandParameter}"/>
-        </StackLayout.GestureRecognizers>
     </StackLayout>
 </ContentView>

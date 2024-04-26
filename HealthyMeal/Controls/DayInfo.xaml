@@ -25,12 +25,11 @@
                            Text="Ккал"
                            VerticalOptions="CenterAndExpand"/>
                 </StackLayout>
-
-                <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding TapCommand}"
-                                      CommandParameter="{Binding TapCommandParameter}"/>
-                </Grid.GestureRecognizers>
             </Grid>
         </Frame>
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapCommand}"
+                                CommandParameter="{Binding TapCommandParameter}"/>
+        </Grid.GestureRecognizers>
     </Grid>
 </ContentView>

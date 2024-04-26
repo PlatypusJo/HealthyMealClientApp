@@ -49,6 +49,8 @@ namespace HealthyMeal.ViewModels
         private string _dateFormat;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(RdcPercent))]
+        [NotifyPropertyChangedFor(nameof(KcalRemainder))]
         private double _kcalConsumed;
 
         #endregion
@@ -69,7 +71,7 @@ namespace HealthyMeal.ViewModels
 
         public double KcalAmountGoal => _user.KcalAmountGoal;
 
-        public double KcalRemainder => _user.KcalAmountGoal - KcalConsumed;
+        public double KcalRemainder => Math.Round(_user.KcalAmountGoal - KcalConsumed, 1, MidpointRounding.AwayFromZero);
 
         public double RdcPercent => Math.Round(KcalConsumed * 100 / _user.Rdc, 1, MidpointRounding.AwayFromZero);
 
@@ -80,6 +82,7 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenFoodPage(MealTypeModel mealType)
         {
+            mealType.ResetKcalCount();
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
             string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(mealType.Id, "MealTypeId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
@@ -93,6 +96,12 @@ namespace HealthyMeal.ViewModels
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
             await Shell.Current.GoToAsync($"{nameof(SchedulePage)}?{userId}&{date}");
+        }
+
+        [RelayCommand]
+        private async Task ItemTapped(MealTypeModel mealType)
+        {
+
         }
 
         #endregion
@@ -186,19 +195,18 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadDataByDateAsync()
         {
-            List<MealTypeModel> mealTypes = [];
             List<MealModel> meals = await GlobalDataStore.Meals.GetAllItemsAsync();
             meals = meals.Where(x => x.Date == Date).ToList();
 
-            for (int i = 0; i < MealTypes.Count; i++)
+            ObservableCollection<MealTypeModel> mealTypesBuf = [];
+            foreach (MealTypeModel mealType in MealTypes)
             {
-                MealTypes[i].CalcKcalCount(meals);
-                mealTypes.Add(MealTypes[i]);
+                mealType.CalcKcalCount(meals);
+                mealTypesBuf.Add(mealType);
             }
 
-            MealTypes = new(mealTypes);
+            MealTypes = mealTypesBuf;
             KcalConsumed = meals.Sum(m => m.Kcal);
-            OnPropertyChanged(nameof(RdcPercent));
 
             LoadChartData(meals);
         }

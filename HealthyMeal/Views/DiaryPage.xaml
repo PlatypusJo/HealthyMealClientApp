@@ -72,7 +72,9 @@
                                                           KcalValue="{Binding KcalCount}"
                                                           FoodAmount="{Binding CountMeals}"
                                                           ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=OpenFoodPageCommand}"
-                                                          ButtonCommandParameter="{Binding .}"/>
+                                                          ButtonCommandParameter="{Binding .}"
+                                                          TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:DiaryPageViewModel}}, Path=ItemTappedCommand}"
+                                                          TapCommandParameter="{Binding .}"/>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>

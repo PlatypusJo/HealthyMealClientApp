@@ -13,6 +13,8 @@ namespace HealthyMeal.Models
 
         public string UnitsId { get; set; }
 
+        public string UserId { get; set; }
+
         public string UnitsName { get; set; }
 
         public string FoodName { get; set; }

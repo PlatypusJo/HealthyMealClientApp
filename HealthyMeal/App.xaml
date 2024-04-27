@@ -13,6 +13,7 @@
             <Color x:Key="MenuFooterColor">#5FDE68</Color>
             <Color x:Key="PageBackgroundColor">#E3E3E3</Color>
             <Color x:Key="Disabled">#B8B8B8</Color>
+            <Color x:Key="PopupBackground">#C0808080</Color>
             <Color x:Key="CommonTextColor">#000000</Color>
             
             <!--#endregion-->
@@ -85,6 +86,19 @@
                 <Setter Property="WidthRequest" Value="50"/>
                 <Setter Property="CornerRadius" Value="20"/>
                 
+            </Style>
+            
+            <!--#endregion-->
+            
+            <!--#region ContentView Styles-->
+
+            <Style TargetType="ContentView" x:Key="CustomPopup">
+
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0, 0, 1, 1"/>
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="All"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource PopupBackground}"/>
+                <Setter Property="Padding" Value="10, 0"/>
+
             </Style>
             
             <!--#endregion-->

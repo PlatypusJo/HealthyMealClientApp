@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,6 +16,8 @@ namespace HealthyMeal.ViewModels
     public partial class ProductsListsPageViewModel : BaseViewModel
     {
         #region Поля
+
+        private DateTime _date;
 
         private readonly int _pageSize = 11;
         
@@ -36,11 +39,31 @@ namespace HealthyMeal.ViewModels
         [ObservableProperty]
         private bool _isVisibleToPrevious;
 
+        [ObservableProperty]
+        private string _dateFormat;
+
+        [ObservableProperty]
+        private bool _isPopupEditVisible;
+
+        [ObservableProperty]
+        private bool _isPopupDeleteVisible;
+
         #endregion
 
         #region Свойства
 
         public ObservableCollection<ProductToBuyModel> ProductsToBuy { get; set; }
+
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                DateFormat = DateTime.Now.Year != _date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
+                OnPropertyChanged(nameof(Date));
+            }
+        }
 
         #endregion
 
@@ -76,6 +99,37 @@ namespace HealthyMeal.ViewModels
                 return;
         }
 
+        [RelayCommand]
+        private void OpenEditPopup()
+        {
+            IsPopupEditVisible = true;
+        }
+
+        [RelayCommand]
+        private void OpenDeletePopup()
+        {
+            IsPopupDeleteVisible = true;
+        }
+
+        [RelayCommand]
+        private void ClosePopup()
+        {
+            IsPopupEditVisible = false;
+            IsPopupDeleteVisible = false;
+        }
+
+        [RelayCommand]
+        private async Task SaveChanges()
+        {
+            IsPopupEditVisible = false;
+        }
+
+        [RelayCommand]
+        private async Task DeleteShoppingList()
+        {
+            IsPopupDeleteVisible = false;
+        }
+
         #endregion
         
         #region Конструкторы
@@ -83,10 +137,13 @@ namespace HealthyMeal.ViewModels
         public ProductsListsPageViewModel()
         {
             LoadProducts();
-            _isVisible = _productsToBuy.Count > 0;
-            _isVisibleToPrevious = !(_pageIndex == 1);
-            _isVisibleToNext = !(_pageIndex == _productsToBuy.Count / _pageSize + 1);
-
+            IsVisible = _productsToBuy.Count > 0;
+            IsVisibleToPrevious = !(_pageIndex == 1);
+            IsVisibleToNext = !(_pageIndex == _productsToBuy.Count / _pageSize + 1);
+            DateTime today = DateTime.Now;
+            Date = new DateTime(today.Year, today.Month, today.Day);
+            IsPopupEditVisible = false;
+            IsPopupDeleteVisible = false;
         }
 
         #endregion

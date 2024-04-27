@@ -22,57 +22,145 @@
 
                 <StackLayout x:Name="Date" Padding="10" HeightRequest="50" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                     <DatePicker Style="{DynamicResource DefaultDatePicker}"
-                            HorizontalOptions="FillAndExpand"/>
+                                Date="{Binding Date}"
+                                Format="{Binding DateFormat}"
+                                HorizontalOptions="FillAndExpand"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
-                        HorizontalOptions="StartAndExpand"
-                        VerticalOptions="Center"
-                        ImageSource="edit.png"/>
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="Center"
+                            ImageSource="edit.png"
+                            Command="{Binding OpenEditPopupCommand}"/>
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="Center"
-                        ImageSource="delete.png"/>
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="Center"
+                            ImageSource="delete.png"
+                            Command="{Binding OpenDeletePopupCommand}"/>
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
-                        HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Center"
-                        ImageSource="add.png"/>
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="Center"
+                            ImageSource="add.png"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
                 <ListView x:Name="ProductsToBuy"
-                        ItemsSource="{Binding ProductsToBuy}"
-                        HasUnevenRows="True">
+                          ItemsSource="{Binding ProductsToBuy}"
+                          HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
                                     <controls:ShoppingListItem x:DataType="model:ProductToBuyModel"
-                                                           IsChecked="{Binding IsBought, Mode=TwoWay}" 
-                                                           Name="{Binding FoodName}" 
-                                                           Amount="{Binding UnitsAmount}" 
-                                                           UnitsName="{Binding UnitsName}" 
-                                                           TriggerValue="{Binding IsBought}"
-                                                           CheckBoxCommand="{Binding Source={x:Reference ShoppingListPage}, Path=BindingContext.CheckBoxChangedCommand}"
-                                                           CheckBoxCommandParameter="{Binding Id}"
-                                                           TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=ItemTappedCommand}"
-                                                           TapCommandParameter="{Binding .}"/>
+                                                               IsChecked="{Binding IsBought, Mode=TwoWay}" 
+                                                               Name="{Binding FoodName}" 
+                                                               Amount="{Binding UnitsAmount}" 
+                                                               UnitsName="{Binding UnitsName}" 
+                                                               TriggerValue="{Binding IsBought}"
+                                                               CheckBoxCommand="{Binding Source={x:Reference ShoppingListPage}, Path=BindingContext.CheckBoxChangedCommand}"
+                                                               CheckBoxCommandParameter="{Binding Id}"
+                                                               TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=ItemTappedCommand}"
+                                                               TapCommandParameter="{Binding .}"/>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.Footer>
                         <controls:PageNavigator IsVisible="{Binding IsVisible}" 
-                                            PageNumber="{Binding PageIndex}" 
-                                            BackPageCommand="{Binding BackPageCommand}" 
-                                            NextPageCommand="{Binding NextPageCommand}"
-                                            IsVisibleToNext="{Binding IsVisibleToNext}"
-                                            IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
-                                            Color="{DynamicResource MainColor}"
-                                            HeightRequest="65"/>
+                                                PageNumber="{Binding PageIndex}" 
+                                                BackPageCommand="{Binding BackPageCommand}" 
+                                                NextPageCommand="{Binding NextPageCommand}"
+                                                IsVisibleToNext="{Binding IsVisibleToNext}"
+                                                IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
+                                                Color="{DynamicResource MainColor}"
+                                                HeightRequest="65"/>
                     </ListView.Footer>
                 </ListView>
             </StackLayout>
-            
+
+            <ContentView x:Name="popupEdit"
+                         Style="{DynamicResource CustomPopup}"
+                         IsVisible="{Binding IsPopupEditVisible}">
+                <Grid HorizontalOptions="Fill"
+                      VerticalOptions="Fill">
+                    <Button Command="{Binding ClosePopupCommand}"
+                            BackgroundColor="Transparent"/>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Frame CornerRadius="10"
+                               Padding="0">
+                            <StackLayout x:DataType="vm:ProductsListsPageViewModel" 
+                                         HeightRequest="350" 
+                                         WidthRequest="400">
+                                <StackLayout Orientation="Horizontal"
+                                         BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="EndAndExpand"
+                                            Command="{Binding ClosePopupCommand}"
+                                            ImageSource="cross.png"/>
+                                </StackLayout>
+                                <Label Style="{DynamicResource HeaderText}"
+                                       TextColor="{DynamicResource CommonTextColor}"
+                                       Text="Изменение даты"
+                                       Padding="10"/>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="Выберите дату, на которую хотели бы перенести список покупок"
+                                       Padding="10"/>
+                                <DatePicker TextColor="{DynamicResource CommonTextColor}"
+                                            FontSize="18"
+                                            Date="{Binding Date}"
+                                            Format="{Binding DateFormat}"
+                                            VerticalOptions="Center"
+                                            Margin="10"/>
+                                <Button Style="{DynamicResource DefaultButton}"
+                                        Text="Сохранить"
+                                        Margin="10, 30, 10, 10"
+                                        Command="{Binding SaveChangesCommand}"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </ContentView>
+
+            <ContentView x:Name="popupDelete"
+                         Style="{DynamicResource CustomPopup}"
+                         IsVisible="{Binding IsPopupDeleteVisible}">
+                <Grid HorizontalOptions="Fill"
+                      VerticalOptions="Fill">
+                    <Button Command="{Binding ClosePopupCommand}"
+                            BackgroundColor="Transparent"/>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Frame CornerRadius="10"
+                               Padding="0">
+                            <StackLayout x:DataType="vm:ProductsListsPageViewModel" 
+                                         HeightRequest="280" 
+                                         WidthRequest="400">
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="EndAndExpand"
+                                            Command="{Binding ClosePopupCommand}"
+                                            ImageSource="cross.png"/>
+                                </StackLayout>
+                                <Label Style="{DynamicResource HeaderText}"
+                                       TextColor="{DynamicResource CommonTextColor}"
+                                       Text="Подтверждение удаления"
+                                       Padding="10"/>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="Вы действительно хотите удалить этот список покупок?"
+                                       Padding="10"/>
+                                <Button Style="{DynamicResource DefaultButton}"
+                                        Text="Удалить"
+                                        Margin="10, 30, 10, 10"
+                                        Command="{Binding DeleteShoppingListCommand}"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </ContentView>
+
         </AbsoluteLayout>
         
     </ContentPage.Content>

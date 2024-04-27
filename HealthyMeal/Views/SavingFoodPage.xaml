@@ -60,7 +60,7 @@
                                                Placeholder="Количество съеденного"
                                                Keyboard="Numeric"
                                                Text="{Binding AmountEaten, Mode=TwoWay}"
-                                               MaxLength="15">
+                                               MaxLength="4">
                                             <Entry.Behaviors>
                                                 <xct:EventToCommandBehavior EventName="TextChanged"
                                                                             Command="{Binding TextChangedCommand}"
@@ -88,9 +88,16 @@
                         </StackLayout>
                         <StackLayout Padding="10">
                             <Button Style="{DynamicResource DefaultButton}"
+                                    IsEnabled="{Binding IsEnabledSaveBtn}"
                                     Text="Сохранить"
                                     Padding="0"
-                                    Command="{Binding SaveCommand}"/>
+                                    Command="{Binding SaveCommand}">
+                                <Button.Triggers>
+                                    <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource Disabled}"/>
+                                    </Trigger>
+                                </Button.Triggers>
+                            </Button>
                         </StackLayout>
                         <Label Style="{DynamicResource LargeText}"
                                Text="Пищевая ценность"

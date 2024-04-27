@@ -12,6 +12,7 @@
             <Color x:Key="SecondaryColor">#0F7B16</Color>
             <Color x:Key="MenuFooterColor">#5FDE68</Color>
             <Color x:Key="PageBackgroundColor">#E3E3E3</Color>
+            <Color x:Key="Disabled">#B8B8B8</Color>
             <Color x:Key="CommonTextColor">#000000</Color>
             
             <!--#endregion-->

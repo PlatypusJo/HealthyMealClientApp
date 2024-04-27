@@ -73,10 +73,12 @@ namespace HealthyMeal.ViewModels
             {
                 _amountEaten = value < 0 ? 0 : value;
                 OnPropertyChanged(nameof(AmountEaten));
+                OnPropertyChanged(nameof(IsEnabledSaveBtn));
                 NutritionalValueInfoUpdate();
             }
         }
 
+        public bool IsEnabledSaveBtn  => AmountEaten != 0;
 
         public double Kcal => _selectedNutritionalValue.Kcal * AmountEaten / _selectedNutritionalValue.UnitsAmount;
 

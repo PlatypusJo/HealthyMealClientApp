@@ -35,11 +35,13 @@
                     <Label Text="{Binding Amount}"
                            FontSize="16"
                            TextColor="{DynamicResource PrimaryColor}"
-                           VerticalOptions="Center"/>
+                           VerticalOptions="Center"
+                           LineBreakMode="TailTruncation"/>
                     <Label Text="{Binding UnitsName}"
                            FontSize="16"
                            TextColor="{DynamicResource PrimaryColor}"
-                           VerticalOptions="Center"/>
+                           VerticalOptions="Center"
+                           LineBreakMode="TailTruncation"/>
                 </StackLayout>
             </StackLayout>
             <Button Style="{DynamicResource RoundButtonMainColor}" 

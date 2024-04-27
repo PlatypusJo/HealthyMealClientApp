@@ -1,12 +1,256 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
              x:Class="HealthyMeal.Views.EditProfilePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
+                     Spacing="0">
+            
+            <StackLayout Padding="10"
+                         BackgroundColor="{DynamicResource PrimaryColor}"
+                         Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}" 
+                        HorizontalOptions="Start" 
+                        ImageSource="back.png"
+                        Command="{Binding GoBackCommand}"/>
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Редактировние профиля"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"/>
+                <BoxView WidthRequest="50" 
+                         HorizontalOptions="End"/>
+            </StackLayout>
+            
+            <ScrollView>
+                <StackLayout Spacing="0">
+                    
+                    <Frame BackgroundColor="DarkGray"
+                           HeightRequest="200">
+                        <Image Source="xamarin_logo.png"
+                               Aspect="Fill"/>
+                    </Frame>
+                    <Button Style="{DynamicResource DefaultButton}"
+                            Text="Добавить фотографию"
+                            Padding="0"
+                            Command="{Binding SaveCommand}"/>
+                    
+                    <StackLayout Padding="10">
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Логин"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry x:Name="logEntry"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           Placeholder="Введите логин"
+                                           Keyboard="Text"
+                                           Text="{Binding AmountEaten, Mode=TwoWay}"
+                                           MaxLength="4">
+                                        <Entry.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference logEntry}}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Имя"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry x:Name="nameEntry"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           Placeholder="Введите имя"
+                                           Keyboard="Text"
+                                           Text="{Binding AmountEaten, Mode=TwoWay}"
+                                           MaxLength="4">
+                                        <Entry.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference nameEntry}}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Вес (кг)"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry x:Name="weightEntry"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           Placeholder="Введите вес"
+                                           Keyboard="Numeric"
+                                           Text="{Binding AmountEaten, Mode=TwoWay}"
+                                           MaxLength="4">
+                                        <Entry.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference weightEntry}}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Рост (см)"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry x:Name="heightEntry"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           Placeholder="Введите рост"
+                                           Keyboard="Numeric"
+                                           Text="{Binding AmountEaten, Mode=TwoWay}"
+                                           MaxLength="4">
+                                        <Entry.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference heightEntry}}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Возраст"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry x:Name="ageEntry"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           Placeholder="Введите возраст"
+                                           Keyboard="Numeric"
+                                           Text="{Binding AmountEaten, Mode=TwoWay}"
+                                           MaxLength="4">
+                                        <Entry.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference ageEntry}}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Пол"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Picker ItemsSource="{Binding Units}"
+                                            SelectedItem="{Binding SelectedUnits}"
+                                            ItemDisplayBinding="{Binding Name}"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="FillAndExpand"/>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Физическая активность"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Picker ItemsSource="{Binding Units}"
+                                            SelectedItem="{Binding SelectedUnits}"
+                                            ItemDisplayBinding="{Binding Name}"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="FillAndExpand"/>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                        <Label x:Name="physActivityDescription"
+                               Style="{DynamicResource CommonText}"
+                               Text="Описание физ. акт."/>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Цель ккал"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry x:Name="goalEntry"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           Placeholder="Цель ккал в день"
+                                           Keyboard="Numeric"
+                                           Text="{Binding AmountEaten, Mode=TwoWay}"
+                                           MaxLength="4">
+                                        <Entry.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference goalEntry}}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </StackLayout>
+                            </Frame>
+                            <Button Style="{DynamicResource DefaultButton}"
+                                    Text="Авто"
+                                    FontSize="12"/>
+                        </StackLayout>
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="РСК (рекомендуемое суточное количество)"/>
+                        <StackLayout BindingContext="{Reference this}"
+                                     Orientation="Horizontal">
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="{Binding UserRdc}"/>
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Ккал"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Padding="10">
+                        <Button Style="{DynamicResource DefaultButton}"
+                                IsEnabled="{Binding IsEnabledSaveBtn}"
+                                Text="Сохранить"
+                                Padding="0"
+                                Command="{Binding SaveCommand}">
+                            <Button.Triggers>
+                                <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource Disabled}"/>
+                                </Trigger>
+                            </Button.Triggers>
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

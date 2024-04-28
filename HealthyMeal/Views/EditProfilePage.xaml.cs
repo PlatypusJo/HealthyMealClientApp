@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthyMeal.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,17 @@ namespace HealthyMeal.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditProfilePage : ContentPage
     {
+        private static EditProfilePageViewModel _vm = new();
         public EditProfilePage()
         {
             InitializeComponent();
+            BindingContext = _vm;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _vm.LoadDataAfterNavigation();
         }
     }
 }

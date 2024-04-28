@@ -15,5 +15,8 @@ namespace HealthyMeal.Services.Interfaces
         IDataStore<MealModel> Meals { get; }
         IDataStore<UnitsModel> Units { get; }
         IDataStore<NutritionalValueModel> NutritionalValues { get; }
+        IDataStore<UserModel> Users { get; }
+        IDataStore<SexModel> Sexes { get; }
+        IDataStore<PhysicalActivityModel> PhysicalActivities { get; }
     }
 }

@@ -7,7 +7,8 @@
              xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
              x:Class="HealthyMeal.Views.EditProfilePage">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
+        <StackLayout x:DataType="vm:EditProfilePageViewModel"
+                     BackgroundColor="{DynamicResource PageBackgroundColor}"
                      Spacing="0">
             
             <StackLayout Padding="10"
@@ -33,10 +34,12 @@
                         <Image Source="xamarin_logo.png"
                                Aspect="Fill"/>
                     </Frame>
-                    <Button Style="{DynamicResource DefaultButton}"
-                            Text="Добавить фотографию"
-                            Padding="0"
-                            Command="{Binding SaveCommand}"/>
+                    <StackLayout Padding="10">
+                        <Button Style="{DynamicResource DefaultButton}"
+                                Text="Добавить фотографию"
+                                Padding="0"
+                                Command="{Binding AddPhotoCommand}"/>
+                    </StackLayout>
                     
                     <StackLayout Padding="10">
                         <Label Style="{DynamicResource CommonText}"
@@ -53,11 +56,11 @@
                                            FontSize="16"
                                            Placeholder="Введите логин"
                                            Keyboard="Text"
-                                           Text="{Binding AmountEaten, Mode=TwoWay}"
-                                           MaxLength="4">
+                                           Text="{Binding UserLogin, Mode=TwoWay}"
+                                           MaxLength="20">
                                         <Entry.Behaviors>
                                             <xct:EventToCommandBehavior EventName="TextChanged"
-                                                                        Command="{Binding TextChangedCommand}"
+                                                                        Command="{Binding LoginChangedCommand}"
                                                                         CommandParameter="{Binding Text, Source={x:Reference logEntry}}"/>
                                         </Entry.Behaviors>
                                     </Entry>
@@ -78,11 +81,11 @@
                                            FontSize="16"
                                            Placeholder="Введите имя"
                                            Keyboard="Text"
-                                           Text="{Binding AmountEaten, Mode=TwoWay}"
-                                           MaxLength="4">
+                                           Text="{Binding UserName, Mode=TwoWay}"
+                                           MaxLength="20">
                                         <Entry.Behaviors>
                                             <xct:EventToCommandBehavior EventName="TextChanged"
-                                                                        Command="{Binding TextChangedCommand}"
+                                                                        Command="{Binding NameChangedCommand}"
                                                                         CommandParameter="{Binding Text, Source={x:Reference nameEntry}}"/>
                                         </Entry.Behaviors>
                                     </Entry>
@@ -103,11 +106,11 @@
                                            FontSize="16"
                                            Placeholder="Введите вес"
                                            Keyboard="Numeric"
-                                           Text="{Binding AmountEaten, Mode=TwoWay}"
-                                           MaxLength="4">
+                                           Text="{Binding UserWeight, Mode=TwoWay}"
+                                           MaxLength="5">
                                         <Entry.Behaviors>
                                             <xct:EventToCommandBehavior EventName="TextChanged"
-                                                                        Command="{Binding TextChangedCommand}"
+                                                                        Command="{Binding WeightChangedCommand}"
                                                                         CommandParameter="{Binding Text, Source={x:Reference weightEntry}}"/>
                                         </Entry.Behaviors>
                                     </Entry>
@@ -128,11 +131,11 @@
                                            FontSize="16"
                                            Placeholder="Введите рост"
                                            Keyboard="Numeric"
-                                           Text="{Binding AmountEaten, Mode=TwoWay}"
-                                           MaxLength="4">
+                                           Text="{Binding UserHeight, Mode=TwoWay}"
+                                           MaxLength="5">
                                         <Entry.Behaviors>
                                             <xct:EventToCommandBehavior EventName="TextChanged"
-                                                                        Command="{Binding TextChangedCommand}"
+                                                                        Command="{Binding HeightChangedCommand}"
                                                                         CommandParameter="{Binding Text, Source={x:Reference heightEntry}}"/>
                                         </Entry.Behaviors>
                                     </Entry>
@@ -153,11 +156,11 @@
                                            FontSize="16"
                                            Placeholder="Введите возраст"
                                            Keyboard="Numeric"
-                                           Text="{Binding AmountEaten, Mode=TwoWay}"
-                                           MaxLength="4">
+                                           Text="{Binding UserAge, Mode=TwoWay}"
+                                           MaxLength="3">
                                         <Entry.Behaviors>
                                             <xct:EventToCommandBehavior EventName="TextChanged"
-                                                                        Command="{Binding TextChangedCommand}"
+                                                                        Command="{Binding AgeChangedCommand}"
                                                                         CommandParameter="{Binding Text, Source={x:Reference ageEntry}}"/>
                                         </Entry.Behaviors>
                                     </Entry>
@@ -171,8 +174,8 @@
                                    CornerRadius="5"
                                    BackgroundColor="White">
                                 <StackLayout Orientation="Horizontal">
-                                    <Picker ItemsSource="{Binding Units}"
-                                            SelectedItem="{Binding SelectedUnits}"
+                                    <Picker ItemsSource="{Binding Sexes}"
+                                            SelectedItem="{Binding SelectedSex}"
                                             ItemDisplayBinding="{Binding Name}"
                                             VerticalOptions="Center"
                                             HorizontalOptions="FillAndExpand"/>
@@ -186,8 +189,8 @@
                                    CornerRadius="5"
                                    BackgroundColor="White">
                                 <StackLayout Orientation="Horizontal">
-                                    <Picker ItemsSource="{Binding Units}"
-                                            SelectedItem="{Binding SelectedUnits}"
+                                    <Picker ItemsSource="{Binding PhysicalActivities}"
+                                            SelectedItem="{Binding SelectedPhysicalActivity}"
                                             ItemDisplayBinding="{Binding Name}"
                                             VerticalOptions="Center"
                                             HorizontalOptions="FillAndExpand"/>
@@ -196,10 +199,10 @@
                         </StackLayout>
                         <Label x:Name="physActivityDescription"
                                Style="{DynamicResource CommonText}"
-                               Text="Описание физ. акт."/>
+                               Text="{Binding SelectedPhysicalActivity.Description}"/>
                         <Label Style="{DynamicResource CommonText}"
                                Text="Цель ккал"/>
-                        <StackLayout Orientation="Horizontal">
+                        <StackLayout>
                             <Frame Padding="0"
                                    CornerRadius="5"
                                    BackgroundColor="White">
@@ -209,30 +212,43 @@
                                            HorizontalOptions="FillAndExpand"
                                            TextColor="Black"
                                            FontSize="16"
+                                           WidthRequest="315"
                                            Placeholder="Цель ккал в день"
                                            Keyboard="Numeric"
-                                           Text="{Binding AmountEaten, Mode=TwoWay}"
-                                           MaxLength="4">
+                                           Text="{Binding UserKcalAmountGoal, Mode=TwoWay}"
+                                           MaxLength="6">
                                         <Entry.Behaviors>
                                             <xct:EventToCommandBehavior EventName="TextChanged"
-                                                                        Command="{Binding TextChangedCommand}"
+                                                                        Command="{Binding KcalAmountGoalChangedCommand}"
                                                                         CommandParameter="{Binding Text, Source={x:Reference goalEntry}}"/>
                                         </Entry.Behaviors>
                                     </Entry>
                                 </StackLayout>
                             </Frame>
+                            
+                        </StackLayout>
+                        <StackLayout Padding="0, 5, 0, 0">
                             <Button Style="{DynamicResource DefaultButton}"
                                     Text="Авто"
-                                    FontSize="12"/>
+                                    FontSize="12"
+                                    WidthRequest="55"
+                                    HeightRequest="35"
+                                    HorizontalOptions="EndAndExpand"
+                                    Command="{Binding AutoSetGoalCommand}"/>
                         </StackLayout>
                         <Label Style="{DynamicResource CommonText}"
                                Text="РСК (рекомендуемое суточное количество)"/>
-                        <StackLayout BindingContext="{Reference this}"
-                                     Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal">
                             <Label Style="{DynamicResource CommonText}"
                                    Text="{Binding UserRdc}"/>
                             <Label Style="{DynamicResource CommonText}"
                                    Text="Ккал"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Ваше РСК отрицательно, проверьте правильность введённых вами данных"
+                                   TextColor="OrangeRed"
+                                   IsVisible="{Binding IsVisibleWarning}"/>
                         </StackLayout>
                     </StackLayout>
                     <StackLayout Padding="10">

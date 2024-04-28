@@ -13,6 +13,9 @@ namespace HealthyMeal.Services.MockDataStore
         private IDataStore<MealTypeModel> _mealTypeDataStore;
         private IDataStore<UnitsModel> _unitsDataStore;
         private IDataStore<NutritionalValueModel> _nutritionalValueDataStore;
+        private IDataStore<UserModel> _userDataStore;
+        private IDataStore<SexModel> _sexDataStore;
+        private IDataStore<PhysicalActivityModel> _physicalActivityDataStore;
 
         public IDataStore<FoodModel> Foods
         {
@@ -56,6 +59,33 @@ namespace HealthyMeal.Services.MockDataStore
             {
                 _nutritionalValueDataStore ??= new NutritionalValueDataStore();
                 return _nutritionalValueDataStore; 
+            }
+        }
+
+        public IDataStore<UserModel> Users
+        {
+            get
+            {
+                _userDataStore ??= new UserDataStore();
+                return _userDataStore;
+            }
+        }
+
+        public IDataStore<SexModel> Sexes
+        {
+            get
+            {
+                _sexDataStore ??= new SexDataStore();
+                return _sexDataStore;
+            }
+        }
+
+        public IDataStore<PhysicalActivityModel> PhysicalActivities
+        {
+            get
+            {
+                _physicalActivityDataStore ??= new PhysicalActivityDataStore();
+                return _physicalActivityDataStore;
             }
         }
     }

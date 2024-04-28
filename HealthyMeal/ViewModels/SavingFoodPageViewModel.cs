@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Input;
@@ -127,7 +128,7 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private void TextChanged(string text)
         {
-            if (text == string.Empty)
+            if (!new Regex(@"^\d+[,.]?\d*$", RegexOptions.Compiled).IsMatch(text))
                 AmountEaten = 0;
         }
 

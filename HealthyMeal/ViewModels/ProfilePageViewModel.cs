@@ -1,16 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
+using HealthyMeal.Utils;
+using HealthyMeal.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace HealthyMeal.ViewModels
 {
     public partial class ProfilePageViewModel : BaseViewModel
     {
         #region Поля
+
+        private string _userId;
 
         private UserModel _user;
 
@@ -52,7 +57,8 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenEditProfilePage()
         {
-
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
+            await Shell.Current.GoToAsync($"{nameof(EditProfilePage)}?{userId}");
         }
 
         #endregion
@@ -60,20 +66,8 @@ namespace HealthyMeal.ViewModels
         #region Конструкторы
 
         public ProfilePageViewModel() 
-        { 
-            _user = new()
-            {
-                Id = "1",
-                Name = "Иван",
-                Login = "LoVan",
-                Rdc = 2500,
-                KcalAmountGoal = 2000,
-                Age = 25,
-                Height = 176,
-                Weight = 73,
-                PhysicalActivityId = "2",
-                SexId = "1",
-            };
+        {
+            _userId = "1";
         }
 
         #endregion
@@ -82,6 +76,7 @@ namespace HealthyMeal.ViewModels
 
         public async void LoadDataAfterNavigation()
         {
+            _user = await GlobalDataStore.Users.GetItemAsync(_userId);
             UserName = _user.Name;
             UserLogin = _user.Login;
             UserKcalAmountGoal = _user.KcalAmountGoal;

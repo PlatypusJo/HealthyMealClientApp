@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             x:Class="HealthyMeal.Views.SavingRecipePage">
+    <ContentPage.Content>
+        <AbsoluteLayout x:DataType="vm:SavingRecipePageViewModel"
+                Padding="0"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+            <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         Spacing="0">
+                <StackLayout Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                    <Button Style="{DynamicResource RoundButtonPrimaryColor}" 
+                            HorizontalOptions="Start" 
+                            ImageSource="back.png"/>
+                    <Label Style="{DynamicResource HeaderText}"
+                           Text="Добавление в дневник"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="Center"/>
+                    <BoxView WidthRequest="50" 
+                             HorizontalOptions="End"/>
+                </StackLayout>
+                <ScrollView>
+                    <StackLayout x:DataType="vm:SavingRecipePageViewModel" Spacing="0">
+                        <StackLayout BackgroundColor="{DynamicResource MainColor}"
+                             HeightRequest="50"
+                             Orientation="Horizontal">
+                            <Label Style="{DynamicResource LargeText}"
+                                   Margin="10, 0, 0, 0"
+                                   Text="Название блюда"
+                                   VerticalOptions="Center"
+                                   LineBreakMode="WordWrap"
+                                   MaxLines="2"/>
+                        </StackLayout>
+                        <Frame BackgroundColor="DarkGray"
+                               HeightRequest="200">
+                            <Image Source="xamarin_logo.png"
+                                   Aspect="Fill"/>
+                        </Frame>
+                        <StackLayout Padding="10">
+                            
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Количество"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="numEntry"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="FillAndExpand"
+                                               TextColor="Black"
+                                               FontSize="16"
+                                               Placeholder="Количество съеденного"
+                                               Keyboard="Numeric"
+                                               MaxLength="4">
+                                            <!--<Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                    Command="{Binding TextChangedCommand}"
+                                                                    CommandParameter="{Binding Text, Source={x:Reference numEntry}}"/>
+                                            </Entry.Behaviors>-->
+                                        </Entry>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Ед. измерения"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Picker 
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Приём пищи"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Picker 
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            
+                        </StackLayout>
+                        
+                        <StackLayout Padding="10">
+                            <Button Style="{DynamicResource DefaultButton}"
+                                    Text="Сохранить"
+                                    Padding="0">
+                                <Button.Triggers>
+                                    <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource Disabled}"/>
+                                    </Trigger>
+                                </Button.Triggers>
+                            </Button>
+                        </StackLayout>
+                        
+                        <Label Style="{DynamicResource LargeText}"
+                               Text="Пищевая ценность"
+                               Margin="10, 0, 0, 0"/>
+                        <controls:NutritionalValueInfo />
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,29 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="HealthyMeal.Controls.ShoppingListItem"
+             x:Class="HealthyMeal.Controls.MealListItem"
              x:Name="this">
   <ContentView.Content>
-      <Grid BindingContext="{x:Reference this}" 
-            BackgroundColor="{StaticResource MainColor}">
+        <Grid BindingContext="{x:Reference this}" 
+      BackgroundColor="{StaticResource MainColor}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <CheckBox x:Name="CheckBox"
-                      Color="{DynamicResource PrimaryColor}" 
-                      Grid.Column="0"
-                      IsChecked="{Binding IsChecked}">
-                <CheckBox.Behaviors>
-                    <xct:EventToCommandBehavior EventName="CheckedChanged"
-                                                Command="{Binding CheckBoxCommand}"
-                                                CommandParameter="{Binding CheckBoxCommandParameter}"/>
-                </CheckBox.Behaviors>
-            </CheckBox>
-            <StackLayout Grid.Column="1"
-                         Orientation="Vertical">
+            <StackLayout Grid.Column="0"
+                   Orientation="Vertical">
                 <Label Style="{DynamicResource LargeText}"
                        Text="{Binding Name}"
                        HorizontalOptions="StartAndExpand"
@@ -37,7 +25,7 @@
                            TextColor="{DynamicResource PrimaryColor}"
                            VerticalOptions="Center"
                            LineBreakMode="TailTruncation"/>
-                    <Label Text="{Binding UnitsName}"
+                    <Label Text="Ккал"
                            FontSize="16"
                            TextColor="{DynamicResource PrimaryColor}"
                            VerticalOptions="Center"
@@ -45,7 +33,7 @@
                 </StackLayout>
             </StackLayout>
             <Button Style="{DynamicResource RoundButtonMainColor}" 
-                    Grid.Column="2"
+                    Grid.Column="1"
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="Center"
                     ImageSource="cross.png"
@@ -56,5 +44,5 @@
                                       CommandParameter="{Binding TapCommandParameter}"/>
             </Grid.GestureRecognizers>
         </Grid>
-  </ContentView.Content>
+    </ContentView.Content>
 </ContentView>

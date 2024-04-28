@@ -18,7 +18,6 @@ namespace HealthyMeal.Controls
            typeof(string),
            typeof(ShoppingListItem),
            string.Empty);
-
         public static readonly BindableProperty AmountProperty = BindableProperty.Create(
             nameof(Amount),
             typeof(string),
@@ -56,6 +55,16 @@ namespace HealthyMeal.Controls
             null);
         public static readonly BindableProperty CheckBoxCommandParameterProperty = BindableProperty.Create(
             nameof(CheckBoxCommandParameter),
+            typeof(object),
+            typeof(ShoppingListItem),
+            null);
+        public static readonly BindableProperty ButtonCommandProperty = BindableProperty.Create(
+            nameof(ButtonCommand),
+            typeof(IRelayCommand),
+            typeof(ShoppingListItem),
+            null);
+        public static readonly BindableProperty ButtonCommandParameterProperty = BindableProperty.Create(
+            nameof(ButtonCommandParameter),
             typeof(object),
             typeof(ShoppingListItem),
             null);
@@ -111,7 +120,19 @@ namespace HealthyMeal.Controls
             get => (object)GetValue(CheckBoxCommandParameterProperty);
             set => SetValue(CheckBoxCommandParameterProperty, value);
         }
-        
+        public IRelayCommand ButtonCommand
+        {
+            get
+            {
+                return (IRelayCommand)GetValue(ButtonCommandProperty);
+            }
+            set => SetValue(ButtonCommandProperty, value);
+        }
+        public object ButtonCommandParameter
+        {
+            get => (object)GetValue(ButtonCommandParameterProperty);
+            set => SetValue(ButtonCommandParameterProperty, value);
+        }
 
         public ShoppingListItem ()
 		{

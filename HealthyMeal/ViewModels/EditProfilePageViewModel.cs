@@ -213,11 +213,16 @@ namespace HealthyMeal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
+            if (query is null)
+                return;
+
             if (query.ContainsKey("UserId"))
             {
                 string userId = HttpUtility.UrlDecode(query["UserId"]);
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
+            else
+                _userId = string.Empty;
         }
 
         public async void LoadDataAfterNavigation()

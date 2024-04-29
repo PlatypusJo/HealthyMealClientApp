@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
 using HealthyMeal.Utils;
+using HealthyMeal.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Xamarin.Forms;
+
+
 
 namespace HealthyMeal.ViewModels
 {
@@ -64,12 +67,6 @@ namespace HealthyMeal.ViewModels
             await Shell.Current.GoToAsync($"..");
         }
 
-        [RelayCommand]
-        private void ItemTapped(DayModel day)
-        {
-
-        }
-
         #endregion
 
         #region Конструкторы
@@ -111,21 +108,20 @@ namespace HealthyMeal.ViewModels
             Days.Clear();
             int year = _date.Year;
             int month = SelectedMonth.Number;
+            ObservableCollection<DayModel> daysBuf = [];
             for (int i = 1; i <= DateTime.DaysInMonth(year, month); i++)
             {
                 DateTime date = new(year, month, i);
-                Days.Add(new() { Date = date });
+                daysBuf.Add(new() { Date = date });
             }
-            Days = new(Days.OrderByDescending(d => d.DayNumber));
-            ObservableCollection<DayModel> daysBuf = [];
-
-            foreach (DayModel day in Days)
+            daysBuf = new(daysBuf.OrderByDescending(d => d.DayNumber));
+            
+            foreach (DayModel day in daysBuf)
             {
                 List<MealModel> meals = [];
                 meals = await GlobalDataStore.Meals.GetAllItemsAsync();
                 meals = meals.Where(m => m.Date == day.Date).ToList();
                 day.KcalAmount = meals.Sum(m => m.Kcal);
-                daysBuf.Add(day);
             }
 
             Days = daysBuf;
@@ -142,7 +138,6 @@ namespace HealthyMeal.ViewModels
                 monthList.Add(new(i));
 
             Months = monthList;
-            SelectedMonth = Months.Find(m => m.Number == 1);
         }
 
         #endregion

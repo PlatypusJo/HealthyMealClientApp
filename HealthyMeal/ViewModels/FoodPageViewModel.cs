@@ -72,7 +72,8 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            await Shell.Current.GoToAsync($"..");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "date");
+            await Shell.Current.GoToAsync($"..?{date}");
         }
 
         [RelayCommand]
@@ -115,28 +116,49 @@ namespace HealthyMeal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
-            if (query.ContainsKey("UserId")) 
-            { 
+            if (query is null)
+                return;
+
+            if (query.ContainsKey("UserId"))
+            {
                 string userId = HttpUtility.UrlDecode(query["UserId"]);
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
+            else
+                _userId = string.Empty;
+
             if (query.ContainsKey("MealTypeId"))
             {
                 string mealTypeId = HttpUtility.UrlDecode(query["MealTypeId"]);
                 mealTypeId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealTypeId);
                 SelectedMealType = MealTypes.Find(x => x.Id == mealTypeId);
             }
+            else
+                SelectedMealType = MealTypes.Find(x => x.Type == MealType.Breakfast);
+
+
             if (query.ContainsKey("Date"))
             {
                 string date = HttpUtility.UrlDecode(query["Date"]);
                 _date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
                 OnPropertyChanged(nameof(Day));
             }
+            else
+            {
+                DateTime today = DateTime.Now;
+                _date = new DateTime(today.Year, today.Month, today.Day);
+                OnPropertyChanged(nameof(Day));
+            }
+
+
             if (query.ContainsKey("IsAdd"))
             {
                 string isAdd = HttpUtility.UrlDecode(query["IsAdd"]);
                 IsAdd = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isAdd);
             }
+            else
+                IsAdd = false;
+
         }
 
         public async void LoadDataAfterNavigation()

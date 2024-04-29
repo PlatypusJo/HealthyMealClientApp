@@ -46,9 +46,6 @@ namespace HealthyMeal.ViewModels
         private double _carbohydratesAmount;
 
         [ObservableProperty]
-        private string _dateFormat;
-
-        [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(RdcPercent))]
         [NotifyPropertyChangedFor(nameof(KcalRemainder))]
         private double _kcalConsumed;
@@ -57,15 +54,17 @@ namespace HealthyMeal.ViewModels
 
         #region Свойства
 
+        public string DateFormat => DateTime.Now.Year != Date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
+
         public DateTime Date
         {
             get => _date;
             set
             {
                 _date = value;
-                DateFormat = DateTime.Now.Year != _date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
                 LoadDataByDateAsync();
                 OnPropertyChanged(nameof(Date));
+                OnPropertyChanged(nameof(DateFormat));
             }
         }
 
@@ -137,8 +136,19 @@ namespace HealthyMeal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
-            string date = HttpUtility.UrlDecode(query["date"]);
-            Date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
+            if (query is null)
+                return;
+
+            if (query.ContainsKey("date"))
+            {
+                string date = HttpUtility.UrlDecode(query["date"]);
+                _date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
+            }
+            else
+            {
+                DateTime today = DateTime.Now;
+                _date = new DateTime(today.Year, today.Month, today.Day);
+            }
         }
 
         #endregion
@@ -209,6 +219,10 @@ namespace HealthyMeal.ViewModels
             KcalConsumed = meals.Sum(m => m.Kcal);
 
             LoadChartData(meals);
+
+            OnPropertyChanged(nameof(MealTypes));
+            OnPropertyChanged(nameof(Date));
+            OnPropertyChanged(nameof(DateFormat));
         }
 
         private async void LoadMealTypesAsync()

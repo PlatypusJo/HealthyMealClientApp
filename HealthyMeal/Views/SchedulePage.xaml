@@ -57,9 +57,7 @@
                                 <controls:DayInfo x:DataType="model:DayModel"
                                                   DayNumber="{Binding DayNumber}"
                                                   DayOfWeek="{Binding DayName}"
-                                                  KcalAmount="{Binding KcalAmount}"
-                                                  TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:SchedulePageViewModel}}, Path=ItemTappedCommand}"
-                                                  TapCommandParameter="{Binding .}"/>
+                                                  KcalAmount="{Binding KcalAmount}"/>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>

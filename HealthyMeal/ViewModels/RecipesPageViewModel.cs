@@ -1,10 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
+using HealthyMeal.Utils;
+using HealthyMeal.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace HealthyMeal.ViewModels
 {
@@ -12,7 +17,11 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
-        ObservableCollection<RecipeModel> _recipes;
+        private readonly int _pageSize = 15;
+
+        private string _userId = string.Empty;
+
+        List<RecipeModel> _recipes = [];
 
         #endregion
 
@@ -22,30 +31,45 @@ namespace HealthyMeal.ViewModels
         private int _pageIndex = 1;
 
         [ObservableProperty]
-        private bool _isVisible = true;
+        private bool _isVisible = false;
 
         [ObservableProperty]
-        private bool _isVisibleToNext;
+        private bool _isVisibleToNext = false;
 
         [ObservableProperty]
-        private bool _isVisibleToPrevious;
+        private bool _isVisibleToPrevious = false;
+
+        [ObservableProperty]
+        private ObservableCollection<RecipeModel> _recipesToShow = [];
 
         #endregion
 
         #region Свойства
 
-        public ObservableCollection<RecipeModel> Recipes
-        {
-            get => _recipes;
-        }
 
         #endregion
 
         #region Команды
 
-        public ICommand NextPageCommand { get; private set; }
+        [RelayCommand]
+        private async Task OpenRecipeInfo(RecipeModel recipe)
+        {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
+            string recipeId = NavigationParameterConverter.ObjectToPairKeyValue(recipe.Id, "RecipeId");
+            await Shell.Current.GoToAsync($"{nameof(RecipeInfoPage)}?{userId}&{recipeId}");
+        }
 
-        public ICommand BackPageCommand { get; private set; }
+        [RelayCommand]
+        private void NextPage()
+        {
+            SwitchPageAndReloadData(PageIndex + 1);
+        }
+
+        [RelayCommand]
+        private void BackPage()
+        {
+            SwitchPageAndReloadData(PageIndex - 1);
+        }
 
         #endregion
 
@@ -53,41 +77,51 @@ namespace HealthyMeal.ViewModels
 
         public RecipesPageViewModel()
         {
+            _userId = "1";
+        }
+
+        #endregion
+
+        #region Методы
+
+        public void LoadDataAfterNavigation()
+        {
             LoadRecipes();
-            _isVisible = _recipes.Count > 0;
-            _isVisibleToNext = true; 
-            _isVisibleToPrevious = true;
         }
 
         #endregion
 
         #region Внутренние методы
 
-        private void LoadRecipes()
+
+        private async void LoadRecipes()
         {
-            _recipes = new ObservableCollection<RecipeModel>()
+            _recipes = await GlobalDataStore.Recipes.GetAllItemsAsync();
+            IsVisible = _recipes.Count > _pageSize;
+            SwitchPageAndReloadData(PageIndex);
+        }
+
+        private void SwitchPageAndReloadData(int pageNumber)
+        {
+            int index = pageNumber - 1;
+            if (index < 0 || index > _recipes.Count / _pageSize)
+                return;
+
+            LoadDataToShow(index);
+
+            IsVisibleToPrevious = !(pageNumber == 1);
+            IsVisibleToNext = !(pageNumber == _recipes.Count / _pageSize + 1);
+            PageIndex = pageNumber;
+        }
+
+        private void LoadDataToShow(int curIndexPage)
+        {
+            RecipesToShow.Clear();
+            int startIndex = curIndexPage * _pageSize;
+            for (int i = startIndex; i < _recipes.Count && i < startIndex + _pageSize; i++)
             {
-                new RecipeModel()
-                {
-                    Name = "Овощной суп",
-                    Id = 1.ToString(),
-                },
-                new RecipeModel()
-                {
-                    Name = "Борщ",
-                    Id = 2.ToString(),
-                },
-                new RecipeModel()
-                {
-                    Name = "Фруктовый салат",
-                    Id = 3.ToString(),
-                },
-                new RecipeModel()
-                {
-                    Name = "Греческий салат",
-                    Id = 4.ToString(),
-                },
-            };
+                RecipesToShow.Add(_recipes[i]);
+            }
         }
 
         #endregion

@@ -6,5 +6,6 @@
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
+    <ShellContent Route="AuthorizationPage" ContentTemplate="{DataTemplate views:AuthorizationPage}"/>
     <ShellContent Route="MainPage" ContentTemplate="{DataTemplate views:MainPage}"/>
 </Shell>

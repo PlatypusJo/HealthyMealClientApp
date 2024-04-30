@@ -22,11 +22,11 @@ namespace HealthyMeal.ViewModels
 
         private readonly int _pageSize = 15;
 
-        private string _userId;
+        private string _userId = string.Empty;
 
         private DateTime _date;
 
-        List<FoodModel> _foods;
+        List<FoodModel> _foods = [];
 
         #endregion
 
@@ -36,22 +36,19 @@ namespace HealthyMeal.ViewModels
         private int _pageIndex = 1;
 
         [ObservableProperty]
-        private bool _isVisible = true;
+        private bool _isVisible = false;
 
         [ObservableProperty]
-        private bool _isVisibleToNext;
+        private bool _isVisibleToNext = false;
 
         [ObservableProperty]
-        private bool _isVisibleToPrevious;
+        private bool _isVisibleToPrevious = false;
 
         [ObservableProperty]
-        private ObservableCollection<FoodModel> _foodsToShow;
+        private ObservableCollection<FoodModel> _foodsToShow = [];
 
         [ObservableProperty]
         private List<MealTypeModel> _mealTypes;
-
-        [ObservableProperty]
-        private bool _isAdd;
 
         [ObservableProperty]
         private MealTypeModel _selectedMealType;
@@ -72,8 +69,7 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "date");
-            await Shell.Current.GoToAsync($"..?{date}");
+            await Shell.Current.GoToAsync($"..");
         }
 
         [RelayCommand]
@@ -106,8 +102,6 @@ namespace HealthyMeal.ViewModels
         public FoodPageViewModel()
         {
             LoadMealTypesAsync();
-            _foods = [];
-            FoodsToShow = [];
         }
 
         #endregion
@@ -119,23 +113,27 @@ namespace HealthyMeal.ViewModels
             if (query is null)
                 return;
 
+            bool isAdd = false;
+            SelectedMealType = MealTypes.Find(x => x.Type == MealType.Breakfast);
+
             if (query.ContainsKey("UserId"))
             {
                 string userId = HttpUtility.UrlDecode(query["UserId"]);
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
-            else
-                _userId = string.Empty;
-
+                
             if (query.ContainsKey("MealTypeId"))
             {
                 string mealTypeId = HttpUtility.UrlDecode(query["MealTypeId"]);
                 mealTypeId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealTypeId);
                 SelectedMealType = MealTypes.Find(x => x.Id == mealTypeId);
             }
-            else
-                SelectedMealType = MealTypes.Find(x => x.Type == MealType.Breakfast);
-
+                
+            if (query.ContainsKey("IsAdd"))
+            {
+                string isAddStr = HttpUtility.UrlDecode(query["IsAdd"]);
+                isAdd = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isAddStr);
+            }
 
             if (query.ContainsKey("Date"))
             {
@@ -150,28 +148,31 @@ namespace HealthyMeal.ViewModels
                 OnPropertyChanged(nameof(Day));
             }
 
-
-            if (query.ContainsKey("IsAdd"))
-            {
-                string isAdd = HttpUtility.UrlDecode(query["IsAdd"]);
-                IsAdd = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isAdd);
-            }
-            else
-                IsAdd = false;
-
+            LoadDataAfterNavigation(isAdd);
         }
 
-        public async void LoadDataAfterNavigation()
-        {
-            _foods = await GlobalDataStore.Foods.GetAllItemsAsync();
-            IsVisible = _foods.Count > _pageSize;
-            PageIndex = IsAdd ? 1 : PageIndex;
-            SwitchPageAndReloadData(PageIndex);
-        }
 
         #endregion
 
         #region Внутренние методы
+
+        private async void LoadDataAfterNavigation(bool isAdd)
+        {
+            List<RecipeModel> recipes = await GlobalDataStore.Recipes.GetAllItemsAsync();
+            _foods = await GlobalDataStore.Foods.GetAllItemsAsync();
+
+            List<FoodModel> foods = [];
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                FoodModel food = _foods.Find(f => f.Id == recipes[i].FoodId);
+                foods.Add(food);
+            }
+
+            _foods = _foods.Except(foods).ToList();
+            IsVisible = _foods.Count > _pageSize;
+            PageIndex = isAdd ? 1 : PageIndex;
+            SwitchPageAndReloadData(PageIndex);
+        }
 
         private async void LoadMealTypesAsync()
         {

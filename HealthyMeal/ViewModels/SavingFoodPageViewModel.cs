@@ -18,17 +18,13 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
-        private string _userId;
+        private string _userId = string.Empty;
 
-        private string _foodId;
+        private NutritionalValueModel _selectedNutritionalValue = new();
 
-        private string _mealId;
+        private List<NutritionalValueModel> _nutritionalValues = [];
 
-        private NutritionalValueModel _selectedNutritionalValue;
-
-        private List<NutritionalValueModel> _nutritionalValues;
-
-        private UnitsModel _selectedUnits;
+        private UnitsModel _selectedUnits = new();
 
         private MealModel _meal;
 
@@ -36,16 +32,13 @@ namespace HealthyMeal.ViewModels
 
         private DateTime _date;
 
-        private MealTypeModel _mealType;
+        private MealTypeModel _mealType = new();
 
         private double _amountEaten;
 
         #endregion
 
         #region ObservableProperties
-
-        [ObservableProperty]
-        private bool _isEdit;
 
         [ObservableProperty]
         private List<UnitsModel> _units;
@@ -107,12 +100,12 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task Save()
         {
-            _meal.Id = _mealId;
+            _meal.Id = Guid.NewGuid().ToString();
             _meal.NutritionalValue = _selectedNutritionalValue;
             _meal.AmountEaten = AmountEaten;
             _meal.Date = _date;
             _meal.MealTypeId = _mealType.Id;
-            _meal.FoodId = _foodId;
+            _meal.FoodId = _food.Id;
             _meal.FoodName = _food.Name;
             _meal.UnitsId = SelectedUnits.Id;
             _meal.UnitsName = SelectedUnits.Name;
@@ -138,8 +131,7 @@ namespace HealthyMeal.ViewModels
 
         public SavingFoodPageViewModel()
         {
-            _nutritionalValues = [];
-            SelectedUnits = new();
+
         }
 
         #endregion
@@ -148,42 +140,61 @@ namespace HealthyMeal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
+            string mealId = string.Empty;
+            string foodId = string.Empty;
+            bool isEdit = false;
+
             if (query.ContainsKey("UserId"))
             {
                 string userId = HttpUtility.UrlDecode(query["UserId"]);
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
+
             if (query.ContainsKey("IsEdit"))
             {
-                string isEdit = HttpUtility.UrlDecode(query["IsEdit"]);
-                IsEdit = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isEdit);
+                string isEditStr = HttpUtility.UrlDecode(query["IsEdit"]);
+                isEdit = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isEditStr);
             }
+
             if (query.ContainsKey("FoodId"))
             {
-                string foodId = HttpUtility.UrlDecode(query["FoodId"]);
-                _foodId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(foodId);
+                foodId = HttpUtility.UrlDecode(query["FoodId"]);
+                foodId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(foodId);
             }
+
             if (query.ContainsKey("MealType"))
             {
                 string mealType = HttpUtility.UrlDecode(query["MealType"]);
                 _mealType = NavigationParameterConverter.ObjectFromPairKeyValue<MealTypeModel>(mealType);
             }
+
+            if (query.ContainsKey("MealId"))
+            {
+                mealId = HttpUtility.UrlDecode(query["MealId"]);
+                mealId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealId);
+            }
+
             if (query.ContainsKey("Date"))
             {
                 string date = HttpUtility.UrlDecode(query["Date"]);
                 _date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
             }
-            if (query.ContainsKey("MealId"))
+            else
             {
-                string mealId = HttpUtility.UrlDecode(query["MealId"]);
-                _mealId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealId);
+                DateTime today = DateTime.Now;
+                _date = new DateTime(today.Year, today.Month, today.Day);
             }
-            
+
+            LoadDataAfterNavigation(isEdit, mealId, foodId);
         }
 
-        public async void LoadDataAfterNavigation()
+        #endregion
+
+        #region Внутренние методы
+
+        private async void LoadDataAfterNavigation(bool isEdit, string mealId, string foodId)
         {
-            _food = await GlobalDataStore.Foods.GetItemAsync(_foodId);
+            _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             _nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
             _nutritionalValues = _nutritionalValues.Where(n => n.FoodId == _food.Id).ToList();
 
@@ -195,15 +206,14 @@ namespace HealthyMeal.ViewModels
             }
             Units = unitsBuf;
 
-            if (IsEdit)
+            if (isEdit)
             {
-                _meal = await GlobalDataStore.Meals.GetItemAsync(_mealId);
+                _meal = await GlobalDataStore.Meals.GetItemAsync(mealId);
                 AmountEaten = _meal.AmountEaten;
                 SelectedUnits = Units.Find(u => u.Id == _meal.UnitsId);
             }
             else
             {
-                _mealId = Guid.NewGuid().ToString();
                 _meal = new();
                 _selectedNutritionalValue = _nutritionalValues.Find(n => n.IsDefault);
                 AmountEaten = _selectedNutritionalValue.UnitsAmount;
@@ -211,12 +221,9 @@ namespace HealthyMeal.ViewModels
                 SelectedUnits = Units.Find(u => u.Id == _selectedNutritionalValue.UnitsId);
                 
             }
+
             OnPropertyChanged(nameof(FoodName));
         }
-
-        #endregion
-
-        #region Внутренние методы
 
         private void NutritionalValueInfoUpdate()
         {

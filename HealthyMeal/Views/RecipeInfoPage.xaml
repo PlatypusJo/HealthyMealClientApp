@@ -20,7 +20,7 @@
                             ImageSource="back.png"
                             Command="{Binding GoBackCommand}"/>
                     <Label Style="{DynamicResource HeaderText}"
-                           Text="Добавление в дневник"
+                           Text="Рецепт"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center"/>
                     <BoxView WidthRequest="50" 
@@ -34,7 +34,7 @@
                                      Orientation="Horizontal">
                             <Label Style="{DynamicResource LargeText}"
                                    Margin="10, 0, 0, 0"
-                                   Text="Название блюда"
+                                   Text="{Binding RecipeName}"
                                    VerticalOptions="Center"
                                    LineBreakMode="WordWrap"
                                    MaxLines="2"/>
@@ -47,23 +47,24 @@
                         
                         <StackLayout Orientation="Horizontal" 
                                      Spacing="30" 
-                                     HorizontalOptions="CenterAndExpand"
+                                     HorizontalOptions="FillAndExpand"
                                      BackgroundColor="{DynamicResource MainColor}">
-                            <Button BackgroundColor="{DynamicResource PageBackgroundColor}"
+                            <Button BackgroundColor="{DynamicResource MainColor}"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="В дневник"
                                     FontSize="12"
+                                     Margin="15, 0, 0, 0"
                                     ImageSource="addDiary.png"
                                     ContentLayout="Top, 10"/>
-                            <Button BackgroundColor="{DynamicResource PageBackgroundColor}"
+                            <Button BackgroundColor="{DynamicResource MainColor}"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="В меню"
                                     FontSize="12"
                                     ImageSource="addMenu.png"
                                     ContentLayout="Top, 10"/>
-                            <Button BackgroundColor="{DynamicResource PageBackgroundColor}"
+                            <Button BackgroundColor="{DynamicResource MainColor}"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="Создать список покупок"
@@ -71,10 +72,11 @@
                                     ImageSource="createList.png"
                                     ContentLayout="Top, 10"/>
                         </StackLayout>
-                        
-                        <StackLayout Padding="10">
-                            <controls:DefaultLine Name="Ккал" Value="100"/>
-                            <controls:DefaultLine Name="Время приготовления" Value="1 ч 10 мин"/>
+                        <BoxView BackgroundColor="LightGray"
+                                 HeightRequest="1"/>
+                        <StackLayout Padding="10" BackgroundColor="{DynamicResource MainColor}">
+                            <controls:DefaultLine Name="Ккал" Value="{Binding Kcal}"/>
+                            <controls:DefaultLine Name="Время приготовления" Value="{Binding CookingTime}"/>
                         </StackLayout>
 
                         <StackLayout Padding="10">
@@ -83,24 +85,24 @@
                                    FontAttributes="Bold"
                                    Text="Ингредиенты"/>
                             <StackLayout>
-                                <Frame BackgroundColor="AliceBlue"
-                                       CornerRadius="5">
-                                    <StackLayout 
+                                <Frame BackgroundColor="{DynamicResource MainColor}"
+                                       Padding="0">
+                                    <StackLayout BindableLayout.ItemsSource="{Binding Ingredients}"
                                                  Spacing="0">
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate>
                                                 <Frame BorderColor="LightGray"
                                                        Padding="5">
-                                                    <StackLayout>
-                                                        <Label Style="{DynamicResource LargeText}"
-                                                               Text="Название" 
+                                                    <StackLayout x:DataType="model:IngredientModel">
+                                                        <Label Style="{DynamicResource CommonText}"
+                                                               Text="{Binding Name}" 
                                                                LineBreakMode="WordWrap"/>
                                                         <StackLayout Orientation="Horizontal">
                                                             <Label Style="{DynamicResource CommonText}"
-                                                                   Text="100" 
+                                                                   Text="{Binding UnitsAmount}" 
                                                                    LineBreakMode="TailTruncation"/>
                                                             <Label Style="{DynamicResource CommonText}"
-                                                                   Text="ед. изм." 
+                                                                   Text="{Binding UnitsName}" 
                                                                    LineBreakMode="TailTruncation"/>
                                                         </StackLayout>
                                                     </StackLayout>
@@ -115,9 +117,9 @@
                                    FontAttributes="Bold"
                                    Text="Шаги"/>
                             <StackLayout>
-                                <Frame BackgroundColor="AliceBlue"
-                                       CornerRadius="5">
-                                    <StackLayout 
+                                <Frame BackgroundColor="{DynamicResource MainColor}"
+                                       Padding="0">
+                                    <StackLayout BindableLayout.ItemsSource="{Binding Steps}"
                                                  Spacing="0">
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate>

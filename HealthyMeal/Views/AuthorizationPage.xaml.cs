@@ -11,10 +11,10 @@ using Xamarin.Forms.Xaml;
 namespace HealthyMeal.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RecipeInfoPage : ContentPage
+    public partial class AuthorizationPage : ContentPage
     {
-        private static readonly RecipeInfoViewModel _vm = new();
-        public RecipeInfoPage()
+        private static readonly AuthorizationPageViewModel _vm = new();
+        public AuthorizationPage()
         {
             InitializeComponent();
             BindingContext = _vm;

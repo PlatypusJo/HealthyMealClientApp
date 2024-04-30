@@ -87,15 +87,22 @@ namespace HealthyMeal.ViewModels
                 string date = HttpUtility.UrlDecode(query["Date"]);
                 _date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
             }
+            else
+            {
+                DateTime today = DateTime.Now;
+                _date = new DateTime(today.Year, today.Month, today.Day);
+            }
+
             if (query.ContainsKey("UserId"))
             {
                 string userId = HttpUtility.UrlDecode(query["UserId"]);
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
-        }
+            else
+            {
+                _userId = "Common";
+            }
 
-        public void LoadDataAfterNavigation()
-        {
             SelectedMonth = Months.Find(m => m.Number == _date.Month);
         }
 

@@ -111,6 +111,162 @@ namespace HealthyMeal.Services.MockDataStore
                     Fats = 2.6,
                     Carbohydrates = 62.3,
                 },
+                new()
+                {
+                    Id = "9",
+                    FoodId = "6",
+                    UnitsId = "3",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 225,
+                    Proteins = 103,
+                    Fats = 54,
+                    Carbohydrates = 188
+                },
+                new()
+                {
+                    Id = "10",
+                    FoodId = "7",
+                    UnitsId = "3",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 155,
+                    Proteins = 120,
+                    Fats = 22,
+                    Carbohydrates = 201
+                },
+                new()
+                {
+                    Id = "11",
+                    FoodId = "8",
+                    UnitsId = "3",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 242,
+                    Proteins = 98,
+                    Fats = 33,
+                    Carbohydrates = 231
+                },
+                new()
+                {
+                    Id = "12",
+                    FoodId = "9",
+                    UnitsId = "3",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 203,
+                    Proteins = 11,
+                    Fats = 6,
+                    Carbohydrates = 199
+                },
+                new()
+                {
+                    Id = "13",
+                    FoodId = "10",
+                    UnitsId = "2",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 77,
+                    Proteins = 6.2,
+                    Fats = 5.6,
+                    Carbohydrates = 0.3
+                },
+                new()
+                {
+                    Id = "14",
+                    FoodId = "11",
+                    UnitsId = "1",
+                    UnitsAmount = 100,
+                    IsDefault = true,
+                    Kcal = 399,
+                    Proteins = 0,
+                    Fats = 0,
+                    Carbohydrates = 99.8
+                },
+                new()
+                {
+                    Id = "15",
+                    FoodId = "12",
+                    UnitsId = "1",
+                    UnitsAmount = 100,
+                    IsDefault = true,
+                    Kcal = 334,
+                    Proteins = 10.8,
+                    Fats = 1.3,
+                    Carbohydrates = 69.9
+                },
+                new()
+                {
+                    Id = "16",
+                    FoodId = "13",
+                    UnitsId = "1",
+                    UnitsAmount = 100,
+                    IsDefault = true,
+                    Kcal = 293,
+                    Proteins = 15.8,
+                    Fats = 25,
+                    Carbohydrates = 0
+                },
+                new()
+                {
+                    Id = "17",
+                    FoodId = "14",
+                    UnitsId = "1",
+                    UnitsAmount = 100,
+                    IsDefault = true,
+                    Kcal = 111,
+                    Proteins = 11.1,
+                    Fats = 3.2,
+                    Carbohydrates = 13
+                },
+                new()
+                {
+                    Id = "18",
+                    FoodId = "15",
+                    UnitsId = "2",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 35,
+                    Proteins = 1.3,
+                    Fats = 0.1,
+                    Carbohydrates = 6.9
+                },
+                new()
+                {
+                    Id = "19",
+                    FoodId = "16",
+                    UnitsId = "2",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 40,
+                    Proteins = 1.1,
+                    Fats = 0.1,
+                    Carbohydrates = 9
+                },
+                new()
+                {
+                    Id = "20",
+                    FoodId = "17",
+                    UnitsId = "1",
+                    UnitsAmount = 100,
+                    IsDefault = true,
+                    Kcal = 380,
+                    Proteins = 23.5,
+                    Fats = 30.8,
+                    Carbohydrates = 3.4
+                },
+                new()
+                {
+                    Id = "21",
+                    FoodId = "18",
+                    UnitsId = "1",
+                    UnitsAmount = 100,
+                    IsDefault = true,
+                    Kcal = 322,
+                    Proteins = 0.3,
+                    Fats = 0,
+                    Carbohydrates = 80.3
+                },
                 ];
         }
 

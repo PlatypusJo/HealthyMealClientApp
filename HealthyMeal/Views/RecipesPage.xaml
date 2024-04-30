@@ -82,13 +82,15 @@
                 <BoxView BackgroundColor="LightGray"
                          HeightRequest="1"
                          IsVisible="false"/>
-                <CollectionView ItemsSource="{Binding Recipes}">
+                <CollectionView ItemsSource="{Binding RecipesToShow}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <controls:Card x:DataType="model:RecipeModel"
                                            Name="{Binding Name}"
-                                           KcalValue="100"
-                                           CookingTime="1 ч 10 мин"/>
+                                           KcalValue="{Binding Kcal}"
+                                           CookingTime="{Binding CookingTimeString}"
+                                           TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipesPageViewModel}}, Path=OpenRecipeInfoCommand}"
+                                           TapCommandParameter="{Binding .}"/>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.Footer>

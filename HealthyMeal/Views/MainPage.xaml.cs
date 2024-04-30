@@ -13,6 +13,7 @@ namespace HealthyMeal.Views
         public MainPage()
         {
             InitializeComponent();
+            CurrentPage = Children[2];
         }
     }
 }

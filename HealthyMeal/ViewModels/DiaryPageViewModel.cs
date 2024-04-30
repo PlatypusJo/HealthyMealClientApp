@@ -18,7 +18,7 @@ using System.Collections.ObjectModel;
 
 namespace HealthyMeal.ViewModels
 {
-    public partial class DiaryPageViewModel : BaseViewModel, IQueryAttributable
+    public partial class DiaryPageViewModel : BaseViewModel
     {
         #region Поля
 
@@ -122,7 +122,7 @@ namespace HealthyMeal.ViewModels
             };
             LoadMealTypesAsync();
             DateTime today = DateTime.Now;
-            Date = new DateTime(today.Year, today.Month, today.Day);
+            _date = new DateTime(today.Year, today.Month, today.Day);
         }
 
         #endregion
@@ -131,24 +131,7 @@ namespace HealthyMeal.ViewModels
 
         public void LoadDataAfterNavigation()
         {
-            LoadDataByDateAsync();
-        }
-
-        public void ApplyQueryAttributes(IDictionary<string, string> query)
-        {
-            if (query is null)
-                return;
-
-            if (query.ContainsKey("date"))
-            {
-                string date = HttpUtility.UrlDecode(query["date"]);
-                _date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
-            }
-            else
-            {
-                DateTime today = DateTime.Now;
-                _date = new DateTime(today.Year, today.Month, today.Day);
-            }
+            Date = _date;
         }
 
         #endregion
@@ -219,10 +202,6 @@ namespace HealthyMeal.ViewModels
             KcalConsumed = meals.Sum(m => m.Kcal);
 
             LoadChartData(meals);
-
-            OnPropertyChanged(nameof(MealTypes));
-            OnPropertyChanged(nameof(Date));
-            OnPropertyChanged(nameof(DateFormat));
         }
 
         private async void LoadMealTypesAsync()

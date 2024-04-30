@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace HealthyMeal.Controls
             null);
         public static readonly BindableProperty ActionLeftCommandProperty = BindableProperty.Create(
             nameof(ActionLeftCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(CardWithActions),
             null);
         public static readonly BindableProperty ActionLeftCommandParameterProperty = BindableProperty.Create(
@@ -45,7 +46,7 @@ namespace HealthyMeal.Controls
             null);
         public static readonly BindableProperty ActionRightCommandProperty = BindableProperty.Create(
             nameof(ActionRightCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(CardWithActions),
             null);
         public static readonly BindableProperty ActionRightCommandParameterProperty = BindableProperty.Create(
@@ -55,7 +56,7 @@ namespace HealthyMeal.Controls
             null);
         public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(
             nameof(TapCommand),
-            typeof(Command),
+            typeof(IRelayCommand),
             typeof(CardWithActions),
             null);
         public static readonly BindableProperty TapCommandParameterProperty = BindableProperty.Create(
@@ -79,9 +80,9 @@ namespace HealthyMeal.Controls
             get => (ImageSource)GetValue(IconLeftActionProperty);
             set => SetValue(IconLeftActionProperty, value);
         }
-        public Command ActionLeftCommand
+        public IRelayCommand ActionLeftCommand
         {
-            get => (Command)GetValue(ActionLeftCommandProperty);
+            get => (IRelayCommand)GetValue(ActionLeftCommandProperty);
             set => SetValue(ActionLeftCommandProperty, value);
         }
         public object ActionLeftCommandParameter
@@ -94,9 +95,9 @@ namespace HealthyMeal.Controls
             get => (ImageSource)GetValue(IconRightActionProperty);
             set => SetValue(IconRightActionProperty, value);
         }
-        public Command ActionRightCommand
+        public IRelayCommand ActionRightCommand
         {
-            get => (Command)GetValue(ActionRightCommandProperty);
+            get => (IRelayCommand)GetValue(ActionRightCommandProperty);
             set => SetValue(ActionRightCommandProperty, value);
         }
         public object ActionRightCommandParameter
@@ -104,9 +105,9 @@ namespace HealthyMeal.Controls
             get => (object)GetValue(ActionRightCommandParameterProperty);
             set => SetValue(ActionRightCommandParameterProperty, value);
         }
-        public Command TapCommand
+        public IRelayCommand TapCommand
         {
-            get => (Command)GetValue(TapCommandProperty);
+            get => (IRelayCommand)GetValue(TapCommandProperty);
             set => SetValue(TapCommandProperty, value);
         }
         public object TapCommandParameter

@@ -13,11 +13,17 @@ namespace HealthyMeal.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecipesPage : ContentPage
     {
-        private RecipesPageViewModel _vm;
+        private static readonly RecipesPageViewModel _vm = new();
         public RecipesPage()
         {
             InitializeComponent();
-            BindingContext = _vm = new RecipesPageViewModel();
+            BindingContext = _vm;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _vm.LoadDataAfterNavigation();
         }
     }
 }

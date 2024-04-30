@@ -20,6 +20,8 @@ namespace HealthyMeal
             Routing.RegisterRoute(nameof(SavingFoodPage), typeof(SavingFoodPage));
             Routing.RegisterRoute(nameof(SchedulePage), typeof(SchedulePage));
             Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
+            Routing.RegisterRoute(nameof(RecipeInfoPage), typeof(RecipeInfoPage));
+            Routing.RegisterRoute(nameof(SavingRecipePage), typeof(SavingRecipePage));
         }
     }
 }

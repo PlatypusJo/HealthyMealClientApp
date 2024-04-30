@@ -16,6 +16,12 @@ namespace HealthyMeal.Services.MockDataStore
         private IDataStore<UserModel> _userDataStore;
         private IDataStore<SexModel> _sexDataStore;
         private IDataStore<PhysicalActivityModel> _physicalActivityDataStore;
+        private IDataStore<RecipeModel> _recipeDataStore;
+        private IDataStore<IngredientModel> _ingredientDataStore;
+        private IDataStore<StepModel> _stepDataStore;
+        private IDataStore<MenuModel> _menuDataStore;
+        private IDataStore<MenuStringModel> _menuStringDataStore;
+        private IDataStore<ProductToBuyModel> _productToBuyDataStore;
 
         public IDataStore<FoodModel> Foods
         {
@@ -86,6 +92,60 @@ namespace HealthyMeal.Services.MockDataStore
             {
                 _physicalActivityDataStore ??= new PhysicalActivityDataStore();
                 return _physicalActivityDataStore;
+            }
+        }
+
+        public IDataStore<RecipeModel> Recipes
+        {
+            get
+            {
+                _recipeDataStore ??= new RecipeDataStore();
+                return _recipeDataStore;
+            }
+        }
+
+        public IDataStore<IngredientModel> Ingredients
+        {
+            get
+            {
+                _ingredientDataStore ??= new IngredientDataStore();
+                return _ingredientDataStore;
+            }
+        }
+
+        public IDataStore<StepModel> Steps
+        {
+            get
+            {
+                _stepDataStore ??= new StepDataStore();
+                return _stepDataStore;
+            }
+        }
+
+        public IDataStore<MenuModel> Menus
+        {
+            get
+            {
+                _menuDataStore ??= new MenuDataStore();
+                return _menuDataStore;
+            }
+        }
+
+        public IDataStore<MenuStringModel> MenuStrings
+        {
+            get
+            {
+                _menuStringDataStore ??= new MenuStringDataStore();
+                return _menuStringDataStore;
+            }
+        }
+
+        public IDataStore<ProductToBuyModel> ProductsToBuy
+        {
+            get
+            {
+                _productToBuyDataStore ??= new ProductToBuyDataStore();
+                return _productToBuyDataStore;
             }
         }
     }

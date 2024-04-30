@@ -14,6 +14,6 @@ namespace HealthyMeal.Models
 
         public int StepNumber { get; set; }
 
-        public string DescriptionToShow => $"{StepNumber} {Description}";
+        public string DescriptionToShow => $"{StepNumber}. {Description}";
     }
 }

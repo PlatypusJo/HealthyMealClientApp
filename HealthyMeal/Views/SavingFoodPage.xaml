@@ -21,7 +21,7 @@
                             ImageSource="back.png"
                             Command="{Binding GoBackCommand}"/>
                     <Label Style="{DynamicResource HeaderText}"
-                           Text="Добавление в дневник"
+                           Text="Приём пищи"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center"/>
                     <BoxView WidthRequest="50" 

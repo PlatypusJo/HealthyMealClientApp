@@ -139,15 +139,14 @@ namespace HealthyMeal.ViewModels
             {
                 string date = HttpUtility.UrlDecode(query["Date"]);
                 _date = NavigationParameterConverter.ObjectFromPairKeyValue<DateTime>(date);
-                OnPropertyChanged(nameof(Day));
             }
             else
             {
                 DateTime today = DateTime.Now;
-                _date = new DateTime(today.Year, today.Month, today.Day);
-                OnPropertyChanged(nameof(Day));
+                _date = new(today.Year, today.Month, today.Day);
             }
 
+            OnPropertyChanged(nameof(Day));
             LoadDataAfterNavigation(isAdd);
         }
 

@@ -19,22 +19,22 @@ namespace HealthyMeal.Services.MockDataStore
             _data = [
                 new()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "1",
                     Name = "Завтрак",
                 },
                 new()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "2",
                     Name = "Обед",
                 },
                 new()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "3",
                     Name = "Ужин",
                 },
                 new()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "4",
                     Name = "Перекус",
                 }
                 ];

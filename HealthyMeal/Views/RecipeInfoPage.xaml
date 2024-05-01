@@ -10,11 +10,15 @@
         <AbsoluteLayout Padding="0"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="FillAndExpand">
+            
             <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                          AbsoluteLayout.LayoutFlags="All"
                          Spacing="0">
-                <StackLayout Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <StackLayout x:DataType="vm:RecipeInfoViewModel"
+                             Padding="10"
+                             BackgroundColor="{DynamicResource PrimaryColor}"
+                             Orientation="Horizontal">
                     <Button Style="{DynamicResource RoundButtonPrimaryColor}" 
                             HorizontalOptions="Start" 
                             ImageSource="back.png"
@@ -44,39 +48,63 @@
                             <Image Source="xamarin_logo.png"
                                    Aspect="Fill"/>
                         </Frame>
-                        
+
+                        <StackLayout Padding="10"
+                                     IsVisible="{Binding FromMenu}">
+                            <Button Style="{DynamicResource DefaultButton}"
+                                    Text="Добавить в меню"
+                                    Padding="0"
+                                    Command="{Binding OpenAddToMenuPopupCommand}"/>
+                        </StackLayout>
+
                         <StackLayout Orientation="Horizontal" 
+                                     IsVisible="{Binding FromRecipes}"
                                      Spacing="30" 
                                      HorizontalOptions="FillAndExpand"
                                      BackgroundColor="{DynamicResource MainColor}">
-                            <Button BackgroundColor="{DynamicResource MainColor}"
+                            <Button BackgroundColor="Transparent"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="В дневник"
                                     FontSize="12"
-                                     Margin="15, 0, 0, 0"
+                                    Margin="15, 0, 0, 0"
                                     ImageSource="addDiary.png"
-                                    ContentLayout="Top, 10"/>
-                            <Button BackgroundColor="{DynamicResource MainColor}"
+                                    ContentLayout="Top, 10"
+                                    Command="{Binding OpenSavingRecipePageCommand}"/>
+                            <Button BackgroundColor="Transparent"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="В меню"
                                     FontSize="12"
                                     ImageSource="addMenu.png"
-                                    ContentLayout="Top, 10"/>
-                            <Button BackgroundColor="{DynamicResource MainColor}"
+                                    ContentLayout="Top, 10"
+                                    Command="{Binding OpenAddToMenuPopupCommand}"/>
+                            <Button BackgroundColor="Transparent"
                                     WidthRequest="100"
                                     TextColor="{DynamicResource PrimaryColor}"
                                     Text="Создать список покупок"
                                     FontSize="12"
                                     ImageSource="createList.png"
-                                    ContentLayout="Top, 10"/>
+                                    ContentLayout="Top, 10"
+                                    Command="{Binding OpenShoppingListPopupCommand}"/>
                         </StackLayout>
-                        <BoxView BackgroundColor="LightGray"
-                                 HeightRequest="1"/>
-                        <StackLayout Padding="10" BackgroundColor="{DynamicResource MainColor}">
-                            <controls:DefaultLine Name="Ккал" Value="{Binding Kcal}"/>
-                            <controls:DefaultLine Name="Время приготовления" Value="{Binding CookingTime}"/>
+
+                        <StackLayout Margin="0, 10, 0, 0" Padding="10">
+                            <Frame CornerRadius="10"
+                                   Padding="0">
+                                <StackLayout Padding="10" BackgroundColor="{DynamicResource MainColor}">
+                                    <Label Style="{DynamicResource CommonText}"
+                                           Text="Калорийность"/>
+                                    <Label Style="{DynamicResource CommonText}"
+                                           TextColor="{DynamicResource PrimaryColor}"
+                                           Text="{Binding Kcal}"/>
+                                    <Label Style="{DynamicResource CommonText}"
+                                           Text="Время приготовления"/>
+                                    <Label Style="{DynamicResource CommonText}"
+                                           TextColor="{DynamicResource PrimaryColor}"
+                                           Text="{Binding CookingTime}"/>
+                                </StackLayout>
+                            </Frame>
                         </StackLayout>
 
                         <StackLayout Padding="10">
@@ -86,7 +114,8 @@
                                    Text="Ингредиенты"/>
                             <StackLayout>
                                 <Frame BackgroundColor="{DynamicResource MainColor}"
-                                       Padding="0">
+                                       Padding="0"
+                                       CornerRadius="10">
                                     <StackLayout BindableLayout.ItemsSource="{Binding Ingredients}"
                                                  Spacing="0">
                                         <BindableLayout.ItemTemplate>
@@ -95,16 +124,8 @@
                                                        Padding="5">
                                                     <StackLayout x:DataType="model:IngredientModel">
                                                         <Label Style="{DynamicResource CommonText}"
-                                                               Text="{Binding Name}" 
+                                                               Text="{Binding InfoString}" 
                                                                LineBreakMode="WordWrap"/>
-                                                        <StackLayout Orientation="Horizontal">
-                                                            <Label Style="{DynamicResource CommonText}"
-                                                                   Text="{Binding UnitsAmount}" 
-                                                                   LineBreakMode="TailTruncation"/>
-                                                            <Label Style="{DynamicResource CommonText}"
-                                                                   Text="{Binding UnitsName}" 
-                                                                   LineBreakMode="TailTruncation"/>
-                                                        </StackLayout>
                                                     </StackLayout>
                                                 </Frame>
                                             </DataTemplate>
@@ -115,10 +136,12 @@
                             
                             <Label Style="{DynamicResource LargeText}"
                                    FontAttributes="Bold"
+                                   Margin="0, 10, 0, 0"
                                    Text="Шаги"/>
                             <StackLayout>
                                 <Frame BackgroundColor="{DynamicResource MainColor}"
-                                       Padding="0">
+                                       Padding="0"
+                                       CornerRadius="10">
                                     <StackLayout BindableLayout.ItemsSource="{Binding Steps}"
                                                  Spacing="0">
                                         <BindableLayout.ItemTemplate>
@@ -143,6 +166,190 @@
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
+
+            <ContentView x:Name="popupAddMenu"
+                         Style="{DynamicResource CustomPopup}"
+                         x:DataType="vm:RecipeInfoViewModel"
+                         IsVisible="{Binding IsMenuAddPopupVisible}">
+                <Grid HorizontalOptions="Fill"
+                      VerticalOptions="Fill">
+                    <Button Command="{Binding ClosePopupCommand}"
+                            BackgroundColor="Transparent"/>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Frame CornerRadius="10"
+                               Padding="0">
+                            <StackLayout x:DataType="vm:RecipeInfoViewModel" 
+                                         HeightRequest="370" 
+                                         WidthRequest="400">
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="EndAndExpand"
+                                            Command="{Binding ClosePopupCommand}"
+                                            ImageSource="cross.png"/>
+                                </StackLayout>
+                                <Label Style="{DynamicResource HeaderText}"
+                                       TextColor="{DynamicResource CommonTextColor}"
+                                       Text="Добавление в меню"
+                                       Padding="10"/>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="Выберите дату и приём пищи"
+                                       Padding="10"/>
+                                <DatePicker TextColor="{DynamicResource CommonTextColor}"
+                                            FontSize="18"
+                                            Date="{Binding SelectedDate}"
+                                            Format="{Binding DateFormat}"
+                                            VerticalOptions="Center"
+                                            Margin="10"/>
+                                <Picker ItemsSource="{Binding MealTypes}"
+                                        SelectedItem="{Binding SelectedMealType}"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        TextColor="{DynamicResource CommonTextColor}"
+                                        FontSize="18"
+                                        WidthRequest="350"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"/>
+                                <Button Style="{DynamicResource DefaultButton}"
+                                        Text="Сохранить"
+                                        Margin="10, 30, 10, 10"
+                                        Command="{Binding AddToMenuCommand}"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </ContentView>
+
+            <ContentView x:Name="popupShoppingListCreate"
+                         x:DataType="vm:RecipeInfoViewModel"
+                         Style="{DynamicResource CustomPopup}"
+                         IsVisible="{Binding IsShoppingListPopupVisible}">
+                <Grid HorizontalOptions="Fill"
+                      VerticalOptions="Fill">
+                    <Button Command="{Binding ClosePopupCommand}"
+                            BackgroundColor="Transparent"/>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Frame CornerRadius="10"
+                               Padding="0">
+                            <StackLayout x:DataType="vm:RecipeInfoViewModel" 
+                                         HeightRequest="350" 
+                                         WidthRequest="400">
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="EndAndExpand"
+                                            Command="{Binding ClosePopupCommand}"
+                                            ImageSource="cross.png"/>
+                                </StackLayout>
+                                <Label Style="{DynamicResource HeaderText}"
+                                       TextColor="{DynamicResource CommonTextColor}"
+                                       Text="Формирование списка покупок"
+                                       Padding="10"/>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="Выберите дату, на которую хотели бы составить список покупок"
+                                       Padding="10"/>
+                                <DatePicker TextColor="{DynamicResource CommonTextColor}"
+                                            FontSize="18"
+                                            Date="{Binding SelectedDate}"
+                                            Format="{Binding DateFormat}"
+                                            VerticalOptions="Center"
+                                            Margin="10"/>
+                                <Button Style="{DynamicResource DefaultButton}"
+                                        Text="Создать"
+                                        Margin="10, 30, 10, 10"
+                                        Command="{Binding CreateShoppingListCommand}"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </ContentView>
+
+            <ContentView x:Name="popupChoice"
+                         x:DataType="vm:RecipeInfoViewModel"
+                         Style="{DynamicResource CustomPopup}"
+                         IsVisible="{Binding IsChoicePopupVisible}">
+                <Grid HorizontalOptions="Fill"
+                      VerticalOptions="Fill">
+                    <Button Command="{Binding ClosePopupCommand}"
+                            BackgroundColor="Transparent"/>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Frame CornerRadius="10"
+                               Padding="0">
+                            <StackLayout x:DataType="vm:RecipeInfoViewModel" 
+                                         HeightRequest="270" 
+                                         WidthRequest="400">
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="EndAndExpand"
+                                            Command="{Binding ClosePopupCommand}"
+                                            ImageSource="cross.png"/>
+                                </StackLayout>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="На выбранную дату уже существует список"
+                                       Padding="10"/>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="Чтобы Вы хотели сделать?"
+                                       Padding="10"/>
+                                <StackLayout Orientation="Horizontal"
+                                             Margin="10, 30, 10, 10"
+                                             HorizontalOptions="EndAndExpand"
+                                             Spacing="10">
+                                    <Button Style="{DynamicResource DefaultButton}"
+                                            Text="Заменить"
+                                            Command="{Binding ReplaceShoppingListCommand}"/>
+                                    <Button Style="{DynamicResource DefaultButton}"
+                                            Text="Добавить"
+                                            Command="{Binding AddToShoppingListCommand}"/>
+                                </StackLayout>
+                                
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </ContentView>
+
+            <ContentView x:Name="popupOk"
+                         x:DataType="vm:RecipeInfoViewModel"
+                         Style="{DynamicResource CustomPopup}"
+                         IsVisible="{Binding IsNextPopupVisible}">
+                <Grid HorizontalOptions="Fill"
+                      VerticalOptions="Fill">
+                    <Button Command="{Binding ClosePopupCommand}"
+                            BackgroundColor="Transparent"/>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Frame CornerRadius="10"
+                               Padding="0">
+                            <StackLayout x:DataType="vm:RecipeInfoViewModel" 
+                                         HeightRequest="200" 
+                                         WidthRequest="400">
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="EndAndExpand"
+                                            Command="{Binding ClosePopupCommand}"
+                                            ImageSource="cross.png"/>
+                                </StackLayout>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="{Binding NextPopupText}"
+                                       Padding="10"/>
+                                <Button Style="{DynamicResource DefaultButton}"
+                                        Text="Продолжить"
+                                        Margin="10, 30, 10, 10"
+                                        Command="{Binding ClosePopupCommand}"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </ContentView>
+
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

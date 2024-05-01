@@ -8,9 +8,9 @@
              x:Class="HealthyMeal.Views.SavingRecipePage">
     <ContentPage.Content>
         <AbsoluteLayout x:DataType="vm:SavingRecipePageViewModel"
-                Padding="0"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand">
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
             <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                          AbsoluteLayout.LayoutFlags="All"
@@ -18,9 +18,10 @@
                 <StackLayout Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                     <Button Style="{DynamicResource RoundButtonPrimaryColor}" 
                             HorizontalOptions="Start" 
-                            ImageSource="back.png"/>
+                            ImageSource="back.png"
+                            Command="{Binding GoBackCommand}"/>
                     <Label Style="{DynamicResource HeaderText}"
-                           Text="Добавление в дневник"
+                           Text="Приём пищи"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center"/>
                     <BoxView WidthRequest="50" 
@@ -33,7 +34,7 @@
                              Orientation="Horizontal">
                             <Label Style="{DynamicResource LargeText}"
                                    Margin="10, 0, 0, 0"
-                                   Text="Название блюда"
+                                   Text="{Binding FoodName}"
                                    VerticalOptions="Center"
                                    LineBreakMode="WordWrap"
                                    MaxLines="2"/>
@@ -59,12 +60,13 @@
                                                FontSize="16"
                                                Placeholder="Количество съеденного"
                                                Keyboard="Numeric"
+                                               Text="{Binding AmountEaten, Mode=TwoWay}"
                                                MaxLength="4">
-                                            <!--<Entry.Behaviors>
+                                            <Entry.Behaviors>
                                                 <xct:EventToCommandBehavior EventName="TextChanged"
                                                                     Command="{Binding TextChangedCommand}"
                                                                     CommandParameter="{Binding Text, Source={x:Reference numEntry}}"/>
-                                            </Entry.Behaviors>-->
+                                            </Entry.Behaviors>
                                         </Entry>
                                     </StackLayout>
                                 </Frame>
@@ -77,7 +79,9 @@
                                        CornerRadius="5"
                                        BackgroundColor="White">
                                     <StackLayout Orientation="Horizontal">
-                                        <Picker 
+                                        <Picker ItemsSource="{Binding Units}"
+                                                SelectedItem="{Binding SelectedUnits}"
+                                                ItemDisplayBinding="{Binding Name}"
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="FillAndExpand"/>
                                     </StackLayout>
@@ -91,19 +95,40 @@
                                        CornerRadius="5"
                                        BackgroundColor="White">
                                     <StackLayout Orientation="Horizontal">
-                                        <Picker 
+                                        <Picker ItemsSource="{Binding MealTypes}"
+                                                SelectedItem="{Binding SelectedMealType}"
+                                                ItemDisplayBinding="{Binding Name}"
+                                                TextColor="{DynamicResource CommonTextColor}"
                                                 VerticalOptions="Center"
                                                 HorizontalOptions="FillAndExpand"/>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
-                            
+
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Дата"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <DatePicker Date="{Binding SelectedDate}"
+                                                    Format="{Binding DateFormat}"
+                                                    TextColor="{DynamicResource CommonTextColor}"
+                                                    VerticalOptions="Center"
+                                                    HorizontalOptions="FillAndExpand"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+
                         </StackLayout>
                         
                         <StackLayout Padding="10">
                             <Button Style="{DynamicResource DefaultButton}"
+                                    IsEnabled="{Binding IsEnabledSaveBtn}"
                                     Text="Сохранить"
-                                    Padding="0">
+                                    Padding="0"
+                                    Command="{Binding SaveCommand}">
                                 <Button.Triggers>
                                     <Trigger TargetType="Button" Property="IsEnabled" Value="False">
                                         <Setter Property="BackgroundColor" Value="{DynamicResource Disabled}"/>
@@ -115,7 +140,10 @@
                         <Label Style="{DynamicResource LargeText}"
                                Text="Пищевая ценность"
                                Margin="10, 0, 0, 0"/>
-                        <controls:NutritionalValueInfo />
+                        <controls:NutritionalValueInfo Kcal="{Binding Kcal}"
+                                                       Proteins="{Binding Proteins}"
+                                                       Fats="{Binding Fats}"
+                                                       Carbohydrates="{Binding Carbohydrates}"/>
                     </StackLayout>
                 </ScrollView>
             </StackLayout>

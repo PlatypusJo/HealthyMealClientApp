@@ -11,26 +11,20 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <StackLayout Grid.Column="0"
-                   Orientation="Vertical">
+                         Orientation="Vertical"
+                         Margin="10, 0, 0, 0">
                 <Label Style="{DynamicResource LargeText}"
                        Text="{Binding Name}"
                        HorizontalOptions="StartAndExpand"
                        VerticalOptions="Center"
                        LineBreakMode="WordWrap"
                        MaxLines="2"/>
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="StartAndExpand">
-                    <Label Text="{Binding Amount}"
-                           FontSize="16"
-                           TextColor="{DynamicResource PrimaryColor}"
-                           VerticalOptions="Center"
-                           LineBreakMode="TailTruncation"/>
-                    <Label Text="Ккал"
-                           FontSize="16"
-                           TextColor="{DynamicResource PrimaryColor}"
-                           VerticalOptions="Center"
-                           LineBreakMode="TailTruncation"/>
-                </StackLayout>
+                <Label Text="{Binding Amount}"
+                       FontSize="16"
+                       TextColor="{DynamicResource PrimaryColor}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="StartAndExpand"
+                       LineBreakMode="WordWrap"/>
             </StackLayout>
             <Button Style="{DynamicResource RoundButtonMainColor}" 
                     Grid.Column="1"

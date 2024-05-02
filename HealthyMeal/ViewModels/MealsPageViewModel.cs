@@ -7,16 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Windows.Input;
 using Xamarin.Forms;
+using static Xamarin.Essentials.Permissions;
 
 namespace HealthyMeal.ViewModels
 {
-    public partial class FoodPageViewModel : BaseViewModel, IQueryAttributable
+    public partial class MealsPageViewModel : BaseViewModel, IQueryAttributable
     {
         #region Поля
 
@@ -26,7 +25,9 @@ namespace HealthyMeal.ViewModels
 
         private DateTime _date;
 
-        List<FoodModel> _foods = [];
+        List<MealModel> _meals = [];
+
+        private MealTypeModel _selectedMealType;
 
         #endregion
 
@@ -45,16 +46,17 @@ namespace HealthyMeal.ViewModels
         private bool _isVisibleToPrevious = false;
 
         [ObservableProperty]
-        private ObservableCollection<FoodModel> _foodsToShow = [];
+        private ObservableCollection<MealModel> _mealsToShow = [];
 
         [ObservableProperty]
         private List<MealTypeModel> _mealTypes;
 
         [ObservableProperty]
-        private MealTypeModel _selectedMealType;
+        private bool _isFromDiary = false;
 
         [ObservableProperty]
-        private string _searchBarText;
+        [NotifyPropertyChangedFor(nameof(IsCollectionVisible))]
+        private bool _isEmptyCollection = true;
 
         #endregion
 
@@ -63,6 +65,19 @@ namespace HealthyMeal.ViewModels
         public string Day
         {
             get => _date.ToString("dd.MM, ddd").ToUpper();
+        }
+
+        public bool IsCollectionVisible => !IsEmptyCollection;
+
+        public MealTypeModel SelectedMealType
+        {
+            get => _selectedMealType;
+            set
+            {
+                _selectedMealType = value;
+                LoadDataByMealTypeAsync();
+                OnPropertyChanged(nameof(SelectedMealType));
+            }
         }
 
         #endregion
@@ -76,14 +91,15 @@ namespace HealthyMeal.ViewModels
         }
 
         [RelayCommand]
-        private async Task OpenSavingFoodPage(FoodModel food)
+        private async Task OpenSavingFoodPage(MealModel meal)
         {
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
             string mealType = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType, "MealType");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
-            string foodId = NavigationParameterConverter.ObjectToPairKeyValue(food.Id, "FoodId");
-            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
-            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{userId}&{mealType}&{date}&{foodId}&{isEdit}");
+            string mealId = NavigationParameterConverter.ObjectToPairKeyValue(meal.Id, "MealId");
+            string foodId = NavigationParameterConverter.ObjectToPairKeyValue(meal.FoodId, "FoodId");
+            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsEdit");
+            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{userId}&{mealType}&{date}&{foodId}&{isEdit}&{mealId}");
         }
 
         [RelayCommand]
@@ -99,16 +115,21 @@ namespace HealthyMeal.ViewModels
         }
 
         [RelayCommand]
-        private async Task Search(string searchText)
+        private async Task RemoveMeal(MealModel meal)
         {
-            
+            await GlobalDataStore.Meals.DeleteItemAsync(meal.Id);
+            _meals = await GlobalDataStore.Meals.GetAllItemsAsync();
+            _meals = _meals.Where(x => x.Date == _date && x.MealTypeId == SelectedMealType.Id).ToList();
+
+            IsEmptyCollection = _meals.Count == 0;
+            SwitchPageAndReloadData(_meals.Count / _pageSize + 1);
         }
 
         #endregion
 
         #region Конструкторы
 
-        public FoodPageViewModel()
+        public MealsPageViewModel()
         {
             LoadMealTypesAsync();
         }
@@ -122,26 +143,24 @@ namespace HealthyMeal.ViewModels
             if (query is null)
                 return;
 
-            bool isFromDiary = false;
-            SelectedMealType = MealTypes.Find(x => x.Type == MealType.Breakfast);
+            string mealTypeId = string.Empty;
 
             if (query.ContainsKey("UserId"))
             {
                 string userId = HttpUtility.UrlDecode(query["UserId"]);
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
-                
+
             if (query.ContainsKey("MealTypeId"))
             {
-                string mealTypeId = HttpUtility.UrlDecode(query["MealTypeId"]);
-                mealTypeId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealTypeId);
-                SelectedMealType = MealTypes.Find(x => x.Id == mealTypeId);
+                string strBuf = HttpUtility.UrlDecode(query["MealTypeId"]);
+                mealTypeId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(strBuf);
             }
-                
+
             if (query.ContainsKey("IsFromDiary"))
             {
-                string strBuf = HttpUtility.UrlDecode(query["IsFromDiary"]);
-                isFromDiary = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
+                string isAddStr = HttpUtility.UrlDecode(query["IsFromDiary"]);
+                IsFromDiary = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isAddStr);
             }
 
             if (query.ContainsKey("Date"))
@@ -156,7 +175,15 @@ namespace HealthyMeal.ViewModels
             }
 
             OnPropertyChanged(nameof(Day));
-            LoadDataAfterNavigation(isFromDiary);
+
+            if (mealTypeId != string.Empty)
+            {
+                SelectedMealType = MealTypes.Find(x => x.Id == mealTypeId);
+            }
+            else
+            {
+                SelectedMealType = MealTypes.Find(x => x.Type == MealType.Breakfast);
+            }
         }
 
 
@@ -164,32 +191,25 @@ namespace HealthyMeal.ViewModels
 
         #region Внутренние методы
 
-        private async void LoadDataAfterNavigation(bool isFromDiary)
+        private async void LoadDataByMealTypeAsync()
         {
-            List<RecipeModel> recipes = await GlobalDataStore.Recipes.GetAllItemsAsync();
-            _foods = await GlobalDataStore.Foods.GetAllItemsAsync();
+            List<MealModel> meals = await GlobalDataStore.Meals.GetAllItemsAsync();
+            meals = meals.Where(x => x.Date == _date && x.MealTypeId == SelectedMealType.Id).ToList();
+            _meals = meals;
 
-            List<FoodModel> foods = [];
-            for (int i = 0; i < recipes.Count; i++)
-            {
-                FoodModel food = _foods.Find(f => f.Id == recipes[i].FoodId);
-                foods.Add(food);
-            }
+            IsVisible = _meals.Count > _pageSize;
+            IsEmptyCollection = _meals.Count == 0;
 
-            _foods = _foods.Except(foods).ToList();
-            IsVisible = _foods.Count > _pageSize;
-
-            if (isFromDiary)
+            if (IsFromDiary)
             {
                 PageIndex = 1;
-                SearchBarText = string.Empty;
                 SwitchPageAndReloadData(PageIndex);
             }
             else
             {
-                SwitchPageAndReloadData(_foods.Count / _pageSize + 1);
+                SwitchPageAndReloadData(_meals.Count / _pageSize + 1);
             }
-
+            
         }
 
         private async void LoadMealTypesAsync()
@@ -201,23 +221,23 @@ namespace HealthyMeal.ViewModels
         private void SwitchPageAndReloadData(int pageNumber)
         {
             int index = pageNumber - 1;
-            if (index < 0 || index > _foods.Count / _pageSize)
+            if (index < 0 || index > _meals.Count / _pageSize)
                 return;
 
             LoadDataToShow(index);
 
             IsVisibleToPrevious = !(pageNumber == 1);
-            IsVisibleToNext = !(pageNumber == _foods.Count / _pageSize + 1);
+            IsVisibleToNext = !(pageNumber == _meals.Count / _pageSize + 1);
             PageIndex = pageNumber;
         }
 
         private void LoadDataToShow(int curIndexPage)
         {
-            FoodsToShow.Clear();
+            MealsToShow.Clear();
             int startIndex = curIndexPage * _pageSize;
-            for (int i = startIndex; i < _foods.Count && i < startIndex + _pageSize; i++)
+            for (int i = startIndex; i < _meals.Count && i < startIndex + _pageSize; i++)
             {
-                FoodsToShow.Add(_foods[i]);
+                MealsToShow.Add(_meals[i]);
             }
         }
 

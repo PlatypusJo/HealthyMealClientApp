@@ -43,6 +43,9 @@ namespace HealthyMeal.ViewModels
         [ObservableProperty]
         private List<UnitsModel> _units;
 
+        [ObservableProperty]
+        private bool _isEdit = false;
+
         #endregion
 
         #region Свойства
@@ -93,14 +96,13 @@ namespace HealthyMeal.ViewModels
         {
             string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(_mealType.Id, "MealTypeId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
-            string isAdd = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsAdd");
-            await Shell.Current.GoToAsync($"..?{mealTypeId}&{date}&{isAdd}");
+            string IsFromDiary = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromDiary");
+            await Shell.Current.GoToAsync($"..?{mealTypeId}&{date}&{IsFromDiary}");
         }
 
         [RelayCommand]
         private async Task Save()
         {
-            _meal.Id = Guid.NewGuid().ToString();
             _meal.NutritionalValue = _selectedNutritionalValue;
             _meal.AmountEaten = AmountEaten;
             _meal.Date = _date;
@@ -110,12 +112,21 @@ namespace HealthyMeal.ViewModels
             _meal.UnitsId = SelectedUnits.Id;
             _meal.UnitsName = SelectedUnits.Name;
             _meal.UserId = _userId;
-            await GlobalDataStore.Meals.AddItemAsync(_meal);
+
+            if (!IsEdit)
+            {
+                _meal.Id = Guid.NewGuid().ToString();
+                await GlobalDataStore.Meals.AddItemAsync(_meal);
+            }
+            else
+            {
+                await GlobalDataStore.Meals.UpdateItemAsync(_meal);
+            }
 
             string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(_mealType.Id, "MealTypeId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
-            string isAdd = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsAdd");
-            await Shell.Current.GoToAsync($"..?{mealTypeId}&{date}&{isAdd}");
+            string isFromDiary = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromDiary");
+            await Shell.Current.GoToAsync($"..?{mealTypeId}&{date}&{isFromDiary}");
         }
 
         [RelayCommand]
@@ -142,7 +153,6 @@ namespace HealthyMeal.ViewModels
         {
             string mealId = string.Empty;
             string foodId = string.Empty;
-            bool isEdit = false;
 
             if (query.ContainsKey("UserId"))
             {
@@ -152,8 +162,8 @@ namespace HealthyMeal.ViewModels
 
             if (query.ContainsKey("IsEdit"))
             {
-                string isEditStr = HttpUtility.UrlDecode(query["IsEdit"]);
-                isEdit = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(isEditStr);
+                string strBuf = HttpUtility.UrlDecode(query["IsEdit"]);
+                IsEdit = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
             }
 
             if (query.ContainsKey("FoodId"))
@@ -185,14 +195,14 @@ namespace HealthyMeal.ViewModels
                 _date = new DateTime(today.Year, today.Month, today.Day);
             }
 
-            LoadDataAfterNavigation(isEdit, mealId, foodId);
+            LoadDataAfterNavigation(mealId, foodId);
         }
 
         #endregion
 
         #region Внутренние методы
 
-        private async void LoadDataAfterNavigation(bool isEdit, string mealId, string foodId)
+        private async void LoadDataAfterNavigation(string mealId, string foodId)
         {
             _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             _nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
@@ -206,7 +216,7 @@ namespace HealthyMeal.ViewModels
             }
             Units = unitsBuf;
 
-            if (isEdit)
+            if (IsEdit)
             {
                 _meal = await GlobalDataStore.Meals.GetItemAsync(mealId);
                 AmountEaten = _meal.AmountEaten;

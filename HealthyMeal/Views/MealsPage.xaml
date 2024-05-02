@@ -5,12 +5,11 @@
              xmlns:model="clr-namespace:HealthyMeal.Models"
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="HealthyMeal.Views.FoodPage">
+             x:Class="HealthyMeal.Views.MealsPage">
     <ContentPage.Content>
-        <StackLayout x:DataType="vm:FoodPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
+        <StackLayout x:DataType="vm:MealsPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
 
-            <!--Заголовок-->
-            <StackLayout x:DataType="vm:FoodPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+            <StackLayout x:DataType="vm:MealsPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <Button Style="{DynamicResource RoundButtonPrimaryColor}"
                         HorizontalOptions="Start"
                         ImageSource="back.png"
@@ -31,43 +30,28 @@
                        VerticalOptions="Center"
                        HorizontalOptions="End"/>
             </StackLayout>
-            
-            <!--Поисковая строка-->
-            <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
-                <SearchBar x:Name="srcB"
-                           TextColor="{DynamicResource CommonTextColor}"
-                           CancelButtonColor="{DynamicResource CommonTextColor}"
-                           Placeholder="Поиск продукта"
-                           HorizontalOptions="FillAndExpand"
-                           FontSize="16"
-                           Text="{Binding SearchBarText}">
-                    <SearchBar.Behaviors>
-                        <xct:EventToCommandBehavior EventName="SearchButtonPressed"
-                                                    Command="{Binding SearchCommand}"
-                                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
-                        <xct:EventToCommandBehavior EventName="TextChanged"
-                                                    Command="{Binding SearchCommand}"
-                                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
-                    </SearchBar.Behaviors>
-                </SearchBar>
-            </StackLayout>
             <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
-            
-            <!--Список продуктов-->
-            <ListView x:Name="Foods"
-                      ItemsSource="{Binding FoodsToShow}"
+            <StackLayout IsVisible="{Binding IsEmptyCollection}"
+                         HorizontalOptions="CenterAndExpand"
+                         VerticalOptions="CenterAndExpand">
+                <Label Style="{DynamicResource LargeText}"
+                       Text="Приёмов пищи не найдено"/>
+            </StackLayout>
+            <ListView x:Name="Meals"
+                      IsVisible="{Binding IsCollectionVisible}"
+                      ItemsSource="{Binding MealsToShow}"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.View>
-                                <controls:FoodListItem x:DataType="model:FoodModel"
-                                                       Name="{Binding Name}"
-                                                       Amount="{Binding DefaultUnitsAmount}"
-                                                       UnitsName="{Binding DefaultUnitsName}"
-                                                       KcalValue="{Binding Kcal}"
-                                                       TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:FoodPageViewModel}}, Path=OpenSavingFoodPageCommand}"
-                                                       TapCommandParameter="{Binding .}"/>
+                                <controls:MealListItem x:DataType="model:MealModel"
+                                                       Name="{Binding FoodName}"
+                                                       Amount="{Binding InfoString}"
+                                                       TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MealsPageViewModel}}, Path=OpenSavingFoodPageCommand}"
+                                                       TapCommandParameter="{Binding .}"
+                                                       ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MealsPageViewModel}}, Path=RemoveMealCommand}"
+                                                       ButtonCommandParameter="{Binding .}"/>
                             </ViewCell.View>
                         </ViewCell>
                     </DataTemplate>
@@ -83,7 +67,7 @@
                                             HeightRequest="65"/>
                 </ListView.Footer>
             </ListView>
-            
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

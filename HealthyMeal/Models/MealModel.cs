@@ -25,6 +25,8 @@ namespace HealthyMeal.Models
 
         public double AmountEaten { get; set; }
 
+        public string InfoString => $"{Kcal} Ккал";
+
         public NutritionalValueModel NutritionalValue { get; set; }
 
         public double Kcal => NutritionalValue is not null ? NutritionalValue.Kcal * AmountEaten / NutritionalValue.UnitsAmount : 0;

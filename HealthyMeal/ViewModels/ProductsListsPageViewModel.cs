@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
+using HealthyMeal.Utils;
+using HealthyMeal.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -40,9 +42,6 @@ namespace HealthyMeal.ViewModels
         private bool _isVisibleToPrevious;
 
         [ObservableProperty]
-        private string _dateFormat;
-
-        [ObservableProperty]
         private bool _isPopupEditVisible;
 
         [ObservableProperty]
@@ -54,13 +53,15 @@ namespace HealthyMeal.ViewModels
 
         public ObservableCollection<ProductToBuyModel> ProductsToBuy { get; set; }
 
+        public string DateFormat => DateTime.Now.Year != Date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
+
         public DateTime Date
         {
             get => _date;
             set
             {
                 _date = value;
-                DateFormat = DateTime.Now.Year != _date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
+                OnPropertyChanged(nameof(DateFormat));
                 OnPropertyChanged(nameof(Date));
             }
         }
@@ -68,6 +69,15 @@ namespace HealthyMeal.ViewModels
         #endregion
 
         #region Команды
+
+        [RelayCommand]
+        private async Task OpenProductsPage()
+        {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue("1", "UserId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
+            string isFromShopList = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromShopList");
+            await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{userId}&{date}&{isFromShopList}");
+        }
 
         [RelayCommand]
         private void CheckBoxChanged(object arg)

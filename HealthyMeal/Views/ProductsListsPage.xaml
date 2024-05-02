@@ -40,7 +40,8 @@
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
                             HorizontalOptions="EndAndExpand"
                             VerticalOptions="Center"
-                            ImageSource="add.png"/>
+                            ImageSource="add.png"
+                            Command="{Binding OpenProductsPageCommand}"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
                 <ListView x:Name="ProductsToBuy"

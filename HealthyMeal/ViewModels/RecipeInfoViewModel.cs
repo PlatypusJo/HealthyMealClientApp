@@ -155,6 +155,7 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task AddToMenu()
         {
+            // Добавление в меню, если блюда с таким же типом приёма пищи и даты не существует иначе окно с отказом
             IsMenuAddPopupVisible = false;
             NextPopupText = "Рецепт успешно добавлен в меню!";
             IsNextPopupVisible = true;

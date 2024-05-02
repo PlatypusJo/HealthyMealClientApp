@@ -7,16 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HealthyMeal.ViewModels
 {
-    public partial class FoodPageViewModel : BaseViewModel, IQueryAttributable
+    public partial class ProductsPageViewModel : BaseViewModel, IQueryAttributable
     {
         #region Поля
 
@@ -48,12 +46,6 @@ namespace HealthyMeal.ViewModels
         private ObservableCollection<FoodModel> _foodsToShow = [];
 
         [ObservableProperty]
-        private List<MealTypeModel> _mealTypes;
-
-        [ObservableProperty]
-        private MealTypeModel _selectedMealType;
-
-        [ObservableProperty]
         private string _searchBarText;
 
         #endregion
@@ -76,14 +68,13 @@ namespace HealthyMeal.ViewModels
         }
 
         [RelayCommand]
-        private async Task OpenSavingFoodPage(FoodModel food)
+        private async Task OpenSavingToShopListPage(FoodModel food)
         {
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
-            string mealType = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType, "MealType");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
             string foodId = NavigationParameterConverter.ObjectToPairKeyValue(food.Id, "FoodId");
             string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
-            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{userId}&{mealType}&{date}&{foodId}&{isEdit}");
+            await Shell.Current.GoToAsync($"{nameof(SavingToShopListPage)}?{userId}&{date}&{foodId}&{isEdit}");
         }
 
         [RelayCommand]
@@ -108,10 +99,7 @@ namespace HealthyMeal.ViewModels
 
         #region Конструкторы
 
-        public FoodPageViewModel()
-        {
-            LoadMealTypesAsync();
-        }
+        public ProductsPageViewModel() { }
 
         #endregion
 
@@ -122,26 +110,18 @@ namespace HealthyMeal.ViewModels
             if (query is null)
                 return;
 
-            bool isFromDiary = false;
-            SelectedMealType = MealTypes.Find(x => x.Type == MealType.Breakfast);
+            bool isFromShopList = false;
 
             if (query.ContainsKey("UserId"))
             {
                 string userId = HttpUtility.UrlDecode(query["UserId"]);
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
-                
-            if (query.ContainsKey("MealTypeId"))
+
+            if (query.ContainsKey("IsFromShopList"))
             {
-                string mealTypeId = HttpUtility.UrlDecode(query["MealTypeId"]);
-                mealTypeId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealTypeId);
-                SelectedMealType = MealTypes.Find(x => x.Id == mealTypeId);
-            }
-                
-            if (query.ContainsKey("IsFromDiary"))
-            {
-                string strBuf = HttpUtility.UrlDecode(query["IsFromDiary"]);
-                isFromDiary = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
+                string strBuf = HttpUtility.UrlDecode(query["IsFromShopList"]);
+                isFromShopList = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
             }
 
             if (query.ContainsKey("Date"))
@@ -156,7 +136,7 @@ namespace HealthyMeal.ViewModels
             }
 
             OnPropertyChanged(nameof(Day));
-            LoadDataAfterNavigation(isFromDiary);
+            LoadDataAfterNavigation(isFromShopList);
         }
 
 
@@ -164,7 +144,7 @@ namespace HealthyMeal.ViewModels
 
         #region Внутренние методы
 
-        private async void LoadDataAfterNavigation(bool isFromDiary)
+        private async void LoadDataAfterNavigation(bool isFromShopList)
         {
             List<RecipeModel> recipes = await GlobalDataStore.Recipes.GetAllItemsAsync();
             _foods = await GlobalDataStore.Foods.GetAllItemsAsync();
@@ -179,7 +159,7 @@ namespace HealthyMeal.ViewModels
             _foods = _foods.Except(foods).ToList();
             IsVisible = _foods.Count > _pageSize;
 
-            if (isFromDiary)
+            if (isFromShopList)
             {
                 PageIndex = 1;
                 SearchBarText = string.Empty;
@@ -190,12 +170,6 @@ namespace HealthyMeal.ViewModels
                 SwitchPageAndReloadData(_foods.Count / _pageSize + 1);
             }
 
-        }
-
-        private async void LoadMealTypesAsync()
-        {
-            MealTypes = await GlobalDataStore.MealTypes.GetAllItemsAsync();
-            MealTypes = [.. MealTypes.OrderBy(x => x.Type)];
         }
 
         private void SwitchPageAndReloadData(int pageNumber)

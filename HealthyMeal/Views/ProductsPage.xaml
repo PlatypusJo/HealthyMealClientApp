@@ -5,25 +5,19 @@
              xmlns:model="clr-namespace:HealthyMeal.Models"
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="HealthyMeal.Views.FoodPage">
+             x:Class="HealthyMeal.Views.ProductsPage">
     <ContentPage.Content>
-        <StackLayout x:DataType="vm:FoodPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
+        <StackLayout x:DataType="vm:ProductsPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
 
-            <!--Заголовок-->
-            <StackLayout x:DataType="vm:FoodPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+            <StackLayout x:DataType="vm:ProductsPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                 <Button Style="{DynamicResource RoundButtonPrimaryColor}"
                         HorizontalOptions="Start"
                         ImageSource="back.png"
                         Command="{Binding GoBackCommand}"/>
-                <Picker ItemsSource="{Binding MealTypes}"
-                        SelectedItem="{Binding SelectedMealType}"
-                        ItemDisplayBinding="{Binding Name}"
-                        TextColor="{DynamicResource MainColor}"
-                        FontSize="20"
-                        FontAttributes="Bold"
-                        WidthRequest="150"
-                        HorizontalTextAlignment="Center"
-                        HorizontalOptions="CenterAndExpand"/>
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Продукты"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"/>
                 <Label Text="{Binding Day}"
                        TextColor="{DynamicResource MainColor}"
                        FontSize="16"
@@ -31,8 +25,6 @@
                        VerticalOptions="Center"
                        HorizontalOptions="End"/>
             </StackLayout>
-            
-            <!--Поисковая строка-->
             <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
                 <SearchBar x:Name="srcB"
                            TextColor="{DynamicResource CommonTextColor}"
@@ -52,9 +44,7 @@
                 </SearchBar>
             </StackLayout>
             <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
-            
-            <!--Список продуктов-->
-            <ListView x:Name="Foods"
+            <ListView x:Name="ProductsToBuy"
                       ItemsSource="{Binding FoodsToShow}"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
@@ -66,7 +56,7 @@
                                                        Amount="{Binding DefaultUnitsAmount}"
                                                        UnitsName="{Binding DefaultUnitsName}"
                                                        KcalValue="{Binding Kcal}"
-                                                       TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:FoodPageViewModel}}, Path=OpenSavingFoodPageCommand}"
+                                                       TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsPageViewModel}}, Path=OpenSavingToShopListPageCommand}"
                                                        TapCommandParameter="{Binding .}"/>
                             </ViewCell.View>
                         </ViewCell>
@@ -83,7 +73,7 @@
                                             HeightRequest="65"/>
                 </ListView.Footer>
             </ListView>
-            
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

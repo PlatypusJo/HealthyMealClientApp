@@ -85,8 +85,8 @@ namespace HealthyMeal.ViewModels
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
             string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(mealType.Id, "MealTypeId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
-            string isAdd = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsAdd");
-            await Shell.Current.GoToAsync($"{nameof(FoodPage)}?{userId}&{mealTypeId}&{date}&{isAdd}");
+            string isFromDiary = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromDiary");
+            await Shell.Current.GoToAsync($"{nameof(FoodPage)}?{userId}&{mealTypeId}&{date}&{isFromDiary}");
         }
 
         [RelayCommand]
@@ -100,7 +100,12 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task ItemTapped(MealTypeModel mealType)
         {
-
+            mealType.ResetKcalCount();
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(mealType.Id, "MealTypeId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
+            string isFromDiary = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromDiary");
+            await Shell.Current.GoToAsync($"{nameof(MealsPage)}?{userId}&{mealTypeId}&{date}&{isFromDiary}");
         }
 
         #endregion

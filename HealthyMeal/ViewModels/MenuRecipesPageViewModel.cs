@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace HealthyMeal.ViewModels
 {
-    public partial class ProductsPageViewModel : BaseViewModel, IQueryAttributable
+    public partial class MenuRecipesPageViewModel : BaseViewModel, IQueryAttributable
     {
         #region Поля
 
@@ -24,7 +24,7 @@ namespace HealthyMeal.ViewModels
 
         private DateTime _date;
 
-        List<FoodModel> _foods = [];
+        List<RecipeModel> _recipes = [];
 
         #endregion
 
@@ -43,7 +43,13 @@ namespace HealthyMeal.ViewModels
         private bool _isVisibleToPrevious = false;
 
         [ObservableProperty]
-        private ObservableCollection<FoodModel> _foodsToShow = [];
+        private ObservableCollection<RecipeModel> _recipesToShow = [];
+
+        [ObservableProperty]
+        private List<MealTypeModel> _mealTypes;
+
+        [ObservableProperty]
+        private MealTypeModel _selectedMealType;
 
         [ObservableProperty]
         private string _searchBarText;
@@ -68,13 +74,13 @@ namespace HealthyMeal.ViewModels
         }
 
         [RelayCommand]
-        private async Task OpenSavingToShopListPage(FoodModel food)
+        private async Task OpenRecipeInfo(RecipeModel recipe)
         {
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
-            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
-            string foodId = NavigationParameterConverter.ObjectToPairKeyValue(food.Id, "FoodId");
-            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
-            await Shell.Current.GoToAsync($"{nameof(SavingToShopListPage)}?{userId}&{date}&{foodId}&{isEdit}");
+            string recipeId = NavigationParameterConverter.ObjectToPairKeyValue(recipe.Id, "RecipeId");
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType.Id, "MealTypeId");
+            string IsAddToMenu = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsAddToMenu");
+            await Shell.Current.GoToAsync($"{nameof(RecipeInfoPage)}?{userId}&{recipeId}&{mealTypeId}&{IsAddToMenu}");
         }
 
         [RelayCommand]
@@ -92,14 +98,17 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task Search(string searchText)
         {
-            
+
         }
 
         #endregion
 
         #region Конструкторы
 
-        public ProductsPageViewModel() { }
+        public MenuRecipesPageViewModel()
+        {
+            LoadMealTypesAsync();
+        }
 
         #endregion
 
@@ -110,7 +119,8 @@ namespace HealthyMeal.ViewModels
             if (query is null)
                 return;
 
-            bool isFromShopList = false;
+            bool isFromMenu = false;
+            SelectedMealType = MealTypes.Find(x => x.Type == MealType.Breakfast);
 
             if (query.ContainsKey("UserId"))
             {
@@ -118,10 +128,17 @@ namespace HealthyMeal.ViewModels
                 _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
 
-            if (query.ContainsKey("IsFromShopList"))
+            if (query.ContainsKey("MealTypeId"))
             {
-                string strBuf = HttpUtility.UrlDecode(query["IsFromShopList"]);
-                isFromShopList = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
+                string mealTypeId = HttpUtility.UrlDecode(query["MealTypeId"]);
+                mealTypeId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(mealTypeId);
+                SelectedMealType = MealTypes.Find(x => x.Id == mealTypeId);
+            }
+
+            if (query.ContainsKey("IsFromMenu"))
+            {
+                string strBuf = HttpUtility.UrlDecode(query["IsFromMenu"]);
+                isFromMenu = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
             }
 
             if (query.ContainsKey("Date"))
@@ -136,7 +153,7 @@ namespace HealthyMeal.ViewModels
             }
 
             OnPropertyChanged(nameof(Day));
-            LoadDataAfterNavigation(isFromShopList);
+            LoadDataAfterNavigation(isFromMenu);
         }
 
 
@@ -144,22 +161,12 @@ namespace HealthyMeal.ViewModels
 
         #region Внутренние методы
 
-        private async void LoadDataAfterNavigation(bool isFromShopList)
+        private async void LoadDataAfterNavigation(bool isFromMenu)
         {
-            List<RecipeModel> recipes = await GlobalDataStore.Recipes.GetAllItemsAsync();
-            _foods = await GlobalDataStore.Foods.GetAllItemsAsync();
+            _recipes = await GlobalDataStore.Recipes.GetAllItemsAsync();
+            IsVisible = _recipes.Count > _pageSize;
 
-            List<FoodModel> foods = [];
-            for (int i = 0; i < recipes.Count; i++)
-            {
-                FoodModel food = _foods.Find(f => f.Id == recipes[i].FoodId);
-                foods.Add(food);
-            }
-
-            _foods = _foods.Except(foods).ToList();
-            IsVisible = _foods.Count > _pageSize;
-
-            if (isFromShopList)
+            if (isFromMenu)
             {
                 PageIndex = 1;
                 SearchBarText = string.Empty;
@@ -168,26 +175,32 @@ namespace HealthyMeal.ViewModels
 
         }
 
+        private async void LoadMealTypesAsync()
+        {
+            MealTypes = await GlobalDataStore.MealTypes.GetAllItemsAsync();
+            MealTypes = [.. MealTypes.OrderBy(x => x.Type)];
+        }
+
         private void SwitchPageAndReloadData(int pageNumber)
         {
             int index = pageNumber - 1;
-            if (index < 0 || index > _foods.Count / _pageSize)
+            if (index < 0 || index > _recipes.Count / _pageSize)
                 return;
 
             LoadDataToShow(index);
 
             IsVisibleToPrevious = !(pageNumber == 1);
-            IsVisibleToNext = !(pageNumber == _foods.Count / _pageSize + 1);
+            IsVisibleToNext = !(pageNumber == _recipes.Count / _pageSize + 1);
             PageIndex = pageNumber;
         }
 
         private void LoadDataToShow(int curIndexPage)
         {
-            FoodsToShow.Clear();
+            RecipesToShow.Clear();
             int startIndex = curIndexPage * _pageSize;
-            for (int i = startIndex; i < _foods.Count && i < startIndex + _pageSize; i++)
+            for (int i = startIndex; i < _recipes.Count && i < startIndex + _pageSize; i++)
             {
-                FoodsToShow.Add(_foods[i]);
+                RecipesToShow.Add(_recipes[i]);
             }
         }
 

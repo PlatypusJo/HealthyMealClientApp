@@ -13,8 +13,8 @@ namespace HealthyMeal.Services.MockDataStore
         private readonly List<MenuModel> _data;
 
         public MenuDataStore() 
-        { 
-
+        {
+            _data = [];
         }
 
         public async Task<bool> AddItemAsync(MenuModel item)

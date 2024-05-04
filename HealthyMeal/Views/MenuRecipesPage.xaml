@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels" 
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HealthyMeal.Views.MenuRecipesPage">
+    <ContentPage.Content>
+        <StackLayout x:DataType="vm:MenuRecipesPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
+
+            <!--Заголовок-->
+            <StackLayout x:DataType="vm:MenuRecipesPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
+                        HorizontalOptions="Start"
+                        ImageSource="back.png"
+                        Command="{Binding GoBackCommand}"/>
+                <Picker ItemsSource="{Binding MealTypes}"
+                        SelectedItem="{Binding SelectedMealType}"
+                        ItemDisplayBinding="{Binding Name}"
+                        TextColor="{DynamicResource MainColor}"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        WidthRequest="150"
+                        HorizontalTextAlignment="Center"
+                        HorizontalOptions="CenterAndExpand"/>
+                <Label Text="{Binding Day}"
+                       TextColor="{DynamicResource MainColor}"
+                       FontSize="16"
+                       WidthRequest="50" 
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"/>
+            </StackLayout>
+
+            <!--Поисковая строка-->
+            <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
+                <SearchBar x:Name="srcB"
+                   TextColor="{DynamicResource CommonTextColor}"
+                   CancelButtonColor="{DynamicResource CommonTextColor}"
+                   Placeholder="Поиск продукта"
+                   HorizontalOptions="FillAndExpand"
+                   FontSize="16"
+                   Text="{Binding SearchBarText}">
+                    <SearchBar.Behaviors>
+                        <xct:EventToCommandBehavior EventName="SearchButtonPressed"
+                                            Command="{Binding SearchCommand}"
+                                            CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                        <xct:EventToCommandBehavior EventName="TextChanged"
+                                            Command="{Binding SearchCommand}"
+                                            CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+            </StackLayout>
+            <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
+
+            <!--Список рецептов-->
+            <CollectionView ItemsSource="{Binding RecipesToShow}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:Card x:DataType="model:RecipeModel"
+                                       Name="{Binding Name}"
+                                       KcalValue="{Binding Kcal}"
+                                       CookingTime="{Binding CookingTimeString}"
+                                       TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuRecipesPageViewModel}}, Path=OpenRecipeInfoCommand}"
+                                       TapCommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                            PageNumber="{Binding PageIndex}" 
+                                            BackPageCommand="{Binding BackPageCommand}" 
+                                            NextPageCommand="{Binding NextPageCommand}"
+                                            IsVisibleToNext="{Binding IsVisibleToNext}"
+                                            IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
+                                            Color="{DynamicResource PageBackgroundColor}"
+                                            HeightRequest="65"/>
+                </CollectionView.Footer>
+            </CollectionView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

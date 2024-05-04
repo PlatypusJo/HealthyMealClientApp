@@ -94,7 +94,8 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            await Shell.Current.GoToAsync($"..");
+            string isFromMenu = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromMenu");
+            await Shell.Current.GoToAsync($"..?{isFromMenu}");
         }
 
         [RelayCommand]

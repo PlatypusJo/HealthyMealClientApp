@@ -136,7 +136,9 @@ namespace HealthyMeal.ViewModels
 
         public void LoadDataAfterNavigation()
         {
-            Date = _date;
+            LoadDataByDateAsync();
+            OnPropertyChanged(nameof(Date));
+            OnPropertyChanged(nameof(DateFormat));
         }
 
         #endregion

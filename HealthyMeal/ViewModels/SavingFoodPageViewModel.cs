@@ -152,6 +152,7 @@ namespace HealthyMeal.ViewModels
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
             string mealId = string.Empty;
+            string mealTypeId = string.Empty;
             string foodId = string.Empty;
 
             if (query.ContainsKey("UserId"))
@@ -172,10 +173,10 @@ namespace HealthyMeal.ViewModels
                 foodId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(foodId);
             }
 
-            if (query.ContainsKey("MealType"))
+            if (query.ContainsKey("MealTypeId"))
             {
-                string mealType = HttpUtility.UrlDecode(query["MealType"]);
-                _mealType = NavigationParameterConverter.ObjectFromPairKeyValue<MealTypeModel>(mealType);
+                string strBuf = HttpUtility.UrlDecode(query["MealTypeId"]);
+                mealTypeId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(strBuf);
             }
 
             if (query.ContainsKey("MealId"))
@@ -195,15 +196,16 @@ namespace HealthyMeal.ViewModels
                 _date = new DateTime(today.Year, today.Month, today.Day);
             }
 
-            LoadDataAfterNavigation(mealId, foodId);
+            LoadDataAfterNavigation(mealId, foodId, mealTypeId);
         }
 
         #endregion
 
         #region Внутренние методы
 
-        private async void LoadDataAfterNavigation(string mealId, string foodId)
+        private async void LoadDataAfterNavigation(string mealId, string foodId, string mealTypeId)
         {
+            _mealType = await GlobalDataStore.MealTypes.GetItemAsync(mealTypeId);
             _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             _nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
             _nutritionalValues = _nutritionalValues.Where(n => n.FoodId == _food.Id).ToList();

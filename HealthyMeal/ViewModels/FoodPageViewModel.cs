@@ -79,11 +79,11 @@ namespace HealthyMeal.ViewModels
         private async Task OpenSavingFoodPage(FoodModel food)
         {
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
-            string mealType = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType, "MealType");
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType.Id, "MealTypeId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
             string foodId = NavigationParameterConverter.ObjectToPairKeyValue(food.Id, "FoodId");
             string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
-            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{userId}&{mealType}&{date}&{foodId}&{isEdit}");
+            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{userId}&{mealTypeId}&{date}&{foodId}&{isEdit}");
         }
 
         [RelayCommand]
@@ -184,10 +184,6 @@ namespace HealthyMeal.ViewModels
                 PageIndex = 1;
                 SearchBarText = string.Empty;
                 SwitchPageAndReloadData(PageIndex);
-            }
-            else
-            {
-                SwitchPageAndReloadData(_foods.Count / _pageSize + 1);
             }
 
         }

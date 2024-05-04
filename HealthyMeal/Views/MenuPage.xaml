@@ -16,6 +16,8 @@
 
                 <StackLayout x:Name="Date" Padding="10" HeightRequest="50" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
                     <DatePicker Style="{DynamicResource DefaultDatePicker}"
+                                Date="{Binding Date}"
+                                Format="{Binding DateFormat}"
                                 HorizontalOptions="FillAndExpand"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="{DynamicResource MainColor}">
@@ -24,12 +26,16 @@
                             VerticalOptions="Center"
                             ImageSource="delete.png"/>
                     <Picker TextColor="{DynamicResource CommonTextColor}"
+                            ItemsSource="{Binding MealTypes}"
+                            SelectedItem="{Binding SelectedMealType}"
+                            ItemDisplayBinding="{Binding Name}"
                             HorizontalTextAlignment="Center"
                             HorizontalOptions="FillAndExpand"/>
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
                             HorizontalOptions="End"
                             VerticalOptions="Center"
-                            ImageSource="add.png"/>
+                            ImageSource="add.png"
+                            Command="{Binding OpenMenuRecipesPageCommand}"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray"
                          HeightRequest="1"/>
@@ -44,9 +50,18 @@
                 </StackLayout>
                 <ScrollView>
                     <StackLayout>
-                        <CarouselView ItemsSource="{Binding Recipes}"
+                        <CarouselView ItemsSource="{Binding DishesToShow}"
                                       PeekAreaInsets="35"
                                       HeightRequest="430">
+                            <CarouselView.EmptyView>
+                                <ContentView>
+                                    <StackLayout HorizontalOptions="CenterAndExpand"
+                                                 VerticalOptions="CenterAndExpand">
+                                        <Label Style="{DynamicResource LargeText}"
+                                               Text="Блюд не найдено"/>
+                                    </StackLayout>
+                                </ContentView>
+                            </CarouselView.EmptyView>
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
                                     <controls:CardWithActions x:DataType="model:RecipeModel"
@@ -89,12 +104,12 @@
                                            Text="Сводка по меню" 
                                            Margin="0, 0, 0, 5"
                                            HorizontalOptions="StartAndExpand"/>
-                                    <controls:StatisticsLine Name="Всего белков" Value="250" UnitsName="г"/>
-                                    <controls:StatisticsLine Name="Всего жиров" Value="145" UnitsName="г"/>
-                                    <controls:StatisticsLine Name="Всего углеводов" Value="386" UnitsName="г"/>
+                                    <controls:StatisticsLine Name="Всего белков" Value="{Binding ProteinsAmount}" UnitsName="г"/>
+                                    <controls:StatisticsLine Name="Всего жиров" Value="{Binding FatsAmount}" UnitsName="г"/>
+                                    <controls:StatisticsLine Name="Всего углеводов" Value="{Binding CarbohydratesAmount}" UnitsName="г"/>
                                     <BoxView BackgroundColor="LightGray"
                                              HeightRequest="1"/>
-                                    <controls:StatisticsLine Name="Калорийность меню" Value="577" UnitsName="Ккал"/>
+                                    <controls:StatisticsLine Name="Калорийность меню" Value="{Binding KcalAmount}" UnitsName="Ккал"/>
                                 </StackLayout>
                             </Frame>
                         </StackLayout>

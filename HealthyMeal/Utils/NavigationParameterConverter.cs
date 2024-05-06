@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Web;
 
 namespace HealthyMeal.Utils
 {
@@ -17,6 +18,11 @@ namespace HealthyMeal.Utils
             if (string.IsNullOrEmpty(parameter))
                 throw new ArgumentNullException("Пустой параметр");
             return JsonConvert.DeserializeObject<T>(parameter);
+        }
+
+        public static T ObjectFromUrl<T>(string url)
+        {
+            return ObjectFromPairKeyValue<T>(HttpUtility.UrlDecode(url));
         }
     }
 }

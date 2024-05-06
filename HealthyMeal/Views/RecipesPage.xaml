@@ -39,7 +39,7 @@
                         </SearchBar.Behaviors>
                     </SearchBar>
                     <Button Style="{DynamicResource RoundButtonMainColor}" 
-                            IsVisible="true"
+                            IsVisible="false"
                             HorizontalOptions="EndAndExpand"
                             VerticalOptions="Center"
                             ImageSource="filters.png"/>

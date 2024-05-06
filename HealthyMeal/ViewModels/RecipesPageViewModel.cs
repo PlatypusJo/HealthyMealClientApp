@@ -73,6 +73,12 @@ namespace HealthyMeal.ViewModels
             SwitchPageAndReloadData(PageIndex - 1);
         }
 
+        [RelayCommand]
+        private async Task Search(string searchText)
+        {
+
+        }
+
         #endregion
 
         #region Конструктор
@@ -94,7 +100,6 @@ namespace HealthyMeal.ViewModels
         #endregion
 
         #region Внутренние методы
-
 
         private async void LoadRecipes()
         {

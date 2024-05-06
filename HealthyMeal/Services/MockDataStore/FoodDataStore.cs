@@ -249,6 +249,32 @@ namespace HealthyMeal.Services.MockDataStore
                     Fats = 0,
                     Carbohydrates = 80.3
                 },
+                new()
+                {
+                    Id = "19",
+                    Name = "Печенье OREO",
+                    Description = "печенье, OREO",
+                    UserId = "Common",
+                    DefaultUnitsName = "шт",
+                    DefaultUnitsAmount = 1,
+                    Kcal = 45,
+                    Proteins = 0.5,
+                    Fats = 1.9,
+                    Carbohydrates = 6.3
+                },
+                new()
+                {
+                    Id = "20",
+                    Name = "Сыр Гауда",
+                    Description = "сыр, сыры, молочный продукт, кисломолочный",
+                    UserId = "Common",
+                    DefaultUnitsName = "г",
+                    DefaultUnitsAmount = 100,
+                    Kcal = 356,
+                    Proteins = 24.9,
+                    Fats = 27.4,
+                    Carbohydrates = 2.2
+                },
                 ];
         }
 

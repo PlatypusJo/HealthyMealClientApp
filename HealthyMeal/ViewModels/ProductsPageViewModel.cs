@@ -45,9 +45,6 @@ namespace HealthyMeal.ViewModels
         [ObservableProperty]
         private ObservableCollection<FoodModel> _foodsToShow = [];
 
-        [ObservableProperty]
-        private string _searchBarText;
-
         #endregion
 
         #region Свойства
@@ -162,7 +159,6 @@ namespace HealthyMeal.ViewModels
             if (isFromShopList)
             {
                 PageIndex = 1;
-                SearchBarText = string.Empty;
                 SwitchPageAndReloadData(PageIndex);
             }
 

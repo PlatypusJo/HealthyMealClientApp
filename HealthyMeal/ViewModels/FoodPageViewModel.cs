@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
+using HealthyMeal.Services.BLL;
 using HealthyMeal.Utils;
 using HealthyMeal.Views;
 using System;
@@ -25,6 +26,8 @@ namespace HealthyMeal.ViewModels
         private string _userId = string.Empty;
 
         private DateTime _date;
+
+        private string _searchBarText = string.Empty;
 
         List<FoodModel> _foods = [];
 
@@ -52,9 +55,6 @@ namespace HealthyMeal.ViewModels
 
         [ObservableProperty]
         private MealTypeModel _selectedMealType;
-
-        [ObservableProperty]
-        private string _searchBarText;
 
         #endregion
 
@@ -99,9 +99,11 @@ namespace HealthyMeal.ViewModels
         }
 
         [RelayCommand]
-        private async Task Search(string searchText)
+        private void Search(string searchText)
         {
-            
+            _searchBarText = searchText;
+            PageIndex = 1;
+            SwitchPageAndReloadData(PageIndex);
         }
 
         #endregion
@@ -177,12 +179,11 @@ namespace HealthyMeal.ViewModels
             }
 
             _foods = _foods.Except(foods).ToList();
-            IsVisible = _foods.Count > _pageSize;
 
             if (isFromDiary)
             {
+                _searchBarText = string.Empty;
                 PageIndex = 1;
-                SearchBarText = string.Empty;
                 SwitchPageAndReloadData(PageIndex);
             }
 
@@ -194,27 +195,30 @@ namespace HealthyMeal.ViewModels
             MealTypes = [.. MealTypes.OrderBy(x => x.Type)];
         }
 
-        private void SwitchPageAndReloadData(int pageNumber)
+        private async void SwitchPageAndReloadData(int pageNumber)
         {
-            int index = pageNumber - 1;
-            if (index < 0 || index > _foods.Count / _pageSize)
+            if (pageNumber < 0)
                 return;
 
-            LoadDataToShow(index);
+            int foodsCount = await LoadDataToShow(pageNumber);
 
+            IsVisible = foodsCount > _pageSize;
             IsVisibleToPrevious = !(pageNumber == 1);
-            IsVisibleToNext = !(pageNumber == _foods.Count / _pageSize + 1);
+            IsVisibleToNext = !(pageNumber == foodsCount / _pageSize + 1);
             PageIndex = pageNumber;
         }
 
-        private void LoadDataToShow(int curIndexPage)
+        private async Task<int> LoadDataToShow(int curPage)
         {
             FoodsToShow.Clear();
-            int startIndex = curIndexPage * _pageSize;
-            for (int i = startIndex; i < _foods.Count && i < startIndex + _pageSize; i++)
+
+            GetFoodPageResponseModel response = await BlService.GetFoodPage(_userId, _pageSize, curPage, _searchBarText);
+            foreach (FoodModel food in response.Foods)
             {
-                FoodsToShow.Add(_foods[i]);
+                FoodsToShow.Add(food);
             }
+
+            return response.Count;
         }
 
         #endregion

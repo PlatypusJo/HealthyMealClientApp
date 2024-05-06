@@ -39,8 +39,7 @@
                            CancelButtonColor="{DynamicResource CommonTextColor}"
                            Placeholder="Поиск продукта"
                            HorizontalOptions="FillAndExpand"
-                           FontSize="16"
-                           Text="{Binding SearchBarText}">
+                           FontSize="16">
                     <SearchBar.Behaviors>
                         <xct:EventToCommandBehavior EventName="SearchButtonPressed"
                                                     Command="{Binding SearchCommand}"

@@ -51,9 +51,6 @@ namespace HealthyMeal.ViewModels
         [ObservableProperty]
         private MealTypeModel _selectedMealType;
 
-        [ObservableProperty]
-        private string _searchBarText;
-
         #endregion
 
         #region Свойства
@@ -169,7 +166,6 @@ namespace HealthyMeal.ViewModels
             if (isFromMenu)
             {
                 PageIndex = 1;
-                SearchBarText = string.Empty;
                 SwitchPageAndReloadData(PageIndex);
             }
 

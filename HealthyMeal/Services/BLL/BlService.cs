@@ -77,5 +77,24 @@ namespace HealthyMeal.Services.BLL
 
             return response;
         }
+
+        public async Task<GetShopListPageResponseModel> GetShopListPage(string userId, int pageSize, int curPage, DateTime date)
+        {
+            GetShopListPageResponseModel response = new();
+
+            // Формирование списка еды без рецептов.
+            List<ProductToBuyModel> productsToBuy = [];
+            productsToBuy = await _globalDataStore.ProductsToBuy.GetAllItemsAsync();
+                        
+            // Отбор элементов с совпадениями по дате.
+            productsToBuy = productsToBuy.Where(p => p.Date == date).ToList();
+
+            // Формирование ответа.
+            int skipAmount = (curPage - 1) * pageSize;
+            response.ShopList = productsToBuy.Skip(skipAmount).Take(pageSize).ToList();
+            response.Count = productsToBuy.Count;
+
+            return response;
+        }
     }
 }

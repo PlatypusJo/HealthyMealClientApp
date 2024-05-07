@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
+using HealthyMeal.Services.BLL;
 using HealthyMeal.Utils;
 using HealthyMeal.Views;
 using System;
@@ -19,11 +20,11 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
+        private UserModel _user;
+
         private DateTime _date;
 
-        private readonly int _pageSize = 11;
-        
-        private List<ProductToBuyModel> _productsToBuy;
+        private readonly int _pageSize = 15;
 
         #endregion
 
@@ -33,25 +34,44 @@ namespace HealthyMeal.ViewModels
         private int _pageIndex = 1;
 
         [ObservableProperty]
-        private bool _isVisible = true;
+        private bool _isVisible = false;
 
         [ObservableProperty]
-        private bool _isVisibleToNext;
+        private bool _isVisibleToNext = false;
 
         [ObservableProperty]
-        private bool _isVisibleToPrevious;
+        private bool _isVisibleToPrevious = false;
 
         [ObservableProperty]
-        private bool _isPopupEditVisible;
+        private bool _isPopupEditVisible = false;
 
         [ObservableProperty]
-        private bool _isPopupDeleteVisible;
+        private bool _isPopupDeleteVisible = false;
+
+        [ObservableProperty]
+        private bool _isNextPopupVisible = false;
+
+        [ObservableProperty]
+        private string _nextPopupText = string.Empty;
+
+        [ObservableProperty]
+        private DateTime _selectedDate;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(SelectedDateFormat))]
+        private ObservableCollection<ProductToBuyModel> _shopListToShow = [];
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsCollectionVisible))]
+        private bool _isEmptyCollection = true;
 
         #endregion
 
         #region Свойства
 
-        public ObservableCollection<ProductToBuyModel> ProductsToBuy { get; set; }
+        public string SelectedDateFormat => DateTime.Now.Year != SelectedDate.Year ? "dd MMM yyyy" : "MMM dd, dddd";
+
+        public bool IsCollectionVisible => !IsEmptyCollection;
 
         public string DateFormat => DateTime.Now.Year != Date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
 
@@ -61,8 +81,11 @@ namespace HealthyMeal.ViewModels
             set
             {
                 _date = value;
-                OnPropertyChanged(nameof(DateFormat));
+                PageIndex = 1;
+                SwitchPageAndReloadData(PageIndex);
                 OnPropertyChanged(nameof(Date));
+                OnPropertyChanged(nameof(DateFormat));
+                
             }
         }
 
@@ -84,7 +107,7 @@ namespace HealthyMeal.ViewModels
         {
             if (arg is string id)
             {
-                ProductToBuyModel changedItem = ProductsToBuy.ToList().Find(p => p.Id == id);
+                ProductToBuyModel changedItem = ShopListToShow.ToList().Find(p => p.Id == id);
                 if (changedItem != null) 
                     Debug.WriteLine($"{changedItem.FoodName} is {changedItem.IsBought}");
             }
@@ -112,6 +135,7 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private void OpenEditPopup()
         {
+            SelectedDate = Date;
             IsPopupEditVisible = true;
         }
 
@@ -126,12 +150,28 @@ namespace HealthyMeal.ViewModels
         {
             IsPopupEditVisible = false;
             IsPopupDeleteVisible = false;
+            IsNextPopupVisible = false;
         }
 
         [RelayCommand]
         private async Task SaveChanges()
         {
+            // Если на выбранную дату нет других списков, то изменяем
+            // Иначе выдаём сообщение, что невозможно перенести.
+
+            bool result = true;
             IsPopupEditVisible = false;
+            if (result)
+            {
+                IsNextPopupVisible = true;
+                NextPopupText = "На эту дату уже есть список";
+            }
+            else
+            {
+                IsNextPopupVisible = true;
+                NextPopupText = "Список успешно перенесён";
+            }
+
         }
 
         [RelayCommand]
@@ -146,78 +186,68 @@ namespace HealthyMeal.ViewModels
 
         public ProductsListsPageViewModel()
         {
-            LoadProducts();
-            IsVisible = _productsToBuy.Count > 0;
-            IsVisibleToPrevious = !(_pageIndex == 1);
-            IsVisibleToNext = !(_pageIndex == _productsToBuy.Count / _pageSize + 1);
+            _user = new()
+            {
+                Id = "1",
+                Name = "Иван",
+                Login = "LoVan",
+                Rdc = 2500,
+                KcalAmountGoal = 2000,
+                Age = 25,
+                Height = 176,
+                Weight = 73,
+            };
             DateTime today = DateTime.Now;
-            Date = new DateTime(today.Year, today.Month, today.Day);
+            _date = new DateTime(today.Year, today.Month, today.Day);
             IsPopupEditVisible = false;
             IsPopupDeleteVisible = false;
+            IsNextPopupVisible = false;
         }
 
         #endregion
 
         #region Методы
 
-       
+        public void LoadDataAfterNavigation()
+        {
+            IsPopupEditVisible = false;
+            IsPopupDeleteVisible = false;
+            IsNextPopupVisible = false;
+            PageIndex = 1;
+            SwitchPageAndReloadData(PageIndex);
+            OnPropertyChanged(nameof(Date));
+            OnPropertyChanged(nameof(DateFormat));
+        }
 
         #endregion
 
         #region Внутренние методы
 
-        private void SwitchPageAndReloadData(int pageNumber)
+        private async void SwitchPageAndReloadData(int pageNumber)
         {
-            int index = pageNumber - 1;
-            if (index < 0 || index > _productsToBuy.Count / _pageSize)
+            if (pageNumber < 0)
                 return;
 
-            ProductsToBuy.Clear();
-            int startIndex = index * _pageSize;
-            for (int i = startIndex; i < _productsToBuy.Count && i < startIndex + _pageSize; i++)
-            {
-                ProductsToBuy.Add(_productsToBuy[i]);
-            }
+            int productsCount = await LoadDataToShow(pageNumber);
 
+            IsEmptyCollection = productsCount == 0;
+            IsVisible = productsCount > _pageSize;
             IsVisibleToPrevious = !(pageNumber == 1);
-            IsVisibleToNext = !(pageNumber == _productsToBuy.Count / _pageSize + 1);
+            IsVisibleToNext = !(pageNumber == productsCount / _pageSize + 1);
             PageIndex = pageNumber;
         }
 
-        private void LoadProducts()
+        private async Task<int> LoadDataToShow(int curPage)
         {
-            int count = 22;
-            _productsToBuy = [];
+            ShopListToShow.Clear();
 
-            for (int i = 0; i < count; i++)
+            GetShopListPageResponseModel response = await BlService.GetShopListPage(_user.Id, _pageSize, curPage, _date);
+            foreach (ProductToBuyModel product in response.ShopList)
             {
-                _productsToBuy.Add(new ProductToBuyModel()
-                {
-                    Id = i.ToString(),
-                    FoodId = i.ToString(),
-                    UnitsId = i.ToString(),
-                    UnitsName = "у.е.",
-                    FoodName = "Test" + i.ToString(),
-                    UnitsAmount = 100,
-                    IsBought = false,
-                });
+                ShopListToShow.Add(product);
             }
-            _productsToBuy.Add(new ProductToBuyModel()
-            {
-                Id = "1234",
-                FoodId = "1234",
-                UnitsId = "12123",
-                UnitsName = "у.е.",
-                FoodName = "Очень длинное название продукта чтобы все с ума посходили от этого приложения",
-                UnitsAmount = 100,
-                IsBought = false,
-            });
 
-            ProductsToBuy = [];
-            for (int i = 0; i < _productsToBuy.Count && i < _pageSize; i++)
-            {
-                ProductsToBuy.Add(_productsToBuy[i]);
-            }
+            return response.Count;
         }
 
         #endregion

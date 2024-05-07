@@ -7,14 +7,9 @@
              xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
              Title="Списки"
              IconImageSource="iconLists.png"
-             xmlns:controls="clr-namespace:HealthyMeal.Controls">
-
-    <ContentPage.BindingContext>
-        <vm:ProductsListsPageViewModel/>
-    </ContentPage.BindingContext>
-    
+             xmlns:controls="clr-namespace:HealthyMeal.Controls">    
     <ContentPage.Content>
-        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <AbsoluteLayout x:DataType="vm:ProductsListsPageViewModel" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
                          AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
                          AbsoluteLayout.LayoutFlags="All"
@@ -44,8 +39,15 @@
                             Command="{Binding OpenProductsPageCommand}"/>
                 </StackLayout>
                 <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
+                <StackLayout IsVisible="{Binding IsEmptyCollection}"
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand">
+                    <Label Style="{DynamicResource LargeText}"
+                           Text="Списка покупок не найдено"/>
+                </StackLayout>
                 <ListView x:Name="ProductsToBuy"
-                          ItemsSource="{Binding ProductsToBuy}"
+                          IsVisible="{Binding IsCollectionVisible}"
+                          ItemsSource="{Binding ShopListToShow}"
                           HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -109,8 +111,8 @@
                                        Padding="10"/>
                                 <DatePicker TextColor="{DynamicResource CommonTextColor}"
                                             FontSize="18"
-                                            Date="{Binding Date}"
-                                            Format="{Binding DateFormat}"
+                                            Date="{Binding SelectedDate}"
+                                            Format="{Binding SelectedDateFormat}"
                                             VerticalOptions="Center"
                                             Margin="10"/>
                                 <Button Style="{DynamicResource DefaultButton}"
@@ -156,6 +158,42 @@
                                         Text="Удалить"
                                         Margin="10, 30, 10, 10"
                                         Command="{Binding DeleteShoppingListCommand}"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </ContentView>
+
+            <ContentView x:Name="popupOk"
+                         x:DataType="vm:ProductsListsPageViewModel"
+                         Style="{DynamicResource CustomPopup}"
+                         IsVisible="{Binding IsNextPopupVisible}">
+                <Grid HorizontalOptions="Fill"
+                       VerticalOptions="Fill">
+                    <Button Command="{Binding ClosePopupCommand}"
+                            BackgroundColor="Transparent"/>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                        <Frame CornerRadius="10"
+                               Padding="0">
+                            <StackLayout x:DataType="vm:ProductsListsPageViewModel" 
+                                         HeightRequest="200" 
+                                         WidthRequest="400">
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="{DynamicResource MainColor}">
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            BackgroundColor="Transparent"
+                                            HorizontalOptions="EndAndExpand"
+                                            Command="{Binding ClosePopupCommand}"
+                                            ImageSource="cross.png"/>
+                                </StackLayout>
+                                <Label Style="{DynamicResource LargeText}"
+                                       Text="{Binding NextPopupText}"
+                                       Padding="10"/>
+                                <Button Style="{DynamicResource DefaultButton}"
+                                        Text="Продолжить"
+                                        Margin="10, 30, 10, 10"
+                                        Command="{Binding ClosePopupCommand}"/>
                             </StackLayout>
                         </Frame>
                     </StackLayout>

@@ -122,6 +122,47 @@ namespace HealthyMeal.ViewModels
         #region Команды
 
         [RelayCommand]
+        private async Task ItemTapped(MenuStringModel dish)
+        {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
+            string recipeId = NavigationParameterConverter.ObjectToPairKeyValue(dish.RecipeId, "RecipeId");
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType.Id, "MealTypeId");
+            string IsAddToMenu = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsAddToMenu");
+            string isOnlyInfo = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsOnlyInfo");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
+            await Shell.Current.GoToAsync($"{nameof(RecipeInfoPage)}?{userId}&{recipeId}&{mealTypeId}&{IsAddToMenu}&{date}&{isOnlyInfo}");
+        }
+
+        [RelayCommand]
+        private async Task OpenSavingFoodPage(MenuStringModel dish)
+        {
+            RecipeModel recipe = await GlobalDataStore.Recipes.GetItemAsync(dish.RecipeId);
+
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType.Id, "MealTypeId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
+            string foodId = NavigationParameterConverter.ObjectToPairKeyValue(recipe.FoodId, "FoodId");
+            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
+            await Shell.Current.GoToAsync($"{nameof(SavingFoodPage)}?{userId}&{mealTypeId}&{date}&{foodId}&{isEdit}");
+        }
+
+        [RelayCommand]
+        private async Task RemoveDish(MenuStringModel dish)
+        {
+            await GlobalDataStore.MenuStrings.DeleteItemAsync(dish.Id);
+            List<MenuStringModel> menuStrings = await GlobalDataStore.MenuStrings.GetAllItemsAsync();
+            menuStrings = menuStrings.Where(m => m.MenuId == _menu.Id).ToList();
+
+            if (menuStrings.Count == 0)
+            {
+                await GlobalDataStore.Menus.DeleteItemAsync(_menu.Id);
+            }
+
+            LoadDataByDateAsync();
+            OnPropertyChanged(nameof(CookingTimeString));
+        }
+
+        [RelayCommand]
         private async Task OpenMenuRecipesPage()
         {
             string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
@@ -295,6 +336,11 @@ namespace HealthyMeal.ViewModels
             _dishes.Clear();
             DishesToShow.Clear();
             _menuCookingTime = TimeSpan.Zero;
+            KcalAmount = 0;
+            ProteinsAmount = 0;
+            FatsAmount = 0;
+            CarbohydratesAmount = 0;
+
             List<MenuModel> menus = await GlobalDataStore.Menus.GetAllItemsAsync();
             _menu = menus.Find(x => x.Date == Date);
 

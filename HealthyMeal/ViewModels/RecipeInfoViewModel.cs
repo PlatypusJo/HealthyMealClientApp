@@ -247,6 +247,7 @@ namespace HealthyMeal.ViewModels
             string recipeId = string.Empty;
             string mealTypeId = string.Empty;
             bool isAddToMenu = false;
+            bool isOnlyInfo = false;
 
             if (query.ContainsKey("UserId"))
             {
@@ -272,6 +273,12 @@ namespace HealthyMeal.ViewModels
                 isAddToMenu = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
             }
 
+            if (query.ContainsKey("IsOnlyInfo"))
+            {
+                string strBuf = HttpUtility.UrlDecode(query["IsOnlyInfo"]);
+                isOnlyInfo = NavigationParameterConverter.ObjectFromPairKeyValue<bool>(strBuf);
+            }
+
             if (query.ContainsKey("Date"))
             {
                 string date = HttpUtility.UrlDecode(query["Date"]);
@@ -283,14 +290,14 @@ namespace HealthyMeal.ViewModels
                 _date = new(today.Year, today.Month, today.Day);
             }
 
-            LoadRecipeInfo(recipeId, mealTypeId, isAddToMenu);
+            LoadRecipeInfo(recipeId, mealTypeId, isAddToMenu, isOnlyInfo);
         }
 
         #endregion
 
         #region Внутренние методы
 
-        private async void LoadRecipeInfo(string recipeId, string mealTypeId, bool isAddToMenu)
+        private async void LoadRecipeInfo(string recipeId, string mealTypeId, bool isAddToMenu, bool isOnlyInfo)
         {
             _recipe = await GlobalDataStore.Recipes.GetItemAsync(recipeId);
 
@@ -316,8 +323,17 @@ namespace HealthyMeal.ViewModels
             Steps = new(steps);
             Ingredients = new(ingredients);
 
-            FromMenu = isAddToMenu;
-            FromRecipes = !isAddToMenu;
+            if (isOnlyInfo)
+            {
+                FromMenu = false;
+                FromRecipes = false;
+            }
+            else
+            {
+                FromMenu = isAddToMenu;
+                FromRecipes = !isAddToMenu;
+            }
+            
             SelectedDate = _date;
             _mealTypeId = mealTypeId;
 

@@ -69,7 +69,13 @@
                                     <controls:CardWithActions x:DataType="model:MenuStringModel"
                                                               Name="{Binding RecipeName}"
                                                               IconLeftAction="addDiary.png"
-                                                              IconRightAction="delete.png"/>
+                                                              IconRightAction="delete.png"
+                                                              TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=ItemTappedCommand}"
+                                                              TapCommandParameter="{Binding .}"
+                                                              ActionLeftCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=OpenSavingFoodPageCommand}"
+                                                              ActionLeftCommandParameter="{Binding .}"
+                                                              ActionRightCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=RemoveDishCommand}"
+                                                              ActionRightCommandParameter="{Binding .}"/>
                                 </DataTemplate>
                             </CarouselView.ItemTemplate>
                         </CarouselView>

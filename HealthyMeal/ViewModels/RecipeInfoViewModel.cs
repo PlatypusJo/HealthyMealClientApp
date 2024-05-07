@@ -22,6 +22,8 @@ namespace HealthyMeal.ViewModels
 
         private RecipeModel _recipe = new();
 
+        private string _mealTypeId = string.Empty;
+
         private DateTime _date;
 
         #endregion
@@ -94,15 +96,18 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
+            string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType.Id, "MealTypeId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
             string isFromMenu = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromMenu");
-            await Shell.Current.GoToAsync($"..?{isFromMenu}");
+            await Shell.Current.GoToAsync($"..?{isFromMenu}&{userId}&{mealTypeId}&{date}");
         }
 
         [RelayCommand]
         private void OpenAddToMenuPopup()
         {
             SelectedDate = _date;
-            SelectedMealType = MealTypes.Find(m => m.Id == _recipe.MealTypeId);
+            SelectedMealType = MealTypes.Find(m => m.Id == _mealTypeId);
             IsMenuAddPopupVisible = true;
         }
 
@@ -156,8 +161,52 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task AddToMenu()
         {
-            // Добавление в меню, если блюда с таким же типом приёма пищи и даты не существует иначе окно с отказом
+            bool isExist = false;
             IsMenuAddPopupVisible = false;
+            List<MenuStringModel> menuStrings = await GlobalDataStore.MenuStrings.GetAllItemsAsync();
+            List<MenuModel> menus = await GlobalDataStore.Menus.GetAllItemsAsync();
+            MenuModel menu = menus.Find(m => m.Date == SelectedDate);
+            if (menu is null)
+            {
+                menu = new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = _userId,
+                    Date = SelectedDate,
+                };
+                await GlobalDataStore.Menus.AddItemAsync(menu);
+            }
+                        
+            menuStrings = menuStrings.Where(m => m.MenuId == menu.Id).ToList();
+            isExist = menuStrings.Exists(m => m.MealTypeId == SelectedMealType.Id && m.RecipeId == _recipe.Id);
+            if (isExist)
+            {
+                NextPopupText = "Это блюдо уже есть в меню";
+                IsNextPopupVisible = true;
+                return;
+            }
+
+            menu.Kcal = menuStrings.Sum(m => m.Kcal) + _recipe.Kcal;
+            menu.Proteins = menuStrings.Sum(m => m.Proteins) + _recipe.Proteins;
+            menu.Fats = menuStrings.Sum(m => m.Fats) + _recipe.Fats;
+            menu.Carbohydrates = menuStrings.Sum(m => m.Carbohydrates) + _recipe.Carbohydrates;
+            await GlobalDataStore.Menus.UpdateItemAsync(menu);
+
+            MenuStringModel menuString = new()
+            {
+                Id = Guid.NewGuid().ToString(),
+                MealTypeId = SelectedMealType.Id,
+                RecipeId = _recipe.Id,
+                MenuId = menu.Id,
+                RecipeName = _recipe.Name,
+                CookingTime = _recipe.CookingTime,
+                Kcal = _recipe.Kcal,
+                Proteins = _recipe.Proteins,
+                Fats = _recipe.Fats,
+                Carbohydrates = _recipe.Carbohydrates,
+            };
+
+            await GlobalDataStore.MenuStrings.AddItemAsync(menuString);
             NextPopupText = "Рецепт успешно добавлен в меню!";
             IsNextPopupVisible = true;
         }
@@ -270,6 +319,7 @@ namespace HealthyMeal.ViewModels
             FromMenu = isAddToMenu;
             FromRecipes = !isAddToMenu;
             SelectedDate = _date;
+            _mealTypeId = mealTypeId;
 
             if (mealTypeId != string.Empty)
             {

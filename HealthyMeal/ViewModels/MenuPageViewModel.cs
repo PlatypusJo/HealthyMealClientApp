@@ -25,7 +25,9 @@ namespace HealthyMeal.ViewModels
 
         private MealTypeModel _selectedMealType;
 
-        private List<MenuStringModel> _dishes;
+        private List<MenuStringModel> _dishes = [];
+
+        private TimeSpan _menuCookingTime = TimeSpan.Zero;
 
         //ObservableCollection<RecipeModel> _recipes;
 
@@ -37,7 +39,7 @@ namespace HealthyMeal.ViewModels
         private List<MealTypeModel> _mealTypes;
 
         [ObservableProperty]
-        private ObservableCollection<MenuStringModel> _dishesToShow;
+        private ObservableCollection<MenuStringModel> _dishesToShow = [];
 
         [ObservableProperty]
         private double _proteinsAmount;
@@ -77,6 +79,10 @@ namespace HealthyMeal.ViewModels
 
         #region Свойства
 
+        public string CookingTimeString => _menuCookingTime.TotalMinutes <= 59 ?
+                _menuCookingTime.ToString("%m") + " мин" :
+                (_menuCookingTime.Days * 24 + _menuCookingTime.Hours).ToString() + " ч " + _menuCookingTime.ToString("%m") + " мин";
+
         public string SelectedDateFormat => DateTime.Now.Year != SelectedDate.Year ? "dd MMM yyyy" : "MMM dd, dddd";
 
         public string DateFormat => DateTime.Now.Year != Date.Year ? "dd MMM yyyy" : "MMM dd, dddd";
@@ -90,6 +96,7 @@ namespace HealthyMeal.ViewModels
                 LoadDataByDateAsync();
                 OnPropertyChanged(nameof(Date));
                 OnPropertyChanged(nameof(DateFormat));
+                OnPropertyChanged(nameof(CookingTimeString));
             }
         }
 
@@ -101,6 +108,7 @@ namespace HealthyMeal.ViewModels
                 _selectedMealType = value;
                 LoadDataByMealTypeAsync();
                 OnPropertyChanged(nameof(SelectedMealType));
+                OnPropertyChanged(nameof(CookingTimeString));
             }
         }
 
@@ -262,6 +270,7 @@ namespace HealthyMeal.ViewModels
             LoadMealTypesAsync();
             DateTime today = DateTime.Now;
             _date = new DateTime(today.Year, today.Month, today.Day);
+
         }
 
         #endregion
@@ -273,6 +282,7 @@ namespace HealthyMeal.ViewModels
             LoadDataByDateAsync();
             OnPropertyChanged(nameof(Date));
             OnPropertyChanged(nameof(DateFormat));
+            OnPropertyChanged(nameof(CookingTimeString));
         }
 
         #endregion
@@ -281,6 +291,10 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadDataByDateAsync()
         {
+            _menu = null;
+            _dishes.Clear();
+            DishesToShow.Clear();
+            _menuCookingTime = TimeSpan.Zero;
             List<MenuModel> menus = await GlobalDataStore.Menus.GetAllItemsAsync();
             _menu = menus.Find(x => x.Date == Date);
 
@@ -294,7 +308,7 @@ namespace HealthyMeal.ViewModels
             ProteinsAmount = menuStrings.Sum(m => m.Proteins);
             FatsAmount = menuStrings.Sum(m => m.Fats);
             CarbohydratesAmount = menuStrings.Sum(m => m.Carbohydrates);
-            
+
             LoadDataByMealTypeAsync();
         }
 
@@ -303,9 +317,15 @@ namespace HealthyMeal.ViewModels
             if (_menu == null) 
                 return;
 
+            _menuCookingTime = TimeSpan.Zero;
+            DishesToShow.Clear();
             List<MenuStringModel> dishesBuf = [];
             dishesBuf = _dishes.Where(m => m.MenuId == _menu.Id && m.MealTypeId == SelectedMealType.Id).ToList();
             DishesToShow = [..dishesBuf];
+            foreach (MenuStringModel menuString in DishesToShow)
+            {
+                _menuCookingTime += menuString.CookingTime;
+            }
         }
 
         private async void LoadMealTypesAsync()

@@ -48,12 +48,12 @@
                     <Label Style="{DynamicResource CommonText}"
                            Text="Время приготовления"/>
                     <Label Style="{DynamicResource CommonText}"
-                           Text="1 ч 30 мин"/>
+                           Text="{Binding CookingTimeString}"/>
                 </StackLayout>
                 <ScrollView>
                     <StackLayout>
                         <CarouselView ItemsSource="{Binding DishesToShow}"
-                                      PeekAreaInsets="35"
+                                      PeekAreaInsets="0"
                                       HeightRequest="430">
                             <CarouselView.EmptyView>
                                 <ContentView>
@@ -66,8 +66,8 @@
                             </CarouselView.EmptyView>
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
-                                    <controls:CardWithActions x:DataType="model:RecipeModel"
-                                                              Name="{Binding Name}"
+                                    <controls:CardWithActions x:DataType="model:MenuStringModel"
+                                                              Name="{Binding RecipeName}"
                                                               IconLeftAction="addDiary.png"
                                                               IconRightAction="delete.png"/>
                                 </DataTemplate>

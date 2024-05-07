@@ -77,7 +77,8 @@ namespace HealthyMeal.ViewModels
             string recipeId = NavigationParameterConverter.ObjectToPairKeyValue(recipe.Id, "RecipeId");
             string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(SelectedMealType.Id, "MealTypeId");
             string IsAddToMenu = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsAddToMenu");
-            await Shell.Current.GoToAsync($"{nameof(RecipeInfoPage)}?{userId}&{recipeId}&{mealTypeId}&{IsAddToMenu}");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
+            await Shell.Current.GoToAsync($"{nameof(RecipeInfoPage)}?{userId}&{recipeId}&{mealTypeId}&{IsAddToMenu}&{date}");
         }
 
         [RelayCommand]

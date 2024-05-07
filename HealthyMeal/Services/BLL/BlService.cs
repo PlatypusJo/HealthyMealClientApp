@@ -22,7 +22,8 @@ namespace HealthyMeal.Services.BLL
         {
             GetFoodPageResponseModel response = new();
 
-            searchBarText = Regex.Replace(searchBarText, @"[\(\s!@\#\$%\^&\*\(\)_\+=\-'\\:\|/`~\.,\{}\)]", "");
+            //searchBarText = Regex.Replace(searchBarText, @"[\(\s!@\#\$%\^&\*\(\)_\+=\-'\\:\|/`~\.,\{}\)]", "");
+            searchBarText = Regex.Escape(searchBarText);
             string pattern = $"\\b{searchBarText}\\b";
 
             // Формирование списка еды без рецептов.
@@ -52,28 +53,29 @@ namespace HealthyMeal.Services.BLL
             return response;
         }
 
-        public async Task<bool> GetAnyFoodBySearchText(string userId, string searchText)
+        public async Task<GetRecipePageResponseModel> GetRecipePage(string userId, int pageSize, int curPage, string searchBarText)
         {
-            if (searchText == string.Empty) 
-                return true;
+            GetRecipePageResponseModel response = new();
 
-            string pattern = $"\\b{searchText}\\b";
+            searchBarText = Regex.Escape(searchBarText);
+            string pattern = $"\\b{searchBarText}\\b";
 
-            List<FoodModel> foods = [];
+            // Формирование списка еды без рецептов.
             List<RecipeModel> recipes = [];
-
-            foods = await _globalDataStore.Foods.GetAllItemsAsync();
             recipes = await _globalDataStore.Recipes.GetAllItemsAsync();
-
-            List<FoodModel> recipesInFood = [];
-            for (int i = 0; i < recipes.Count; i++)
+                        
+            // Отбор элементов с совпадениями по тексту.
+            if (searchBarText != string.Empty)
             {
-                FoodModel food = foods.Find(f => f.Id == recipes[i].FoodId);
-                recipesInFood.Add(food);
+                recipes = recipes.Where(f => Regex.IsMatch(f.Name, pattern, RegexOptions.IgnoreCase) || Regex.IsMatch(f.Description, pattern, RegexOptions.IgnoreCase)).ToList();
             }
-            foods = foods.Except(recipesInFood).ToList();
 
-            return foods.Exists(f => Regex.IsMatch(f.Name, pattern) || Regex.IsMatch(f.Description, pattern));
+            // Формирование ответа.
+            int skipAmount = (curPage - 1) * pageSize;
+            response.Recipes = recipes.Skip(skipAmount).Take(pageSize).ToList();
+            response.Count = recipes.Count;
+
+            return response;
         }
     }
 }

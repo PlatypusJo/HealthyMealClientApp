@@ -104,17 +104,18 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task Save()
         {
-            //_meal.Id = Guid.NewGuid().ToString();
-            //_meal.NutritionalValue = _selectedNutritionalValue;
-            //_meal.AmountEaten = AmountEaten;
-            //_meal.Date = _date;
-            //_meal.MealTypeId = _mealType.Id;
-            //_meal.FoodId = _food.Id;
-            //_meal.FoodName = _food.Name;
-            //_meal.UnitsId = SelectedUnits.Id;
-            //_meal.UnitsName = SelectedUnits.Name;
-            //_meal.UserId = _userId;
-            //await GlobalDataStore.Meals.AddItemAsync(_meal);
+            _meal.Id = Guid.NewGuid().ToString();
+            _meal.NutritionalValue = _selectedNutritionalValue;
+            _meal.AmountEaten = AmountEaten;
+            _meal.Date = SelectedDate;
+            _meal.MealTypeId = SelectedMealType.Id;
+            _meal.FoodId = _food.Id;
+            _meal.FoodName = _food.Name;
+            _meal.UnitsId = SelectedUnits.Id;
+            _meal.UnitsName = SelectedUnits.Name;
+            _meal.UserId = _userId;
+            
+            await GlobalDataStore.Meals.AddItemAsync(_meal);
 
             await Shell.Current.GoToAsync($"..");
         }

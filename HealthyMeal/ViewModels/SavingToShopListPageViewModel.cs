@@ -78,35 +78,38 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
             string isFromShopList = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromShopList");
-            await Shell.Current.GoToAsync($"..?{date}&{isFromShopList}");
+            await Shell.Current.GoToAsync($"..?{date}&{isFromShopList}&{userId}");
         }
 
         [RelayCommand]
         private async Task Save()
         {
-            //_meal.AmountEaten = AmountEaten;
-            //_meal.Date = _date;
-            //_meal.FoodId = _food.Id;
-            //_meal.FoodName = _food.Name;
-            //_meal.UnitsId = SelectedUnits.Id;
-            //_meal.UnitsName = SelectedUnits.Name;
-            //_meal.UserId = _userId;
-
-            //if (!IsEdit)
-            //{
-            //    _meal.Id = Guid.NewGuid().ToString();
-            //    await GlobalDataStore.Meals.AddItemAsync(_meal);
-            //}
-            //else
-            //{
-            //    await GlobalDataStore.Meals.UpdateItemAsync(_meal);
-            //}
-
+            _productToBuy.UserId = _userId;
+            _productToBuy.FoodId = _food.Id;
+            _productToBuy.UnitsId = SelectedUnits.Id;
+            _productToBuy.UnitsName = SelectedUnits.Name;
+            _productToBuy.FoodName = _food.Name;
+            _productToBuy.UnitsAmount = UnitsAmount;
+            _productToBuy.Date = _date;
+            
+            if (!IsEdit)
+            {
+                _productToBuy.IsBought = false;
+                _productToBuy.Id = Guid.NewGuid().ToString();
+                await GlobalDataStore.ProductsToBuy.AddItemAsync(_productToBuy);
+            }
+            else
+            {
+                await GlobalDataStore.ProductsToBuy.UpdateItemAsync(_productToBuy);
+            }
+            
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
             string isFromShopList = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromShopList");
-            await Shell.Current.GoToAsync($"..?{date}&{isFromShopList}");
+            await Shell.Current.GoToAsync($"..?{date}&{isFromShopList}&{userId}");
         }
 
         [RelayCommand]
@@ -131,7 +134,7 @@ namespace HealthyMeal.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, string> query)
         {
-            string productsToBuyId = string.Empty;
+            string productToBuyId = string.Empty;
             string foodId = string.Empty;
 
             if (query.ContainsKey("UserId"))
@@ -152,10 +155,10 @@ namespace HealthyMeal.ViewModels
                 foodId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(foodId);
             }
 
-            if (query.ContainsKey("ProductsToBuyId"))
+            if (query.ContainsKey("ProductToBuyId"))
             {
-                productsToBuyId = HttpUtility.UrlDecode(query["ProductsToBuyId"]);
-                productsToBuyId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(productsToBuyId);
+                productToBuyId = HttpUtility.UrlDecode(query["ProductToBuyId"]);
+                productToBuyId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(productToBuyId);
             }
 
             if (query.ContainsKey("Date"))
@@ -170,14 +173,14 @@ namespace HealthyMeal.ViewModels
             }
 
             OnPropertyChanged(nameof(SelectedDate));
-            LoadDataAfterNavigation(productsToBuyId, foodId);
+            LoadDataAfterNavigation(productToBuyId, foodId);
         }
 
         #endregion
 
         #region Внутренние методы
 
-        private async void LoadDataAfterNavigation(string productsToBuyId, string foodId)
+        private async void LoadDataAfterNavigation(string productToBuyId, string foodId)
         {
             _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             List<NutritionalValueModel> nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
@@ -193,7 +196,7 @@ namespace HealthyMeal.ViewModels
 
             if (IsEdit)
             {
-                _productToBuy = await GlobalDataStore.ProductsToBuy.GetItemAsync(productsToBuyId);
+                _productToBuy = await GlobalDataStore.ProductsToBuy.GetItemAsync(productToBuyId);
                 UnitsAmount = _productToBuy.UnitsAmount;
                 SelectedUnits = Units.Find(u => u.Id == _productToBuy.UnitsId);
             }

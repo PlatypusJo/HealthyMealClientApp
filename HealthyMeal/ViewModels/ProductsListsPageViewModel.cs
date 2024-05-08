@@ -24,6 +24,8 @@ namespace HealthyMeal.ViewModels
 
         private DateTime _date;
 
+        private bool _isNextPageOpen = false;
+
         private readonly int _pageSize = 15;
 
         #endregion
@@ -96,6 +98,7 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenProductsPage()
         {
+            _isNextPageOpen = true;
             string userId = NavigationParameterConverter.ObjectToPairKeyValue("1", "UserId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(Date, nameof(Date));
             string isFromShopList = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromShopList");
@@ -103,14 +106,36 @@ namespace HealthyMeal.ViewModels
         }
 
         [RelayCommand]
-        private void CheckBoxChanged(object arg)
+        private async Task CheckBoxChanged(CheckedChangedEventArgs args)
         {
-            if (arg is string id)
+            foreach (ProductToBuyModel item in ShopListToShow)
             {
-                ProductToBuyModel changedItem = ShopListToShow.ToList().Find(p => p.Id == id);
-                if (changedItem != null) 
-                    Debug.WriteLine($"{changedItem.FoodName} is {changedItem.IsBought}");
+                await GlobalDataStore.ProductsToBuy.UpdateItemAsync(item);
             }
+        }
+
+        [RelayCommand]
+        private async Task OpenSavingToShopListPage(ProductToBuyModel item)
+        {
+            if (item == null)
+                return;
+
+            _isNextPageOpen = true;
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_user.Id, "UserId");
+            string productToBuyId = NavigationParameterConverter.ObjectToPairKeyValue(item.Id, "ProductToBuyId");
+            string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
+            string foodId = NavigationParameterConverter.ObjectToPairKeyValue(item.FoodId, "FoodId");
+            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsEdit");
+            await Shell.Current.GoToAsync($"{nameof(SavingToShopListPage)}?{userId}&{date}&{foodId}&{isEdit}&{productToBuyId}");
+        }
+
+        [RelayCommand]
+        private async Task DeleteItem(ProductToBuyModel item)
+        {
+            await GlobalDataStore.ProductsToBuy.DeleteItemAsync(item.Id);
+            ShopListToShow.Remove(item);
+            PageIndex = ShopListToShow.Count == 0 ? PageIndex - 1 : PageIndex;
+            SwitchPageAndReloadData(PageIndex);
         }
 
         [RelayCommand]
@@ -124,14 +149,7 @@ namespace HealthyMeal.ViewModels
         {
             SwitchPageAndReloadData(PageIndex - 1);
         }
-
-        [RelayCommand]
-        private void ItemTapped(ProductToBuyModel item)
-        {
-            if (item == null)
-                return;
-        }
-
+        
         [RelayCommand]
         private void OpenEditPopup()
         {
@@ -249,7 +267,16 @@ namespace HealthyMeal.ViewModels
             IsPopupEditVisible = false;
             IsPopupDeleteVisible = false;
             IsNextPopupVisible = false;
-            PageIndex = 1;
+
+            if (_isNextPageOpen)
+            {
+                _isNextPageOpen = false;
+            }
+            else
+            {
+                PageIndex = 1;
+            }
+
             SwitchPageAndReloadData(PageIndex);
             OnPropertyChanged(nameof(Date));
             OnPropertyChanged(nameof(DateFormat));

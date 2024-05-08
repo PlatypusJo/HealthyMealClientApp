@@ -60,9 +60,10 @@
                                                                UnitsName="{Binding UnitsName}" 
                                                                TriggerValue="{Binding IsBought}"
                                                                CheckBoxCommand="{Binding Source={x:Reference ShoppingListPage}, Path=BindingContext.CheckBoxChangedCommand}"
-                                                               CheckBoxCommandParameter="{Binding Id}"
-                                                               TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=ItemTappedCommand}"
-                                                               TapCommandParameter="{Binding .}"/>
+                                                               TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=OpenSavingToShopListPageCommand}"
+                                                               TapCommandParameter="{Binding .}"
+                                                               ButtonCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsListsPageViewModel}}, Path=DeleteItemCommand}"
+                                                               ButtonCommandParameter="{Binding .}"/>
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>

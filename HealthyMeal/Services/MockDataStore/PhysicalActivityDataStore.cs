@@ -79,9 +79,8 @@ namespace HealthyMeal.Services.MockDataStore
 
         public async Task<bool> UpdateItemAsync(PhysicalActivityModel item)
         {
-            var oldItem = _data.Where((PhysicalActivityModel arg) => arg.Id == item.Id).FirstOrDefault();
-            _data.Remove(oldItem);
-            _data.Add(item);
+            int index = _data.FindIndex((PhysicalActivityModel arg) => arg.Id == item.Id);
+            _data[index] = item;
 
             return await Task.FromResult(true);
         }

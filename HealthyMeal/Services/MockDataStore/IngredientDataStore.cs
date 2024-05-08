@@ -125,9 +125,8 @@ namespace HealthyMeal.Services.MockDataStore
 
         public async Task<bool> UpdateItemAsync(IngredientModel item)
         {
-            var oldItem = _data.Where((IngredientModel arg) => arg.Id == item.Id).FirstOrDefault();
-            _data.Remove(oldItem);
-            _data.Add(item);
+            int index = _data.FindIndex((IngredientModel arg) => arg.Id == item.Id);
+            _data[index] = item;
 
             return await Task.FromResult(true);
         }

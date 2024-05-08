@@ -121,18 +121,32 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task CreateShoppingList()
         {
-            // Проверка существования покупок на выбранную дату
-            // Если есть - окно выбора замена/добавление
-            // Если нет - добавление в список покупок
-
             IsShoppingListPopupVisible = false;
-            bool result = true;
+            List<ProductToBuyModel> productsToBuy = await GlobalDataStore.ProductsToBuy.GetAllItemsAsync();
+            bool result = productsToBuy.Exists(p => p.Date == SelectedDate);
+                        
             if (result)
             {
                 IsChoicePopupVisible = true;
             }
             else
             {
+                foreach (IngredientModel ingredient in Ingredients)
+                {
+                    ProductToBuyModel shopListItem = new()
+                    { 
+                        Id = Guid.NewGuid().ToString(),
+                        FoodId = ingredient.FoodId,
+                        FoodName = ingredient.Name,
+                        UnitsId = ingredient.UnitsId,
+                        UserId = _userId,
+                        UnitsName = ingredient.UnitsName,
+                        UnitsAmount = ingredient.UnitsAmount,
+                        Date = SelectedDate,
+                        IsBought = false,
+                    };
+                    await GlobalDataStore.ProductsToBuy.AddItemAsync(shopListItem);
+                }
                 IsNextPopupVisible = true;
                 NextPopupText = "Список покупок успешно создан";
             }
@@ -141,9 +155,25 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task AddToShoppingList()
         {
-            // Добавление продуктов к уже имеющемуся списку покупок
-
             IsChoicePopupVisible = false;
+
+            foreach (IngredientModel ingredient in Ingredients)
+            {
+                ProductToBuyModel shopListItem = new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    FoodId = ingredient.FoodId,
+                    FoodName = ingredient.Name,
+                    UnitsId = ingredient.UnitsId,
+                    UserId = _userId,
+                    UnitsName = ingredient.UnitsName,
+                    UnitsAmount = ingredient.UnitsAmount,
+                    Date = SelectedDate,
+                    IsBought = false,
+                };
+                await GlobalDataStore.ProductsToBuy.AddItemAsync(shopListItem);
+            }
+
             IsNextPopupVisible = true;
             NextPopupText = "В список успешно добавлены продукты";
         }
@@ -151,9 +181,33 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task ReplaceShoppingList()
         {
-            // Замена списка покупок с выбранной датой на новый
-
             IsChoicePopupVisible = false;
+
+            List<ProductToBuyModel> productsToBuy = await GlobalDataStore.ProductsToBuy.GetAllItemsAsync();
+            productsToBuy = productsToBuy.Where(p => p.Date == SelectedDate).ToList();
+
+            foreach (ProductToBuyModel productToBuy in productsToBuy)
+            {
+                await GlobalDataStore.ProductsToBuy.DeleteItemAsync(productToBuy.Id);
+            }
+
+            foreach (IngredientModel ingredient in Ingredients)
+            {
+                ProductToBuyModel shopListItem = new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    FoodId = ingredient.FoodId,
+                    FoodName = ingredient.Name,
+                    UnitsId = ingredient.UnitsId,
+                    UserId = _userId,
+                    UnitsName = ingredient.UnitsName,
+                    UnitsAmount = ingredient.UnitsAmount,
+                    Date = SelectedDate,
+                    IsBought = false,
+                };
+                await GlobalDataStore.ProductsToBuy.AddItemAsync(shopListItem);
+            }
+
             IsNextPopupVisible = true;
             NextPopupText = "Список успешно заменён";
         }

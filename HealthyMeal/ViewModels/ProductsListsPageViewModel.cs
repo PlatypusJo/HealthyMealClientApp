@@ -135,14 +135,31 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private void OpenEditPopup()
         {
-            SelectedDate = Date;
-            IsPopupEditVisible = true;
+            if (ShopListToShow.Count > 0)
+            {
+                SelectedDate = Date;
+                IsPopupEditVisible = true;
+            }
+            else
+            {
+                NextPopupText = "Списка покупок для изменения нет";
+                IsNextPopupVisible = true;
+            }
         }
 
         [RelayCommand]
         private void OpenDeletePopup()
         {
-            IsPopupDeleteVisible = true;
+            if (ShopListToShow.Count > 0)
+            {
+                IsPopupDeleteVisible = true;
+            }
+            else
+            {
+                NextPopupText = "Списка покупок для удаления нет";
+                IsNextPopupVisible = true;
+            }
+            
         }
 
         [RelayCommand]
@@ -156,11 +173,10 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task SaveChanges()
         {
-            // Если на выбранную дату нет других списков, то изменяем
-            // Иначе выдаём сообщение, что невозможно перенести.
-
-            bool result = true;
             IsPopupEditVisible = false;
+            List<ProductToBuyModel> shopList = await GlobalDataStore.ProductsToBuy.GetAllItemsAsync();
+            bool result = shopList.Exists(p => p.Date == SelectedDate);
+                        
             if (result)
             {
                 IsNextPopupVisible = true;
@@ -168,6 +184,16 @@ namespace HealthyMeal.ViewModels
             }
             else
             {
+                List<ProductToBuyModel> curShopList = await GlobalDataStore.ProductsToBuy.GetAllItemsAsync();
+                curShopList = curShopList.Where(p => p.Date == Date).ToList();
+
+                foreach(ProductToBuyModel item in curShopList)
+                {
+                    item.Date = SelectedDate;
+                    await GlobalDataStore.ProductsToBuy.UpdateItemAsync(item);
+                }
+
+                Date = SelectedDate;
                 IsNextPopupVisible = true;
                 NextPopupText = "Список успешно перенесён";
             }
@@ -177,6 +203,16 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task DeleteShoppingList()
         {
+            List<ProductToBuyModel> shopList = await GlobalDataStore.ProductsToBuy.GetAllItemsAsync();
+            shopList = shopList.Where(p => p.Date == Date).ToList();
+
+            foreach(ProductToBuyModel item in shopList)
+            {
+                await GlobalDataStore.ProductsToBuy.DeleteItemAsync(item.Id);
+            }
+
+            PageIndex = 1;
+            SwitchPageAndReloadData(PageIndex);
             IsPopupDeleteVisible = false;
         }
 

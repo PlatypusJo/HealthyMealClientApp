@@ -177,7 +177,7 @@ namespace HealthyMeal.ViewModels
 
         #region Внутренние методы
 
-        private async void LoadDataAfterNavigation(string mealId, string foodId)
+        private async void LoadDataAfterNavigation(string productsToBuyId, string foodId)
         {
             _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             List<NutritionalValueModel> nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
@@ -193,7 +193,7 @@ namespace HealthyMeal.ViewModels
 
             if (IsEdit)
             {
-                _productToBuy = await GlobalDataStore.ProductsToBuy.GetItemAsync(mealId);
+                _productToBuy = await GlobalDataStore.ProductsToBuy.GetItemAsync(productsToBuyId);
                 UnitsAmount = _productToBuy.UnitsAmount;
                 SelectedUnits = Units.Find(u => u.Id == _productToBuy.UnitsId);
             }

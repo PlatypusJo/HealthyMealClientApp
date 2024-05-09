@@ -52,21 +52,22 @@
                 </StackLayout>
                 <ScrollView>
                     <StackLayout>
-                        <CarouselView ItemsSource="{Binding DishesToShow}"
-                                      PeekAreaInsets="0"
-                                      HeightRequest="430">
-                            <CarouselView.EmptyView>
-                                <ContentView>
+                        <ScrollView Orientation="Horizontal"
+                                    HorizontalScrollBarVisibility="Never">
+                            <StackLayout BindableLayout.ItemsSource="{Binding DishesToShow}"
+                                         Orientation="Horizontal"
+                                         HorizontalOptions="CenterAndExpand"
+                                         HeightRequest="430">
+                                <BindableLayout.EmptyView>
                                     <StackLayout HorizontalOptions="CenterAndExpand"
-                                                 VerticalOptions="CenterAndExpand">
+                                             VerticalOptions="CenterAndExpand">
                                         <Label Style="{DynamicResource LargeText}"
                                                Text="Блюд не найдено"/>
                                     </StackLayout>
-                                </ContentView>
-                            </CarouselView.EmptyView>
-                            <CarouselView.ItemTemplate>
-                                <DataTemplate>
-                                    <controls:CardWithActions x:DataType="model:MenuStringModel"
+                                </BindableLayout.EmptyView>
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <controls:CardWithActions x:DataType="model:MenuStringModel"
                                                               Name="{Binding RecipeName}"
                                                               IconLeftAction="addDiary.png"
                                                               IconRightAction="delete.png"
@@ -76,9 +77,10 @@
                                                               ActionLeftCommandParameter="{Binding .}"
                                                               ActionRightCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=RemoveDishCommand}"
                                                               ActionRightCommandParameter="{Binding .}"/>
-                                </DataTemplate>
-                            </CarouselView.ItemTemplate>
-                        </CarouselView>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </ScrollView>
                         <StackLayout Orientation="Horizontal" 
                                      Spacing="100" 
                                      HorizontalOptions="CenterAndExpand">

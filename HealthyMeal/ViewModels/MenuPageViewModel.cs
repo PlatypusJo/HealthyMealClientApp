@@ -112,11 +112,6 @@ namespace HealthyMeal.ViewModels
             }
         }
 
-        //public ObservableCollection<RecipeModel> Recipes 
-        //{
-        //    get => _recipes; 
-        //}
-
         #endregion
 
         #region Команды
@@ -222,18 +217,25 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private void OpenEditPopup()
         {
-            SelectedDate = _date;
-            IsPopupEditVisible = true;
+            if (_menu is not null)
+            {
+                SelectedDate = Date;
+                IsPopupEditVisible = true;
+            }
+            else
+            {
+                NextPopupText = "Меню для изменения нет";
+                IsNextPopupVisible = true;
+            }
         }
 
         [RelayCommand]
         private async Task SaveChanges()
         {
-            // Если на выбранную дату нет других меню, то изменяем
-            // Иначе выдаём сообщение, что невозможно перенести.
-
-            bool result = true;
             IsPopupEditVisible = false;
+            List<MenuModel> menus = await GlobalDataStore.Menus.GetAllItemsAsync();
+            bool result = menus.Exists(m => m.Date == SelectedDate);
+
             if (result)
             {
                 IsNextPopupVisible = true;
@@ -241,22 +243,37 @@ namespace HealthyMeal.ViewModels
             }
             else
             {
+                _menu.Date = SelectedDate;
+                await GlobalDataStore.Menus.UpdateItemAsync(_menu);
+
+                Date = SelectedDate;
                 IsNextPopupVisible = true;
                 NextPopupText = "Меню успешно перенесено";
             }
-            
         }
 
         [RelayCommand]
         private void OpenDeletePopup()
         {
-            IsPopupDeleteVisible = true;
+            if (_menu is not null)
+            {
+                IsPopupDeleteVisible = true;
+            }
+            else
+            {
+                NextPopupText = "Меню для удаления нет";
+                IsNextPopupVisible = true;
+            }
         }
 
         [RelayCommand]
         private async Task DeleteMenu()
         {
             IsPopupDeleteVisible = false;
+            await GlobalDataStore.Menus.DeleteItemAsync(_menu.Id);
+            LoadDataByDateAsync();
+            OnPropertyChanged(nameof(CookingTimeString));
+            
         }
 
         [RelayCommand]

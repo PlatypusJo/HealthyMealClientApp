@@ -176,8 +176,7 @@ namespace HealthyMeal.ViewModels
             {
                 NextPopupText = "Списка покупок для удаления нет";
                 IsNextPopupVisible = true;
-            }
-            
+            }            
         }
 
         [RelayCommand]
@@ -215,7 +214,6 @@ namespace HealthyMeal.ViewModels
                 IsNextPopupVisible = true;
                 NextPopupText = "Список успешно перенесён";
             }
-
         }
 
         [RelayCommand]

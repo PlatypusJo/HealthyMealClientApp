@@ -53,7 +53,8 @@
                 <ScrollView>
                     <StackLayout>
                         <ScrollView Orientation="Horizontal"
-                                    HorizontalScrollBarVisibility="Never">
+                                    HorizontalScrollBarVisibility="Never" 
+                                    Padding="35">
                             <StackLayout BindableLayout.ItemsSource="{Binding DishesToShow}"
                                          Orientation="Horizontal"
                                          HorizontalOptions="CenterAndExpand"

@@ -25,5 +25,11 @@ namespace HealthyMeal.Views
             base.OnAppearing();
             _vm.LoadDataAfterNavigation();
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            ProductsListsPage.ReloadData();
+        }
     }
 }

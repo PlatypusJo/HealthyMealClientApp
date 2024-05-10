@@ -170,25 +170,32 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private void OpenShoppingListPopup()
         {
-            SelectedDate = _date;
-            IsShoppingListPopupVisible = true;
+            if (_menu is not null)
+            {
+                SelectedDate = _date;
+                IsShoppingListPopupVisible = true;
+            }
+            else
+            {
+                NextPopupText = "Нет меню для составления списка";
+                IsNextPopupVisible = true;                
+            }
         }
 
         [RelayCommand]
         private async Task CreateShoppingList()
         {
-            // Проверка существования покупок на выбранную дату
-            // Если есть - окно выбора замена/добавление
-            // Если нет - добавление в список покупок
-
             IsShoppingListPopupVisible = false;
-            bool result = true;
+            List<ProductToBuyModel> productsToBuy = await GlobalDataStore.ProductsToBuy.GetAllItemsAsync();
+            bool result = productsToBuy.Exists(p => p.Date == SelectedDate);
+
             if (result)
             {
                 IsChoicePopupVisible = true;
             }
             else
             {
+                await CreateShoppingListByMenu();
                 IsNextPopupVisible = true;
                 NextPopupText = "Список покупок успешно создан";
             }
@@ -198,8 +205,8 @@ namespace HealthyMeal.ViewModels
         private async Task AddToShoppingList()
         {
             // Добавление продуктов к уже имеющемуся списку покупок
-
             IsChoicePopupVisible = false;
+            await CreateShoppingListByMenu();
             IsNextPopupVisible = true;
             NextPopupText = "В список успешно добавлены продукты";
         }
@@ -207,9 +214,18 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task ReplaceShoppingList()
         {
-            // Замена списка покупок с выбранной датой на новый
-
+            // Замена списка покупок на новый
             IsChoicePopupVisible = false;
+
+            List<ProductToBuyModel> productsToBuy = await GlobalDataStore.ProductsToBuy.GetAllItemsAsync();
+            productsToBuy = productsToBuy.Where(p => p.Date == SelectedDate).ToList();
+
+            foreach (ProductToBuyModel productToBuy in productsToBuy)
+            {
+                await GlobalDataStore.ProductsToBuy.DeleteItemAsync(productToBuy.Id);
+            }
+
+            await CreateShoppingListByMenu();
             IsNextPopupVisible = true;
             NextPopupText = "Список успешно заменён";
         }
@@ -270,6 +286,12 @@ namespace HealthyMeal.ViewModels
         private async Task DeleteMenu()
         {
             IsPopupDeleteVisible = false;
+
+            foreach(MenuStringModel dish in _dishes)
+            {
+                await GlobalDataStore.MenuStrings.DeleteItemAsync(dish.Id);
+            }
+
             await GlobalDataStore.Menus.DeleteItemAsync(_menu.Id);
             LoadDataByDateAsync();
             OnPropertyChanged(nameof(CookingTimeString));
@@ -346,6 +368,35 @@ namespace HealthyMeal.ViewModels
         #endregion
 
         #region Внутренние методы
+
+        private async Task CreateShoppingListByMenu()
+        {
+            List<IngredientModel> ingredients = await GlobalDataStore.Ingredients.GetAllItemsAsync();
+            List<IngredientModel> menuIngredients = [];
+
+            foreach (MenuStringModel dish in _dishes)
+            {
+                List<IngredientModel> ingredientsBuf = ingredients.Where(i => i.RecipeId == dish.RecipeId).ToList();
+                menuIngredients = [.. menuIngredients, .. ingredientsBuf];
+            }
+
+            foreach (IngredientModel ingredient in menuIngredients)
+            {
+                ProductToBuyModel shopListItem = new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    FoodId = ingredient.FoodId,
+                    FoodName = ingredient.Name,
+                    UnitsId = ingredient.UnitsId,
+                    UserId = _user.Id,
+                    UnitsName = ingredient.UnitsName,
+                    UnitsAmount = ingredient.UnitsAmount,
+                    Date = SelectedDate,
+                    IsBought = false,
+                };
+                await GlobalDataStore.ProductsToBuy.AddItemAsync(shopListItem);
+            }
+        }
 
         private async void LoadDataByDateAsync()
         {

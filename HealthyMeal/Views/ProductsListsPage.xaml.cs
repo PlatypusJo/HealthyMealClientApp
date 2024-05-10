@@ -14,6 +14,7 @@ namespace HealthyMeal.Views
     public partial class ProductsListsPage : ContentPage
     {
         private static readonly ProductsListsPageViewModel _vm = new();
+
         public ProductsListsPage()
         {
             InitializeComponent();
@@ -23,6 +24,11 @@ namespace HealthyMeal.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            _vm.LoadDataAfterNavigation();
+        }
+
+        public static void ReloadData()
+        {
             _vm.LoadDataAfterNavigation();
         }
     }

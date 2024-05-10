@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Models;
+using HealthyMeal.Services.BLL;
 using HealthyMeal.Utils;
 using HealthyMeal.Views;
 using System;
@@ -11,7 +12,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Xamarin.Forms;
-using static Xamarin.Essentials.Permissions;
 
 namespace HealthyMeal.ViewModels
 {
@@ -24,8 +24,6 @@ namespace HealthyMeal.ViewModels
         private string _userId = string.Empty;
 
         private DateTime _date;
-
-        List<MealModel> _meals = [];
 
         private MealTypeModel _selectedMealType;
 
@@ -118,11 +116,10 @@ namespace HealthyMeal.ViewModels
         private async Task RemoveMeal(MealModel meal)
         {
             await GlobalDataStore.Meals.DeleteItemAsync(meal.Id);
-            _meals = await GlobalDataStore.Meals.GetAllItemsAsync();
-            _meals = _meals.Where(x => x.Date == _date && x.MealTypeId == SelectedMealType.Id).ToList();
-
-            IsEmptyCollection = _meals.Count == 0;
-            SwitchPageAndReloadData(_meals.Count / _pageSize + 1);
+            MealsToShow.Remove(meal);
+            IsEmptyCollection = MealsToShow.Count == 0;
+            PageIndex = MealsToShow.Count == 0 ? PageIndex - 1 : PageIndex;
+            SwitchPageAndReloadData(PageIndex);
         }
 
         #endregion
@@ -193,23 +190,9 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadDataByMealTypeAsync()
         {
-            List<MealModel> meals = await GlobalDataStore.Meals.GetAllItemsAsync();
-            meals = meals.Where(x => x.Date == _date && x.MealTypeId == SelectedMealType.Id).ToList();
-            _meals = meals;
-
-            IsVisible = _meals.Count > _pageSize;
-            IsEmptyCollection = _meals.Count == 0;
-
-            if (IsFromDiary)
-            {
-                PageIndex = 1;
-                SwitchPageAndReloadData(PageIndex);
-            }
-            else
-            {
-                SwitchPageAndReloadData(_meals.Count / _pageSize + 1);
-            }
-            
+            PageIndex = IsFromDiary ? 1 : PageIndex;
+            IsFromDiary = !IsFromDiary;
+            SwitchPageAndReloadData(PageIndex);
         }
 
         private async void LoadMealTypesAsync()
@@ -218,27 +201,31 @@ namespace HealthyMeal.ViewModels
             MealTypes = [.. MealTypes.OrderBy(x => x.Type)];
         }
 
-        private void SwitchPageAndReloadData(int pageNumber)
+        private async void SwitchPageAndReloadData(int pageNumber)
         {
-            int index = pageNumber - 1;
-            if (index < 0 || index > _meals.Count / _pageSize)
+            if (pageNumber < 0)
                 return;
 
-            LoadDataToShow(index);
+            int mealsCount = await LoadDataToShow(pageNumber);
 
+            IsVisible = mealsCount > _pageSize;
+            IsEmptyCollection = mealsCount == 0;
             IsVisibleToPrevious = !(pageNumber == 1);
-            IsVisibleToNext = !(pageNumber == _meals.Count / _pageSize + 1);
+            IsVisibleToNext = !(pageNumber == mealsCount / _pageSize + 1);
             PageIndex = pageNumber;
         }
 
-        private void LoadDataToShow(int curIndexPage)
+        private async Task<int> LoadDataToShow(int curPage)
         {
             MealsToShow.Clear();
-            int startIndex = curIndexPage * _pageSize;
-            for (int i = startIndex; i < _meals.Count && i < startIndex + _pageSize; i++)
+
+            GetMealsPageResponseModel response = await BlService.GetMealsPage(_userId, SelectedMealType.Id, _pageSize, curPage, _date);
+            foreach (MealModel meal in response.Meals)
             {
-                MealsToShow.Add(_meals[i]);
+                MealsToShow.Add(meal);
             }
+
+            return response.Count;
         }
 
         #endregion

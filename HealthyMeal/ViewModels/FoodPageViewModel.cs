@@ -29,8 +29,6 @@ namespace HealthyMeal.ViewModels
 
         private string _searchBarText = string.Empty;
 
-        List<FoodModel> _foods = [];
-
         #endregion
 
         #region ObservableProperties
@@ -167,26 +165,13 @@ namespace HealthyMeal.ViewModels
         #region Внутренние методы
 
         private async void LoadDataAfterNavigation(bool isFromDiary)
-        {
-            List<RecipeModel> recipes = await GlobalDataStore.Recipes.GetAllItemsAsync();
-            _foods = await GlobalDataStore.Foods.GetAllItemsAsync();
-
-            List<FoodModel> foods = [];
-            for (int i = 0; i < recipes.Count; i++)
-            {
-                FoodModel food = _foods.Find(f => f.Id == recipes[i].FoodId);
-                foods.Add(food);
-            }
-
-            _foods = _foods.Except(foods).ToList();
-
+        {            
             if (isFromDiary)
             {
                 _searchBarText = string.Empty;
                 PageIndex = 1;
                 SwitchPageAndReloadData(PageIndex);
             }
-
         }
 
         private async void LoadMealTypesAsync()

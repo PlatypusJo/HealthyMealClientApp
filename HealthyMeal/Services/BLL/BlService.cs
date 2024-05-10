@@ -96,5 +96,23 @@ namespace HealthyMeal.Services.BLL
 
             return response;
         }
+
+        public async Task<GetMealsPageResponseModel> GetMealsPage(string userId, string mealTypeId, int pageSize, int curPage, DateTime date)
+        {
+            GetMealsPageResponseModel response = new();
+
+            List<MealModel> meals = [];
+            meals = await _globalDataStore.Meals.GetAllItemsAsync();
+
+            // Отбор элементов с совпадениями по дате
+            meals = meals.Where(m => m.UserId == userId && m.MealTypeId == mealTypeId && m.Date == date).ToList();
+
+            // Формирование ответа.
+            int skipAmount = (curPage - 1) * pageSize;
+            response.Meals = meals.Skip(skipAmount).Take(pageSize).ToList();
+            response.Count = meals.Count;
+
+            return response;
+        }
     }
 }

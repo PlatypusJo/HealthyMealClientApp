@@ -67,7 +67,7 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
                                 <controls:MealInfoElement x:DataType="model:MealTypeModel"
-                                                          Icon="breakfast.png"
+                                                          Icon="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}"
                                                           MealTypeName="{Binding Name}"
                                                           KcalValue="{Binding KcalCount}"
                                                           FoodAmount="{Binding CountMeals}"

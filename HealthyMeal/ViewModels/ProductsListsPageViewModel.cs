@@ -57,10 +57,10 @@ namespace HealthyMeal.ViewModels
         private string _nextPopupText = string.Empty;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(SelectedDateFormat))]
         private DateTime _selectedDate;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(SelectedDateFormat))]
         private ObservableCollection<ProductToBuyModel> _shopListToShow = [];
 
         [ObservableProperty]

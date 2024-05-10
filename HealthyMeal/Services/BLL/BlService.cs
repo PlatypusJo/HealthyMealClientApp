@@ -42,7 +42,7 @@ namespace HealthyMeal.Services.BLL
             // Отбор элементов с совпадениями по тексту.
             if (searchBarText != string.Empty)
             {
-                foods = foods.Where(f => Regex.IsMatch(f.Name, pattern, RegexOptions.IgnoreCase) || Regex.IsMatch(f.Description, pattern, RegexOptions.IgnoreCase)).ToList();
+                foods = foods.Where(f => f.Name.StartsWith(searchBarText, StringComparison.OrdinalIgnoreCase) || Regex.IsMatch(f.Description, pattern, RegexOptions.IgnoreCase)).ToList();
             }
 
             // Формирование ответа.
@@ -67,7 +67,7 @@ namespace HealthyMeal.Services.BLL
             // Отбор элементов с совпадениями по тексту.
             if (searchBarText != string.Empty)
             {
-                recipes = recipes.Where(f => Regex.IsMatch(f.Name, pattern, RegexOptions.IgnoreCase) || Regex.IsMatch(f.Description, pattern, RegexOptions.IgnoreCase)).ToList();
+                recipes = recipes.Where(r => r.Name.StartsWith(searchBarText, StringComparison.OrdinalIgnoreCase) || Regex.IsMatch(r.Description, pattern, RegexOptions.IgnoreCase)).ToList();
             }
 
             // Формирование ответа.

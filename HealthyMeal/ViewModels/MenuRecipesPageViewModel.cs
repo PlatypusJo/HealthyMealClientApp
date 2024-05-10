@@ -25,8 +25,6 @@ namespace HealthyMeal.ViewModels
 
         private DateTime _date;
 
-        List<RecipeModel> _recipes = [];
-
         private string _searchBarText = string.Empty;
 
         #endregion
@@ -199,9 +197,9 @@ namespace HealthyMeal.ViewModels
             RecipesToShow.Clear();
 
             GetRecipePageResponseModel response = await BlService.GetRecipePage(_userId, _pageSize, curPage, _searchBarText);
-            foreach (RecipeModel food in response.Recipes)
+            foreach (RecipeModel recipe in response.Recipes)
             {
-                RecipesToShow.Add(food);
+                RecipesToShow.Add(recipe);
             }
 
             return response.Count;

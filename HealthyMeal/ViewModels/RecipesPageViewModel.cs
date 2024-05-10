@@ -107,7 +107,6 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadRecipes()
         {
-            IsVisible = RecipesToShow.Count > _pageSize;
             SwitchPageAndReloadData(PageIndex);
         }
 
@@ -129,9 +128,9 @@ namespace HealthyMeal.ViewModels
             RecipesToShow.Clear();
 
             GetRecipePageResponseModel response = await BlService.GetRecipePage(_userId, _pageSize, curPage, _searchBarText);
-            foreach (RecipeModel food in response.Recipes)
+            foreach (RecipeModel recipe in response.Recipes)
             {
-                RecipesToShow.Add(food);
+                RecipesToShow.Add(recipe);
             }
 
             return response.Count;

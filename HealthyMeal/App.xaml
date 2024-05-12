@@ -4,7 +4,13 @@
              x:Class="HealthyMeal.App">
     <Application.Resources>
         <ResourceDictionary>
-        
+
+            <!--#region Image-->
+            
+            <Image x:Key="EmptyPhoto" Source="emptyImg.png"/>
+            
+            <!--#endregion-->
+            
             <!--#region Colors-->
 
             <Color x:Key="MainColor">#FFFFFF</Color>

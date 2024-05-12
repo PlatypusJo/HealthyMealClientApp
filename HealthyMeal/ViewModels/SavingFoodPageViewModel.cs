@@ -46,6 +46,10 @@ namespace HealthyMeal.ViewModels
         [ObservableProperty]
         private bool _isEdit = false;
 
+        [ObservableProperty]
+        #nullable enable
+        private byte[]? _photo;
+
         #endregion
 
         #region Свойства
@@ -122,7 +126,7 @@ namespace HealthyMeal.ViewModels
             {
                 await GlobalDataStore.Meals.UpdateItemAsync(_meal);
             }
-
+                        
             string mealTypeId = NavigationParameterConverter.ObjectToPairKeyValue(_mealType.Id, "MealTypeId");
             string date = NavigationParameterConverter.ObjectToPairKeyValue(_date, "Date");
             string isFromDiary = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromDiary");
@@ -205,11 +209,12 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadDataAfterNavigation(string mealId, string foodId, string mealTypeId)
         {
+            Photo = null;
             _mealType = await GlobalDataStore.MealTypes.GetItemAsync(mealTypeId);
             _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             _nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
             _nutritionalValues = _nutritionalValues.Where(n => n.FoodId == _food.Id).ToList();
-
+            
             List<UnitsModel> unitsBuf = [];
             foreach (NutritionalValueModel nutritionalValue in _nutritionalValues)
             {
@@ -234,6 +239,7 @@ namespace HealthyMeal.ViewModels
                 
             }
 
+            Photo = _food.Image;
             OnPropertyChanged(nameof(FoodName));
         }
 

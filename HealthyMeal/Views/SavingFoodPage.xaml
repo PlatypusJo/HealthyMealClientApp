@@ -6,6 +6,13 @@
              xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
              xmlns:model="clr-namespace:HealthyMeal.Models"
              x:Class="HealthyMeal.Views.SavingFoodPage">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <AbsoluteLayout x:DataType="vm:SavingFoodPageViewModel"
                         Padding="0"
@@ -40,8 +47,11 @@
                                    MaxLines="2"/>
                         </StackLayout>
                         <Frame BackgroundColor="DarkGray"
-                               HeightRequest="200">
-                            <Image Source="xamarin_logo.png"
+                               HeightRequest="200"
+                               Padding="0"
+                               BorderColor="DarkGray"
+                               HasShadow="True">
+                            <Image Source="{Binding Photo, Converter={StaticResource ByteArrayToImageSourceConverter}}"
                                    Aspect="Fill"/>
                         </Frame>
                         <StackLayout Padding="10">

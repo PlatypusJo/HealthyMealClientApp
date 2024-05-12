@@ -40,7 +40,8 @@
                                    MaxLines="2"/>
                         </StackLayout>
                         <Frame BackgroundColor="DarkGray"
-                               HeightRequest="200">
+                               HeightRequest="200"
+                               Padding="0">
                             <Image Source="xamarin_logo.png"
                                    Aspect="Fill"/>
                         </Frame>

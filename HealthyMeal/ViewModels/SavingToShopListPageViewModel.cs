@@ -39,6 +39,10 @@ namespace HealthyMeal.ViewModels
         [ObservableProperty]
         private bool _isEdit = false;
 
+        [ObservableProperty]
+        #nullable enable
+        private byte[]? _photo;
+
         #endregion
 
         #region Свойства
@@ -182,6 +186,7 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadDataAfterNavigation(string productToBuyId, string foodId)
         {
+            Photo = null;
             _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             List<NutritionalValueModel> nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
             nutritionalValues = nutritionalValues.Where(n => n.FoodId == _food.Id).ToList();
@@ -210,6 +215,7 @@ namespace HealthyMeal.ViewModels
 
             }
 
+            Photo = _food.Image;
             OnPropertyChanged(nameof(FoodName));
         }
 

@@ -48,6 +48,10 @@ namespace HealthyMeal.ViewModels
         [NotifyPropertyChangedFor(nameof(DateFormat))]
         DateTime _selectedDate;
 
+        [ObservableProperty]
+        #nullable enable
+        private byte[]? _photo;
+
         #endregion
 
         #region Свойства
@@ -183,6 +187,7 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadDataAfterNavigation(string mealTypeId, string foodId)
         {
+            Photo = null;
             _food = await GlobalDataStore.Foods.GetItemAsync(foodId);
             _nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
             _nutritionalValues = _nutritionalValues.Where(n => n.FoodId == _food.Id).ToList();
@@ -210,6 +215,7 @@ namespace HealthyMeal.ViewModels
                 SelectedMealType = MealTypes.Find(m => m.Type == MealType.Breakfast);
             }
 
+            Photo = _food.Image;
             OnPropertyChanged(nameof(FoodName));
         }
 

@@ -198,6 +198,12 @@ namespace HealthyMeal.ViewModels
             List<MealModel> meals = await GlobalDataStore.Meals.GetAllItemsAsync();
             meals = meals.Where(x => x.Date == Date).ToList();
 
+            List<NutritionalValueModel> nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
+            foreach (MealModel meal in meals)
+            {
+                meal.NutritionalValue = nutritionalValues.Find(n => n.FoodId == meal.FoodId && n.UnitsId == meal.UnitsId);
+            }
+
             ObservableCollection<MealTypeModel> mealTypesBuf = [];
             foreach (MealTypeModel mealType in MealTypes)
             {

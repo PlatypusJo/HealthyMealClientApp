@@ -122,13 +122,20 @@ namespace HealthyMeal.ViewModels
                 daysBuf.Add(new() { Date = date });
             }
             daysBuf = new(daysBuf.OrderByDescending(d => d.DayNumber));
-            
+
+            List<MealModel> meals = [];
+            meals = await GlobalDataStore.Meals.GetAllItemsAsync();
+            List<NutritionalValueModel> nutritionalValues = await GlobalDataStore.NutritionalValues.GetAllItemsAsync();
+            foreach (MealModel meal in meals)
+            {
+                meal.NutritionalValue = nutritionalValues.Find(n => n.FoodId == meal.FoodId && n.UnitsId == meal.UnitsId);
+            }
+
             foreach (DayModel day in daysBuf)
             {
-                List<MealModel> meals = [];
-                meals = await GlobalDataStore.Meals.GetAllItemsAsync();
-                meals = meals.Where(m => m.Date == day.Date).ToList();
-                day.KcalAmount = meals.Sum(m => m.Kcal);
+                List<MealModel> mealsBuf = [];
+                mealsBuf = meals.Where(m => m.Date == day.Date).ToList();
+                day.KcalAmount = mealsBuf.Sum(m => m.Kcal);
             }
 
             Days = daysBuf;

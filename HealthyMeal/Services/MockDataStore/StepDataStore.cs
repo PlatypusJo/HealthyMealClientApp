@@ -120,6 +120,62 @@ namespace HealthyMeal.Services.MockDataStore
                     RecipeId = "4",
                     Description = "Полейте гречку мёдом",
                 },
+                new()
+                {
+                    Id = "16",
+                    StepNumber = 1,
+                    RecipeId = "5",
+                    Description = "Обжарить нарезанный лук, натертую морковь и говяжий фарш",
+                },
+                new()
+                {
+                    Id = "17",
+                    StepNumber = 2,
+                    RecipeId = "5",
+                    Description = "Высыпать гречку на сковородку",
+                },
+                new()
+                {
+                    Id = "18",
+                    StepNumber = 3,
+                    RecipeId = "5",
+                    Description = "Залить водой, посолить по вкусу, перемешать",
+                },
+                new()
+                {
+                    Id = "19",
+                    StepNumber = 1,
+                    RecipeId = "6",
+                    Description = "Курицу нарезать небольшими кусочками",
+                },
+                new()
+                {
+                    Id = "20",
+                    StepNumber = 2,
+                    RecipeId = "6",
+                    Description = "Лук нарезать соломкой",
+                },
+                new()
+                {
+                    Id = "21",
+                    StepNumber = 3,
+                    RecipeId = "6",
+                    Description = "Обжарить лук на сковороде",
+                },
+                new()
+                {
+                    Id = "22",
+                    StepNumber = 4,
+                    RecipeId = "6",
+                    Description = "Добавить курицу, обжарить с двух сторон",
+                },
+                new()
+                {
+                    Id = "23",
+                    StepNumber = 5,
+                    RecipeId = "6",
+                    Description = "Добавить рис, посолить и готовить все вместе минут 7",
+                },
                 ];
         }
 

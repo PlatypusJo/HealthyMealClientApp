@@ -291,6 +291,42 @@ namespace HealthyMeal.Services.MockDataStore
                     Fats = 27.4,
                     Carbohydrates = 2.2
                 },
+                new()
+                {
+                    Id = "24",
+                    FoodId = "21",
+                    UnitsId = "1",
+                    UnitsAmount = 100,
+                    IsDefault = true,
+                    Kcal = 113,
+                    Proteins = 23.6,
+                    Fats = 1.9,
+                    Carbohydrates = 0.4
+                },
+                new()
+                {
+                    Id = "25",
+                    FoodId = "22",
+                    UnitsId = "3",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 141.8,
+                    Proteins = 7.2,
+                    Fats = 7.2,
+                    Carbohydrates = 12.4,
+                },
+                new()
+                {
+                    Id = "26",
+                    FoodId = "23",
+                    UnitsId = "3",
+                    UnitsAmount = 1,
+                    IsDefault = true,
+                    Kcal = 143.8,
+                    Proteins = 10.5,
+                    Fats = 4.4,
+                    Carbohydrates = 14.7,
+                }
                 ];
         }
 

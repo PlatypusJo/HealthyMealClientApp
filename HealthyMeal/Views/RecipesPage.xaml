@@ -8,6 +8,13 @@
              xmlns:model="clr-namespace:HealthyMeal.Models"
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              IconImageSource="iconRecipes.png">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <AbsoluteLayout x:DataType="vm:RecipesPageViewModel" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             
@@ -89,6 +96,7 @@
                                            Name="{Binding Name}"
                                            KcalValue="{Binding Kcal}"
                                            CookingTime="{Binding CookingTimeString}"
+                                           Photo="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"
                                            TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:RecipesPageViewModel}}, Path=OpenRecipeInfoCommand}"
                                            TapCommandParameter="{Binding .}"/>
                         </DataTemplate>

@@ -18,7 +18,7 @@ namespace HealthyMeal.ViewModels
     {
         #region Поля
 
-        private readonly int _pageSize = 15;
+        private readonly int _pageSize = 5;
 
         private string _userId = string.Empty;
 

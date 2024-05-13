@@ -67,6 +67,10 @@ namespace HealthyMeal.ViewModels
         [NotifyPropertyChangedFor(nameof(DateFormat))]
         DateTime _selectedDate;
 
+        [ObservableProperty]
+        #nullable enable
+        private byte[]? _photo;
+
         #endregion
 
         #region Свойства
@@ -253,6 +257,7 @@ namespace HealthyMeal.ViewModels
                 RecipeId = _recipe.Id,
                 MenuId = menu.Id,
                 RecipeName = _recipe.Name,
+                RecipePhoto = _recipe.Image,
                 CookingTime = _recipe.CookingTime,
                 Kcal = _recipe.Kcal,
                 Proteins = _recipe.Proteins,
@@ -353,6 +358,7 @@ namespace HealthyMeal.ViewModels
 
         private async void LoadRecipeInfo(string recipeId, string mealTypeId, bool isAddToMenu, bool isOnlyInfo)
         {
+            Photo = null;
             _recipe = await GlobalDataStore.Recipes.GetItemAsync(recipeId);
 
             List<StepModel> steps = await GlobalDataStore.Steps.GetAllItemsAsync();
@@ -399,6 +405,8 @@ namespace HealthyMeal.ViewModels
             {
                 SelectedMealType = MealTypes.Find(m => m.Type == MealType.Breakfast);
             }
+
+            Photo = _recipe.Image;
 
             OnPropertyChanged(nameof(RecipeName));
             OnPropertyChanged(nameof(Kcal));

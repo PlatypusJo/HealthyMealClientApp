@@ -95,6 +95,78 @@ namespace HealthyMeal.Services.MockDataStore
                     UnitsId = "2",
                     UnitsAmount = 2,
                 },
+                new()
+                {
+                    Id = "11",
+                    RecipeId = "5",
+                    FoodId = "13",
+                    UnitsId = "1",
+                    UnitsAmount = 500,
+                },
+                new()
+                {
+                    Id = "12",
+                    RecipeId = "5",
+                    FoodId = "4",
+                    UnitsId = "1",
+                    UnitsAmount = 200,
+                },
+                new()
+                {
+                    Id = "13",
+                    RecipeId = "5",
+                    FoodId = "4",
+                    UnitsId = "1",
+                    UnitsAmount = 200,
+                },
+                new()
+                {
+                    Id = "14",
+                    RecipeId = "5",
+                    FoodId = "15",
+                    UnitsId = "2",
+                    UnitsAmount = 1,
+                },
+                new()
+                {
+                    Id = "15",
+                    RecipeId = "5",
+                    FoodId = "16",
+                    UnitsId = "2",
+                    UnitsAmount = 1,
+                },
+                new()
+                {
+                    Id = "16",
+                    RecipeId = "6",
+                    FoodId = "21",
+                    UnitsId = "1",
+                    UnitsAmount = 185,
+                },
+                new()
+                {
+                    Id = "14",
+                    RecipeId = "6",
+                    FoodId = "15",
+                    UnitsId = "2",
+                    UnitsAmount = 1,
+                },
+                new()
+                {
+                    Id = "15",
+                    RecipeId = "6",
+                    FoodId = "16",
+                    UnitsId = "2",
+                    UnitsAmount = 1,
+                },
+                new()
+                {
+                    Id = "17",
+                    RecipeId = "6",
+                    FoodId = "5",
+                    UnitsId = "1",
+                    UnitsAmount = 160,
+                },
                 ];
         }
 

@@ -6,6 +6,13 @@
              xmlns:controls="clr-namespace:HealthyMeal.Controls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="HealthyMeal.Views.MenuRecipesPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout x:DataType="vm:MenuRecipesPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
 
@@ -58,6 +65,7 @@
                     <DataTemplate>
                         <controls:Card x:DataType="model:RecipeModel"
                                        Name="{Binding Name}"
+                                       Photo="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"
                                        KcalValue="{Binding Kcal}"
                                        CookingTime="{Binding CookingTimeString}"
                                        TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuRecipesPageViewModel}}, Path=OpenRecipeInfoCommand}"

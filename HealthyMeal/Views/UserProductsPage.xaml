@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HealthyMeal.Views.UserProductsPage">
+    <ContentPage.Content>
+        <StackLayout x:DataType="vm:UserProductsPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
+
+            <StackLayout x:DataType="vm:UserProductsPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
+                        HorizontalOptions="Start"
+                        ImageSource="back.png"
+                        Command="{Binding GoBackCommand}"/>
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Мои продукты"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"/>
+                <BoxView WidthRequest="50" 
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"/>
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
+                <SearchBar x:Name="srcB"
+                           TextColor="{DynamicResource CommonTextColor}"
+                           CancelButtonColor="{DynamicResource CommonTextColor}"
+                           Placeholder="Поиск продукта"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="16">
+                    <SearchBar.Behaviors>
+                        <xct:EventToCommandBehavior EventName="SearchButtonPressed"
+                                                    Command="{Binding SearchCommand}"
+                                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                        <xct:EventToCommandBehavior EventName="TextChanged"
+                                                    Command="{Binding SearchCommand}"
+                                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>  
+                    </SearchBar.Behaviors>
+                </SearchBar>
+                <Button Style="{DynamicResource RoundButtonMainColor}" 
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center"
+                        ImageSource="add.png"
+                        Command="{Binding OpenCreateProductPageCommand}"/>
+            </StackLayout>
+            <BoxView BackgroundColor="LightGray"
+                     HeightRequest="1"/>
+            <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
+            <ListView x:Name="ProductsToBuy"
+                      ItemsSource="{Binding FoodsToShow}"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Grid x:DataType="model:FoodModel"
+                                        BackgroundColor="{StaticResource MainColor}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Column="0"
+                                                 Margin="10, 0, 0, 0">
+                                        <Label Text="{Binding Name}"
+                                               FontSize="18"
+                                               TextColor="{DynamicResource CommonTextColor}"
+                                               HorizontalOptions="StartAndExpand"
+                                               VerticalOptions="Center"
+                                               LineBreakMode="WordWrap"
+                                               MaxLines="2"/>
+                                        <StackLayout Orientation="Horizontal"
+                                                    HorizontalOptions="StartAndExpand">
+                                            <Label Text="{Binding DefaultUnitsAmount}"
+                                                   FontSize="16"
+                                                   TextColor="{DynamicResource PrimaryColor}"
+                                                   VerticalOptions="Center"/>
+                                            <Label Text="{Binding DefaultUnitsName}"
+                                                   FontSize="16"
+                                                   TextColor="{DynamicResource PrimaryColor}"
+                                                   VerticalOptions="Center"/>
+                                            <Label Style="{DynamicResource CommonText}"
+                                                   Text=" - "
+                                                   VerticalOptions="Center"/>
+                                            <Label Style="{DynamicResource CommonText}"
+                                                   Text="{Binding Kcal}" 
+                                                   LineBreakMode="NoWrap"/>
+                                            <Label Style="{DynamicResource CommonText}"
+                                                   Text="Ккал"
+                                                   LineBreakMode="NoWrap"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                            Grid.Column="1"
+                                            HorizontalOptions="EndAndExpand"
+                                            VerticalOptions="Center"
+                                            ImageSource="cross.png"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UserProductsPageViewModel}}, Path=RemoveProductCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding  Source={RelativeSource AncestorType={x:Type vm:UserProductsPageViewModel}}, Path=OpenEditProductPageCommand}"
+                                                              CommandParameter="{Binding .}"/>
+                                    </Grid.GestureRecognizers>
+                                </Grid>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                            PageNumber="{Binding PageIndex}" 
+                                            BackPageCommand="{Binding BackPageCommand}" 
+                                            NextPageCommand="{Binding NextPageCommand}"
+                                            IsVisibleToNext="{Binding IsVisibleToNext}"
+                                            IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
+                                            Color="{DynamicResource MainColor}"
+                                            HeightRequest="65"/>
+                </ListView.Footer>
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

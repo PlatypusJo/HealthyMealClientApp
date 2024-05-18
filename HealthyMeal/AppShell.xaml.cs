@@ -26,6 +26,7 @@ namespace HealthyMeal
             Routing.RegisterRoute(nameof(ProductsPage), typeof(ProductsPage));
             Routing.RegisterRoute(nameof(SavingToShopListPage), typeof(SavingToShopListPage));
             Routing.RegisterRoute(nameof(MenuRecipesPage), typeof(MenuRecipesPage));
+            Routing.RegisterRoute(nameof(UserProductsPage), typeof(UserProductsPage));
         }
     }
 }

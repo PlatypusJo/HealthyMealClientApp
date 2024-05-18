@@ -61,6 +61,14 @@ namespace HealthyMeal.ViewModels
             await Shell.Current.GoToAsync($"{nameof(EditProfilePage)}?{userId}");
         }
 
+        [RelayCommand]
+        private async Task OpenUserProductsPage()
+        {
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
+            string isFromProfile = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromProfile");
+            await Shell.Current.GoToAsync($"{nameof(UserProductsPage)}?{userId}&{isFromProfile}");
+        }
+
         #endregion
 
         #region Конструкторы

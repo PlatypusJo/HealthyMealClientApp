@@ -103,7 +103,7 @@
                                     </Grid>
                                 </Frame>
                                 <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer/>
+                                    <TapGestureRecognizer Command="{Binding OpenUserProductsPageCommand}"/>
                                 </Grid.GestureRecognizers>
                             </Grid>
                             <Grid HeightRequest="65">

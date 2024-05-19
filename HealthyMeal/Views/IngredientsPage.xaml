@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels" 
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HealthyMeal.Views.IngredientsPage">
+    <ContentPage.Content>
+        <StackLayout x:DataType="vm:IngredientsPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
+
+            <StackLayout x:DataType="vm:IngredientsPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
+                HorizontalOptions="Start"
+                ImageSource="back.png"
+                Command="{Binding GoBackCommand}"/>
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Продукты"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"/>
+                <BoxView WidthRequest="50" 
+                         VerticalOptions="Center"
+                         HorizontalOptions="End"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
+                <SearchBar x:Name="srcB"
+                   TextColor="{DynamicResource CommonTextColor}"
+                   CancelButtonColor="{DynamicResource CommonTextColor}"
+                   Placeholder="Поиск продукта"
+                   HorizontalOptions="FillAndExpand"
+                   FontSize="16">
+                    <SearchBar.Behaviors>
+                        <xct:EventToCommandBehavior EventName="SearchButtonPressed"
+                                            Command="{Binding SearchCommand}"
+                                            CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                        <xct:EventToCommandBehavior EventName="TextChanged"
+                                            Command="{Binding SearchCommand}"
+                                            CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+            </StackLayout>
+            <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
+            <ListView x:Name="ProductsToBuy"
+              ItemsSource="{Binding FoodsToShow}"
+              HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <controls:FoodListItem x:DataType="model:FoodModel"
+                                               Name="{Binding Name}"
+                                               Amount="{Binding DefaultUnitsAmount}"
+                                               UnitsName="{Binding DefaultUnitsName}"
+                                               KcalValue="{Binding Kcal}"
+                                               TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsPageViewModel}}, Path=OpenSavingToRecipePageCommand}"
+                                               TapCommandParameter="{Binding .}"/>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                    PageNumber="{Binding PageIndex}" 
+                                    BackPageCommand="{Binding BackPageCommand}" 
+                                    NextPageCommand="{Binding NextPageCommand}"
+                                    IsVisibleToNext="{Binding IsVisibleToNext}"
+                                    IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
+                                    Color="{DynamicResource MainColor}"
+                                    HeightRequest="65"/>
+                </ListView.Footer>
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -125,7 +125,7 @@
                                     </Grid>
                                 </Frame>
                                 <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer/>
+                                    <TapGestureRecognizer Command="{Binding OpenUserRecipesPageCommand}"/>
                                 </Grid.GestureRecognizers>
                             </Grid>
                         </StackLayout>

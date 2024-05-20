@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels" 
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HealthyMeal.Views.UserRecipesPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout x:DataType="vm:UserRecipesPageViewModel" BackgroundColor="{DynamicResource PageBackgroundColor}" Spacing="0">
+
+            <!--Заголовок-->
+            <StackLayout x:DataType="vm:UserRecipesPageViewModel" x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
+                        HorizontalOptions="Start"
+                        ImageSource="back.png"
+                        Command="{Binding GoBackCommand}"/>
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Мои рецепты"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"/>
+                <BoxView WidthRequest="50" 
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"/>
+            </StackLayout>
+
+            <!--Поисковая строка-->
+            <StackLayout Orientation="Horizontal" Padding="0, 10, 10, 10" BackgroundColor="{DynamicResource MainColor}">
+                <SearchBar x:Name="srcB"
+                           TextColor="{DynamicResource CommonTextColor}"
+                           CancelButtonColor="{DynamicResource CommonTextColor}"
+                           Placeholder="Поиск рецепта"
+                           HorizontalOptions="FillAndExpand"
+                           FontSize="16">
+                    <SearchBar.Behaviors>
+                        <xct:EventToCommandBehavior EventName="SearchButtonPressed"
+                                    Command="{Binding SearchCommand}"
+                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                        <xct:EventToCommandBehavior EventName="TextChanged"
+                                    Command="{Binding SearchCommand}"
+                                    CommandParameter="{Binding Text, Source={x:Reference srcB}}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+                <Button Style="{DynamicResource RoundButtonMainColor}" 
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center"
+                        ImageSource="add.png"
+                        Command="{Binding OpenCreateRecipePageCommand}"/>
+            </StackLayout>
+            <BoxView BackgroundColor="LightGray" HeightRequest="1"/>
+
+            <!--Список рецептов-->
+            <CollectionView ItemsSource="{Binding RecipesToShow}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:CardWithActions x:DataType="model:RecipeModel"
+                               Name="{Binding Name}"
+                               Photo="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                               TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:UserRecipesPageViewModel}}, Path=OpenRecipeInfoCommand}"
+                               TapCommandParameter="{Binding .}"
+                               IconLeftAction="edit.png"
+                               ActionLeftCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:UserRecipesPageViewModel}}, Path=OpenCreateRecipePageCommand}"
+                               ActionLeftCommandParameter="{Binding .}"
+                               IconRightAction="delete.png"
+                               ActionRightCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:UserRecipesPageViewModel}}, Path=RemoveRecipeCommand}"
+                               ActionRightCommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <controls:PageNavigator IsVisible="{Binding IsVisible}" 
+                                    PageNumber="{Binding PageIndex}" 
+                                    BackPageCommand="{Binding BackPageCommand}" 
+                                    NextPageCommand="{Binding NextPageCommand}"
+                                    IsVisibleToNext="{Binding IsVisibleToNext}"
+                                    IsVisibleToPrevious="{Binding IsVisibleToPrevious}"
+                                    Color="{DynamicResource PageBackgroundColor}"
+                                    HeightRequest="65"/>
+                </CollectionView.Footer>
+            </CollectionView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

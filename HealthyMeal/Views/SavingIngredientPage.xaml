@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             x:Class="HealthyMeal.Views.SavingIngredientPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout x:DataType="vm:SavingIngredientPageViewModel"
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+            <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         Spacing="0">
+                <StackLayout Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                    <Button Style="{DynamicResource RoundButtonPrimaryColor}" 
+                            HorizontalOptions="Start" 
+                            ImageSource="back.png"
+                            Command="{Binding GoBackCommand}"/>
+                    <Label Style="{DynamicResource HeaderText}"
+                           Text="Ингредиент"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="Center"/>
+                    <BoxView WidthRequest="50" 
+                             HorizontalOptions="End"/>
+                </StackLayout>
+                <ScrollView>
+                    <StackLayout x:DataType="vm:SavingIngredientPageViewModel" Spacing="0">
+                        <StackLayout BackgroundColor="{DynamicResource MainColor}"
+                             HeightRequest="50"
+                             Orientation="Horizontal">
+                            <Label Style="{DynamicResource LargeText}"
+                           Margin="10, 0, 0, 0"
+                           Text="{Binding FoodName}"
+                           VerticalOptions="Center"
+                           LineBreakMode="WordWrap"
+                           MaxLines="2"/>
+                        </StackLayout>
+                        <Frame BackgroundColor="DarkGray"
+                       HeightRequest="200"
+                       Padding="0"
+                       BorderColor="DarkGray"
+                       HasShadow="True">
+                            <Image Source="{Binding Photo, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                           Aspect="Fill"/>
+                        </Frame>
+                        <StackLayout Padding="10">
+                            <Label Style="{DynamicResource CommonText}"
+                           Text="Количество"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                           CornerRadius="5"
+                           BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="numEntry"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="FillAndExpand"
+                                       TextColor="Black"
+                                       FontSize="16"
+                                       Placeholder="Количество съеденного"
+                                       Keyboard="Numeric"
+                                       Text="{Binding UnitsAmount, Mode=TwoWay}"
+                                       MaxLength="4">
+                                            <Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                    Command="{Binding TextChangedCommand}"
+                                                                    CommandParameter="{Binding Text, Source={x:Reference numEntry}}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <Label Style="{DynamicResource CommonText}"
+                           Text="Ед. измерения"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                               CornerRadius="5"
+                               BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Picker ItemsSource="{Binding Units}"
+                                        SelectedItem="{Binding SelectedUnits}"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout Padding="10">
+                            <Button Style="{DynamicResource DefaultButton}"
+                            IsEnabled="{Binding IsEnabledSaveBtn}"
+                            Text="Сохранить"
+                            Padding="0"
+                            Command="{Binding SaveCommand}">
+                                <Button.Triggers>
+                                    <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource Disabled}"/>
+                                    </Trigger>
+                                </Button.Triggers>
+                            </Button>
+                        </StackLayout>
+                        <Label Style="{DynamicResource LargeText}"
+                       Text="Пищевая ценность"
+                       Margin="10, 0, 0, 0"/>
+                        <controls:NutritionalValueInfo Kcal="{Binding Kcal}"
+                                               Proteins="{Binding Proteins}"
+                                               Fats="{Binding Fats}"
+                                               Carbohydrates="{Binding Carbohydrates}"/>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

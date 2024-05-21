@@ -11,13 +11,13 @@ using Xamarin.Forms.Xaml;
 namespace HealthyMeal.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddingUnitsPage : ContentPage
+    public partial class ProductCrudPage : ContentPage
     {
-        private readonly AddingUnitsPageViewModel _vm;
-        public AddingUnitsPage()
+        private static readonly ProductCrudPageViewModel _vm = new();
+        public ProductCrudPage()
         {
             InitializeComponent();
-            BindingContext = _vm = new();
+            BindingContext = _vm;
         }
     }
 }

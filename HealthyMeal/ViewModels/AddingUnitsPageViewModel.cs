@@ -36,6 +36,8 @@ namespace HealthyMeal.ViewModels
 
         private List<NutritionalValueModel> _nutritionalValuesList = [];
 
+        private string _userId = string.Empty;
+
         #endregion
 
         #region ObservableProperties
@@ -124,7 +126,8 @@ namespace HealthyMeal.ViewModels
         {
             string nutritionalValues = NavigationParameterConverter.ObjectToPairKeyValue(_nutritionalValuesList, "NutritionalValues");
             string units = NavigationParameterConverter.ObjectToPairKeyValue(_unitsList, "Units");
-            await Shell.Current.GoToAsync($"..?{nutritionalValues}&{units}");
+            string isFromProducts = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromProducts");
+            await Shell.Current.GoToAsync($"..?{nutritionalValues}&{units}&{isFromProducts}");
         }
 
         [RelayCommand]
@@ -164,7 +167,8 @@ namespace HealthyMeal.ViewModels
 
             string nutritionalValues = NavigationParameterConverter.ObjectToPairKeyValue(_nutritionalValuesList, "NutritionalValues");
             string units = NavigationParameterConverter.ObjectToPairKeyValue(_unitsList, "Units");
-            await Shell.Current.GoToAsync($"..?{nutritionalValues}&{units}");
+            string isFromProducts = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromProducts");
+            await Shell.Current.GoToAsync($"..?{nutritionalValues}&{units}&{isFromProducts}");
         }
 
         [RelayCommand]
@@ -224,9 +228,15 @@ namespace HealthyMeal.ViewModels
                 _unitsList = NavigationParameterConverter.ObjectFromUrl<List<UnitsModel>>(query["Units"]);
             }
 
-            if (query.ContainsKey("NutrtitionalValues"))
+            if (query.ContainsKey("NutritionalValues"))
             {
-                _nutritionalValuesList = NavigationParameterConverter.ObjectFromUrl<List<NutritionalValueModel>>(query["NutrtitionalValues"]);
+                _nutritionalValuesList = NavigationParameterConverter.ObjectFromUrl<List<NutritionalValueModel>>(query["NutritionalValues"]);
+            }
+
+            if (query.ContainsKey("UserId"))
+            {
+                string userId = HttpUtility.UrlDecode(query["UserId"]);
+                _userId = NavigationParameterConverter.ObjectFromPairKeyValue<string>(userId);
             }
 
             if (query.ContainsKey("IsEdit"))
@@ -267,10 +277,18 @@ namespace HealthyMeal.ViewModels
         private async void LoadDataAfterNavigation(string unitsId)
         {
             List<UnitsModel> unitsBuf = await GlobalDataStore.Units.GetAllItemsAsync();
-            Units = unitsBuf.Except(_unitsList).ToList();
+            Units = [];
+
+            foreach (UnitsModel units in unitsBuf)
+            {
+                if (!_unitsList.Exists(u => u.Id == units.Id))
+                    Units.Add(units);
+            }
 
             if (!IsFromProduct)
                 Units = Units.Where(u => u.Name != "порция").ToList();
+
+            Units = [.. Units.OrderBy(u => u.Name)];
 
             if (IsEdit)
             {
@@ -290,8 +308,6 @@ namespace HealthyMeal.ViewModels
                 Fats = 100;
                 Carbohydrates = 100;
             }
-
-            Units = [.. Units.OrderBy(u => u.Name)];
         }
 
         #endregion

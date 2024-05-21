@@ -82,7 +82,10 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenCreateProductPage()
         {
-
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
+            string isFromProducts = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromProducts");
+            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
+            await Shell.Current.GoToAsync($"{nameof(ProductCrudPage)}?{userId}&{isFromProducts}&{isEdit}");
         }
 
         [RelayCommand]

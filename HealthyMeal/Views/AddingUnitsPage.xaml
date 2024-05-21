@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             x:Class="HealthyMeal.Views.AddingUnitsPage">
+    <ContentPage.Content>
+        <AbsoluteLayout x:DataType="vm:AddingUnitsPageViewModel"
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+            <StackLayout BackgroundColor="{DynamicResource PageBackgroundColor}"
+                         AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         Spacing="0">
+                <StackLayout Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                    <Button Style="{DynamicResource RoundButtonPrimaryColor}" 
+                            HorizontalOptions="Start" 
+                            ImageSource="back.png"
+                            Command="{Binding GoBackCommand}"/>
+                    <Label Style="{DynamicResource HeaderText}"
+                           Text="Добавление единиц измерения"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="Center"/>
+                    <BoxView WidthRequest="50" 
+                             HorizontalOptions="End"/>
+                </StackLayout>
+                <ScrollView>
+                    <StackLayout>
+                        <StackLayout Padding="10">
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Ед. измерения"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Picker ItemsSource="{Binding Units}"
+                                                SelectedItem="{Binding SelectedUnits}"
+                                                ItemDisplayBinding="{Binding Name}"
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Количество ед. измерения"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="numEntry"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="FillAndExpand"
+                                               TextColor="Black"
+                                               FontSize="16"
+                                               Placeholder="Количество ед. измерения"
+                                               Keyboard="Numeric"
+                                               Text="{Binding UnitsAmount, Mode=TwoWay}"
+                                               MaxLength="4">
+                                            <Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                    Command="{Binding UnitsAmountChangedCommand}"
+                                                                    CommandParameter="{Binding Text, Source={x:Reference numEntry}}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Ккал"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="kcalEntry"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="FillAndExpand"
+                                               TextColor="Black"
+                                               FontSize="16"
+                                               Placeholder="Количество ккал"
+                                               Keyboard="Numeric"
+                                               Text="{Binding Kcal, Mode=TwoWay}"
+                                               MaxLength="4">
+                                            <Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                    Command="{Binding KcalChangedCommand}"
+                                                                    CommandParameter="{Binding Text, Source={x:Reference kcalEntry}}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Белки"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="proteinsEntry"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="FillAndExpand"
+                                               TextColor="Black"
+                                               FontSize="16"
+                                               Placeholder="Количество белков"
+                                               Keyboard="Numeric"
+                                               Text="{Binding Proteins, Mode=TwoWay}"
+                                               MaxLength="4">
+                                            <Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                    Command="{Binding ProteinsChangedCommand}"
+                                                                    CommandParameter="{Binding Text, Source={x:Reference proteinsEntry}}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Жиры"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="fatsEntry"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="FillAndExpand"
+                                               TextColor="Black"
+                                               FontSize="16"
+                                               Placeholder="Количество жиров"
+                                               Keyboard="Numeric"
+                                               Text="{Binding Fats, Mode=TwoWay}"
+                                               MaxLength="4">
+                                            <Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                    Command="{Binding FatsChangedCommand}"
+                                                                    CommandParameter="{Binding Text, Source={x:Reference fatsEntry}}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <Label Style="{DynamicResource CommonText}"
+                                   Text="Углеводы"/>
+                            <StackLayout>
+                                <Frame Padding="0"
+                                       CornerRadius="5"
+                                       BackgroundColor="White">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="carbEntry"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="FillAndExpand"
+                                               TextColor="Black"
+                                               FontSize="16"
+                                               Placeholder="Количество углеводов"
+                                               Keyboard="Numeric"
+                                               Text="{Binding Carbohydrates, Mode=TwoWay}"
+                                               MaxLength="4">
+                                            <Entry.Behaviors>
+                                                <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                    Command="{Binding CarbohydtratesChangedCommand}"
+                                                                    CommandParameter="{Binding Text, Source={x:Reference carbEntry}}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout Padding="10">
+                            <Button Style="{DynamicResource DefaultButton}"
+                                    IsEnabled="{Binding IsEnabledSaveBtn}"
+                                    Text="Сохранить"
+                                    Padding="0"
+                                    Command="{Binding SaveCommand}">
+                                <Button.Triggers>
+                                    <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource Disabled}"/>
+                                    </Trigger>
+                                </Button.Triggers>
+                            </Button>
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

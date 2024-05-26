@@ -48,6 +48,9 @@ namespace HealthyMeal.ViewModels
         [ObservableProperty]
         private bool _isEdit = false;
 
+        [ObservableProperty]
+        private string _description = string.Empty;
+
         #endregion
 
         #region Свойства
@@ -108,6 +111,12 @@ namespace HealthyMeal.ViewModels
         {
             if (text == string.Empty)
                 FoodName = string.Empty;
+        }
+
+        [RelayCommand]
+        private void TextChanged(string text)
+        {
+            Description = Regex.Replace(text, @"[\(\!@\#\$%\^&\*\(\)_\+=\-'\\:\|/`~\.\{}\)]", "");
         }
 
         #endregion

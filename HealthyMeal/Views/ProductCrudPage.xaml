@@ -135,6 +135,32 @@
                                 </StackLayout>
                             </Frame>
                         </StackLayout>
+
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Описание"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Editor x:Name="descr"
+                                            Text="{Binding Description}"
+                                            VerticalOptions="FillAndExpand"
+                                            HorizontalOptions="FillAndExpand"
+                                            MaxLength="1000"
+                                            WidthRequest="375"
+                                            AutoSize="TextChanges"
+                                            IsSpellCheckEnabled="True"
+                                            IsTextPredictionEnabled="True">
+                                        <Editor.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference descr}}"/>
+                                        </Editor.Behaviors>
+                                    </Editor>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
                     </StackLayout>
                     <StackLayout Padding="10">
                         <Button Style="{DynamicResource DefaultButton}"

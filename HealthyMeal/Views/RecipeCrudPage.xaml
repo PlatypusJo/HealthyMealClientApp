@@ -6,11 +6,264 @@
              xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
              xmlns:model="clr-namespace:HealthyMeal.Models"
              x:Class="HealthyMeal.Views.RecipeCrudPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout x:DataType="vm:RecipeCrudPageViewModel"
+                     BackgroundColor="{DynamicResource PageBackgroundColor}"
+                     Spacing="0">
+
+            <StackLayout Padding="10"
+                         BackgroundColor="{DynamicResource PrimaryColor}"
+                         Orientation="Horizontal">
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}" 
+                        HorizontalOptions="Start" 
+                        ImageSource="back.png"
+                        Command="{Binding GoBackCommand}"/>
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Мой рецепт"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"/>
+                <BoxView WidthRequest="50" 
+                         HorizontalOptions="End"/>
+            </StackLayout>
+
+            <ScrollView>
+                <StackLayout Spacing="0">
+
+                    <Frame BackgroundColor="DarkGray"
+                           HeightRequest="200">
+                        <Image Source="xamarin_logo.png"
+                               Aspect="Fill"/>
+                    </Frame>
+                    <StackLayout Padding="10">
+                        <Button Style="{DynamicResource DefaultButton}"
+                                Text="Добавить фотографию"
+                                Padding="0"
+                                Command="{Binding AddPhotoCommand}"/>
+                    </StackLayout>
+
+                    <StackLayout Padding="10">
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Название продукта"/>
+                        <StackLayout Margin="0, 0, 0, 10">
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry x:Name="nameEntry"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="FillAndExpand"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           Placeholder="Введите название"
+                                           Keyboard="Text"
+                                           Text="{Binding RecipeName, Mode=TwoWay}"
+                                           MaxLength="20">
+                                        <Entry.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                        Command="{Binding NameChangedCommand}"
+                                                        CommandParameter="{Binding Text, Source={x:Reference nameEntry}}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                
+                                <StackLayout>
+                                    <Label Style="{DynamicResource CommonText}"
+                                           Text="Часы"/>
+                                    <Frame Padding="0"
+                                           CornerRadius="5"
+                                           BackgroundColor="White">
+                                        <Label Style="{DynamicResource CommonText}"
+                                               Text="{Binding Hours}"/>
+                                    </Frame>
+                                    <Stepper x:Name="hoursStepper"
+                                             Minimum="0"
+                                             Maximum="12"
+                                             Increment="1">
+                                        <Stepper.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="ValueChanged"
+                                                                        Command="{Binding HoursChangedCommand}"
+                                                                        CommandParameter="{Binding Value, Source={x:Reference hoursStepper}}"/>
+                                        </Stepper.Behaviors>
+                                    </Stepper>
+                                </StackLayout>
+                                
+                                <StackLayout>
+                                    <Label Style="{DynamicResource CommonText}"
+                                           Text="Минуты"/>
+                                    <Frame Padding="0"
+                                           CornerRadius="5"
+                                           BackgroundColor="White">
+                                        <Label Style="{DynamicResource CommonText}"
+                                               Text="{Binding Minutes}"/>
+                                    </Frame>
+                                    <Stepper x:Name="minutesStepper"
+                                             Minimum="1"
+                                             Maximum="59"
+                                             Increment="1">
+                                        <Stepper.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="ValueChanged"
+                                                                        Command="{Binding MinutesChangedCommand}"
+                                                                        CommandParameter="{Binding Value, Source={x:Reference minutesStepper}}"/>
+                                        </Stepper.Behaviors>
+                                    </Stepper>
+                                </StackLayout>
+                                
+                            </StackLayout>
+                        </StackLayout>
+
+                        <Label Style="{DynamicResource CommonText}"
+                               Text="Порция"/>
+                        <StackLayout>
+                            <controls:DefaultLine Name="Ккал" Value="{Binding PortionKcal}"/>
+                            <controls:DefaultLine Name="Белки" Value="{Binding PortionProteins}"/>
+                            <controls:DefaultLine Name="Жиры" Value="{Binding PortionFats}"/>
+                            <controls:DefaultLine Name="Углеводы" Value="{Binding PortionCarbohydrates}"/>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <Frame BackgroundColor="{DynamicResource MainColor}"
+                                   Padding="0"
+                                   CornerRadius="10">
+                                <StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{DynamicResource LargeText}"
+                                               FontAttributes="Bold"
+                                               Text="Ед. измерения"
+                                               VerticalOptions="Center"
+                                               Margin="10"/>
+                                        <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                                BackgroundColor="Transparent"
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="Center"
+                                                ImageSource="add.png"
+                                                Command="{Binding OpenAddingUnitsPageCommand}"/>
+                                    </StackLayout>
+
+                                    <StackLayout BindableLayout.ItemsSource="{Binding Units}"
+                                         Spacing="0">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Frame BorderColor="LightGray"
+                                                       Padding="5">
+                                                    <StackLayout x:DataType="model:UnitsModel"
+                                                                 Orientation="Horizontal">
+                                                        <Label Style="{DynamicResource CommonText}"
+                                                               Text="{Binding Name}" 
+                                                               LineBreakMode="WordWrap"
+                                                               VerticalOptions="Center"
+                                                               Margin="10"/>
+                                                        <Button Style="{DynamicResource RoundButtonMainColor}"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="Center"
+                                                                ImageSource="cross.png"/>
+                                                    </StackLayout>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout>
+                            <Frame BackgroundColor="{DynamicResource MainColor}"
+                                   Padding="0"
+                                   CornerRadius="10">
+                                <StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{DynamicResource LargeText}"
+                                               FontAttributes="Bold"
+                                               Text="Ингредиенты"
+                                               VerticalOptions="Center"
+                                               Margin="10"/>
+                                        <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                                BackgroundColor="Transparent"
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="Center"
+                                                ImageSource="add.png"
+                                                Command="{Binding OpenIngredientsPageCommand}"/>
+                                    </StackLayout>
+
+                                    <StackLayout BindableLayout.ItemsSource="{Binding Ingredients}"
+                                         Spacing="0">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Frame BorderColor="LightGray"
+                                                       Padding="5">
+                                                    <StackLayout x:DataType="model:IngredientModel"
+                                                                 Orientation="Horizontal">
+                                                        <Label Style="{DynamicResource CommonText}"
+                                                               Text="{Binding InfoString}" 
+                                                               LineBreakMode="WordWrap"
+                                                               VerticalOptions="Center"
+                                                               Margin="10"/>
+                                                        <Button Style="{DynamicResource RoundButtonMainColor}"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="Center"
+                                                                ImageSource="cross.png"/>
+                                                    </StackLayout>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+                        <Label Style="{DynamicResource CommonText}"
+                       Text="Описание"/>
+                        <StackLayout>
+                            <Frame Padding="0"
+                                   CornerRadius="5"
+                                   BackgroundColor="White">
+                                <StackLayout Orientation="Horizontal">
+                                    <Editor x:Name="descr"
+                                            Text="{Binding Description}"
+                                            VerticalOptions="FillAndExpand"
+                                            HorizontalOptions="FillAndExpand"
+                                            MaxLength="1000"
+                                            WidthRequest="375"
+                                            AutoSize="TextChanges"
+                                            IsSpellCheckEnabled="True"
+                                            IsTextPredictionEnabled="True">
+                                        <Editor.Behaviors>
+                                            <xct:EventToCommandBehavior EventName="TextChanged"
+                                                                        Command="{Binding TextChangedCommand}"
+                                                                        CommandParameter="{Binding Text, Source={x:Reference descr}}"/>
+                                        </Editor.Behaviors>
+                                    </Editor>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Padding="10">
+                        <Button Style="{DynamicResource DefaultButton}"
+                                IsEnabled="{Binding IsEnabledSaveBtn}"
+                                Text="Сохранить"
+                                Padding="0"
+                                Command="{Binding SaveCommand}">
+                            <Button.Triggers>
+                                <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource Disabled}"/>
+                                </Trigger>
+                            </Button.Triggers>
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

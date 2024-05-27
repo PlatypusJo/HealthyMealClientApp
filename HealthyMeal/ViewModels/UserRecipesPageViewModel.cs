@@ -74,7 +74,10 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenCreateRecipePage(RecipeModel recipe)
         {
-
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
+            string isFromRecipes = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromRecipes");
+            string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
+            await Shell.Current.GoToAsync($"{nameof(RecipeCrudPage)}?{userId}&{isFromRecipes}&{isEdit}");
         }
 
         [RelayCommand]

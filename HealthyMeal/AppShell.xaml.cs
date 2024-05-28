@@ -31,6 +31,8 @@ namespace HealthyMeal
             Routing.RegisterRoute(nameof(ProductCrudPage), typeof(ProductCrudPage));
             Routing.RegisterRoute(nameof(RecipeCrudPage), typeof(RecipeCrudPage));
             Routing.RegisterRoute(nameof(AddingUnitsPage), typeof(AddingUnitsPage));
+            Routing.RegisterRoute(nameof(SavingIngredientPage), typeof(SavingIngredientPage));
+            Routing.RegisterRoute(nameof(IngredientsPage), typeof(IngredientsPage));
         }
     }
 }

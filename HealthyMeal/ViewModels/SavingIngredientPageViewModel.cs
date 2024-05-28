@@ -122,7 +122,8 @@ namespace HealthyMeal.ViewModels
             }
 
             string isFromRecipeCrud = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromRecipeCrud");
-            await Shell.Current.GoToAsync($"..?{isFromRecipeCrud}");
+            string ingredients = NavigationParameterConverter.ObjectToPairKeyValue(_ingredients, "Ingredients");
+            await Shell.Current.GoToAsync($"..?{isFromRecipeCrud}&{ingredients}");
         }
 
         [RelayCommand]

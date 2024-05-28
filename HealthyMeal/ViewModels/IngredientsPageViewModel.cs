@@ -58,7 +58,9 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task GoBack()
         {
-            await Shell.Current.GoToAsync($"..");
+            string ingredients = NavigationParameterConverter.ObjectToPairKeyValue(_ingredients, "Ingredients");
+            string isFromRecipes = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromRecipes");
+            await Shell.Current.GoToAsync($"..?{ingredients}&{isFromRecipes}");
         }
 
         [RelayCommand]
@@ -68,7 +70,7 @@ namespace HealthyMeal.ViewModels
             string foodId = NavigationParameterConverter.ObjectToPairKeyValue(food.Id, "FoodId");
             string isEdit = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsEdit");
             string ingredients = NavigationParameterConverter.ObjectToPairKeyValue(_ingredients, "Ingredients");
-            await Shell.Current.GoToAsync($"{nameof(SavingToShopListPage)}?{userId}&{foodId}&{isEdit}&{ingredients}");
+            await Shell.Current.GoToAsync($"{nameof(SavingIngredientPage)}?{userId}&{foodId}&{isEdit}&{ingredients}");
         }
 
         [RelayCommand]

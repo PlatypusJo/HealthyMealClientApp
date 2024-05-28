@@ -168,7 +168,8 @@ namespace HealthyMeal.ViewModels
             string nutritionalValues = NavigationParameterConverter.ObjectToPairKeyValue(_nutritionalValuesList, "NutritionalValues");
             string units = NavigationParameterConverter.ObjectToPairKeyValue(_unitsList, "Units");
             string isFromProducts = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromProducts");
-            await Shell.Current.GoToAsync($"..?{nutritionalValues}&{units}&{isFromProducts}");
+            string isFromRecipes = NavigationParameterConverter.ObjectToPairKeyValue(false, "IsFromRecipes");
+            await Shell.Current.GoToAsync($"..?{nutritionalValues}&{units}&{isFromProducts}&{isFromRecipes}");
         }
 
         [RelayCommand]

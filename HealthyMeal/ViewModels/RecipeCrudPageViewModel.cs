@@ -140,7 +140,10 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenIngredientsPage()
         {
-
+            string userId = NavigationParameterConverter.ObjectToPairKeyValue(_userId, "UserId");
+            string isFromRecipeCrud = NavigationParameterConverter.ObjectToPairKeyValue(true, "IsFromRecipeCrud");
+            string ingredients = NavigationParameterConverter.ObjectToPairKeyValue(Ingredients, nameof(Ingredients));
+            await Shell.Current.GoToAsync($"{nameof(IngredientsPage)}?{userId}&{isFromRecipeCrud}&{ingredients}");
         }
 
         #endregion
@@ -188,6 +191,12 @@ namespace HealthyMeal.ViewModels
                 NutritionalValues = new(nutritionalValuesBuf);
             }
 
+            if (query.ContainsKey("Ingredients"))
+            {
+                List<IngredientModel> ingredientsBuf = NavigationParameterConverter.ObjectFromUrl<List<IngredientModel>>(query["Ingredients"]);
+                Ingredients = new(ingredientsBuf);
+            }
+
             if (query.ContainsKey("FoodId"))
             {
                 foodId = NavigationParameterConverter.ObjectFromUrl<string>(query["FoodId"]);
@@ -212,6 +221,7 @@ namespace HealthyMeal.ViewModels
                 RecipeName = string.Empty;
                 Units = [];
                 NutritionalValues = [];
+                Ingredients = [];
                 Hours = 0;
                 Minutes = 1;
                 _nutritionalValueDefault = new() { IsDefault = true };

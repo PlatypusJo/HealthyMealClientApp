@@ -52,7 +52,7 @@
                                                Amount="{Binding DefaultUnitsAmount}"
                                                UnitsName="{Binding DefaultUnitsName}"
                                                KcalValue="{Binding Kcal}"
-                                               TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsPageViewModel}}, Path=OpenSavingToRecipePageCommand}"
+                                               TapCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:IngredientsPageViewModel}}, Path=OpenSavingToRecipePageCommand}"
                                                TapCommandParameter="{Binding .}"/>
                             </ViewCell.View>
                         </ViewCell>

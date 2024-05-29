@@ -8,4 +8,5 @@
              Shell.FlyoutBehavior="Disabled">
     <ShellContent Route="AuthorizationPage" ContentTemplate="{DataTemplate views:AuthorizationPage}"/>
     <ShellContent Route="MainPage" ContentTemplate="{DataTemplate views:MainPage}"/>
+    <ShellContent Route="AdminPage" ContentTemplate="{DataTemplate views:AdminPage}"/>
 </Shell>

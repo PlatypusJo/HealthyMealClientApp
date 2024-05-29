@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using HealthyMeal.Views;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,11 @@ namespace HealthyMeal.ViewModels
 
         #region ObservableProperties
 
+        [ObservableProperty]
+        private string _login = string.Empty;
 
+        [ObservableProperty]
+        private string _password = string.Empty;
 
         #endregion
 
@@ -34,7 +39,14 @@ namespace HealthyMeal.ViewModels
         [RelayCommand]
         private async Task OpenDiary()
         {
-            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            if (Login == "admin")
+            {
+                await Shell.Current.GoToAsync($"{nameof(AdminPage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            }            
         }
 
         #endregion

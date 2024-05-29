@@ -33,6 +33,7 @@ namespace HealthyMeal
             Routing.RegisterRoute(nameof(AddingUnitsPage), typeof(AddingUnitsPage));
             Routing.RegisterRoute(nameof(SavingIngredientPage), typeof(SavingIngredientPage));
             Routing.RegisterRoute(nameof(IngredientsPage), typeof(IngredientsPage));
+            Routing.RegisterRoute(nameof(AdminPage), typeof(AdminPage));
         }
     }
 }

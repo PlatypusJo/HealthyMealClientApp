@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:controls="clr-namespace:HealthyMeal.Controls"
+             xmlns:vm="clr-namespace:HealthyMeal.ViewModels"
+             xmlns:model="clr-namespace:HealthyMeal.Models"
+             x:Class="HealthyMeal.Views.AdminPage">
+    <ContentPage.Content>
+        <StackLayout x:DataType="vm:AdminPageViewModel"
+                     BackgroundColor="{DynamicResource PageBackgroundColor}"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand">
+            <StackLayout x:Name="Header" Padding="10" BackgroundColor="{DynamicResource PrimaryColor}" Orientation="Horizontal">
+                <BoxView WidthRequest="50" 
+                         HorizontalOptions="StartAndExpand"/>
+                <Label Style="{DynamicResource HeaderText}"
+                       Text="Администратор"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"/>
+                <Button Style="{DynamicResource RoundButtonPrimaryColor}"
+                        ImageSource="exit.png"
+                        HorizontalOptions="EndAndExpand"
+                        Command="{Binding GoBackCommand}"/>
+            </StackLayout>
+            <StackLayout x:Name="Buttons"
+                         Spacing="20"
+                         Padding="10"
+                         VerticalOptions="CenterAndExpand">
+                <Grid HeightRequest="65">
+                    <Frame BackgroundColor="{DynamicResource MainColor}"
+                           CornerRadius="10"
+                           Grid.ColumnSpan="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Style="{DynamicResource LargeText}"
+                                   Grid.Column="0"
+                                   Text="Продукты"
+                                   VerticalOptions="Center"/>
+                            <Image Grid.Column="1"
+                                   HorizontalOptions="EndAndExpand"
+                                   Source="next.png"/>
+                        </Grid>
+                    </Frame>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenUserProductsPageCommand}"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+                <Grid HeightRequest="65">
+                    <Frame BackgroundColor="{DynamicResource MainColor}"
+                           CornerRadius="10"
+                           Grid.ColumnSpan="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Style="{DynamicResource LargeText}"
+                                   Grid.Column="0"
+                                   Text="Рецепты"
+                                   VerticalOptions="Center"/>
+                            <Image Grid.Column="1"
+                                   HorizontalOptions="EndAndExpand"
+                                   Source="next.png"/>
+                        </Grid>
+                    </Frame>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenUserRecipesPageCommand}"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

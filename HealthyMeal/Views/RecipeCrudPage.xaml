@@ -221,6 +221,50 @@
                                 </StackLayout>
                             </Frame>
                         </StackLayout>
+                        
+                        <StackLayout>
+                            <Frame BackgroundColor="{DynamicResource MainColor}"
+                                   Padding="0"
+                                   CornerRadius="10">
+                                <StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Style="{DynamicResource LargeText}"
+                                               FontAttributes="Bold"
+                                               Text="Шаги приготовления"
+                                               VerticalOptions="Center"
+                                               Margin="10"/>
+                                        <Button Style="{DynamicResource RoundButtonMainColor}" 
+                                                BackgroundColor="Transparent"
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="Center"
+                                                ImageSource="add.png"/>
+                                    </StackLayout>
+
+                                    <StackLayout BindableLayout.ItemsSource="{Binding CookingSteps}"
+                                         Spacing="0">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate>
+                                                <Frame BorderColor="LightGray"
+                                                       Padding="5">
+                                                    <StackLayout x:DataType="model:StepModel"
+                                                                 Orientation="Horizontal">
+                                                        <Label Style="{DynamicResource CommonText}"
+                                                               Text="{Binding DescriptionToShow}"
+                                                               LineBreakMode="WordWrap"
+                                                               VerticalOptions="Center"
+                                                               Margin="10"/>
+                                                        <Button Style="{DynamicResource RoundButtonMainColor}"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="Center"
+                                                                ImageSource="cross.png"/>
+                                                    </StackLayout>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
 
                         <Label Style="{DynamicResource CommonText}"
                        Text="Описание"/>

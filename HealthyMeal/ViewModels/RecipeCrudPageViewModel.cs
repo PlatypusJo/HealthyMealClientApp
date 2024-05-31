@@ -46,6 +46,10 @@ namespace HealthyMeal.ViewModels
         private ObservableCollection<IngredientModel> _ingredients;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsEnabledSaveBtn))]
+        private ObservableCollection<IngredientModel> _cookingSteps;
+
+        [ObservableProperty]
         private List<NutritionalValueModel> _nutritionalValues;
 
         [ObservableProperty]

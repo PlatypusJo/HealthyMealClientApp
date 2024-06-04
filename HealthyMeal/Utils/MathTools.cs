@@ -13,7 +13,7 @@ namespace HealthyMeal.Utils
         /// <param name="baseValue"> База, от которой ищем процент. </param>
         /// <returns> Процентаж доли <see cref="part"/>. </returns>
         /// <exception cref="Exception"> Исключение при делении на ноль. </exception>
-        public static double ToPercentage(this double part, double baseValue) => baseValue > 0 ? part / baseValue * 100 : 0;
+        public static double ToPercentage(this double part, double baseValue) => baseValue > 0 && part >= 0 ? part / baseValue * 100 : 0;
 
         public static double CalcRdc(double weight, double height, int age, double sexCoeff, double activityFactor)
         {

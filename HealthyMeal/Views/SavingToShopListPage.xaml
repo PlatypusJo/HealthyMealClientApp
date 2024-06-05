@@ -68,7 +68,7 @@
                                                Placeholder="Количество съеденного"
                                                Keyboard="Numeric"
                                                Text="{Binding UnitsAmount, Mode=TwoWay}"
-                                               MaxLength="4">
+                                               MaxLength="5">
                                             <Entry.Behaviors>
                                                 <xct:EventToCommandBehavior EventName="TextChanged"
                                                                     Command="{Binding TextChangedCommand}"

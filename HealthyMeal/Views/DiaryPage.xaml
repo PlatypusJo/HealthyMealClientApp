@@ -16,6 +16,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <!--Типа сделал-->
     <!--<ContentPage.BindingContext>
         <vm:DiaryPageViewModel/>
     </ContentPage.BindingContext>-->
